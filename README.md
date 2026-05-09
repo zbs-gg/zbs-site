@@ -28,7 +28,8 @@ npm install
 npm run dev          # http://localhost:3000
 ```
 
-- `/` — landing (hero, manifesto, projects, contact)
+- `/` — landing (hero, evidence + interactive memory timeline, declared
+  (Elle), manifesto, projects, contact)
 - `/dev` — live debug panel (sliders for every postfx uniform; `Copy JSON`
   exports the current preset)
 
@@ -40,13 +41,14 @@ npm run dev          # http://localhost:3000
 zbs-site/
 ├── app/
 │   ├── layout.tsx          html shell + metadata
-│   ├── page.tsx            landing content (hero / manifesto / projects / contact)
+│   ├── page.tsx            landing content (hero / evidence / declared / manifesto / projects / contact)
 │   ├── dev/page.tsx        /dev — live tweak panel
 │   └── globals.css         theme + layout (mono / sans, mix-blend-mode: difference)
 ├── components/
 │   ├── ascii-effect.tsx    Efecto-port ASCII shader as `postprocessing.Effect`
 │   ├── video-scene.tsx     Canvas + VideoQuad (cover-fit) + EffectComposer
 │   ├── client-bg.tsx       client wrapper for SSR-disabled VideoScene
+│   ├── memory-timeline.tsx interactive salience canvas (anchor-aware decay toggle)
 │   └── scramble-text.tsx   text-scramble effect on hover (ASCII menu)
 └── public/
     ├── elle-1.mp4          primary video (10s loop, 4k @ 24fps)
