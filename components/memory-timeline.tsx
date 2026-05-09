@@ -75,6 +75,29 @@ const MAX_DAYS = 365;
 const PADDING = { left: 56, right: 24, top: 28, bottom: 36 };
 const POINTER_RADIUS_PX = 22;
 
+// holographic accent — used only on anchor diamonds
+const HOLO_STOPS: ReadonlyArray<readonly [number, number, number]> = [
+  [125, 249, 255], // cyan
+  [192, 132, 252], // violet
+  [255, 154, 214], // pink
+  [255, 226, 122], // gold
+  [125, 249, 255], // cyan loop
+];
+
+function sampleHolo(u: number): [number, number, number] {
+  const seg = HOLO_STOPS.length - 1;
+  const f = (((u % 1) + 1) % 1) * seg;
+  const i = Math.floor(f);
+  const k = f - i;
+  const a = HOLO_STOPS[i];
+  const b = HOLO_STOPS[i + 1];
+  return [
+    Math.round(a[0] + (b[0] - a[0]) * k),
+    Math.round(a[1] + (b[1] - a[1]) * k),
+    Math.round(a[2] + (b[2] - a[2]) * k),
+  ];
+}
+
 export function MemoryTimeline() {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const containerRef = useRef<HTMLDivElement>(null);
@@ -82,6 +105,7 @@ export function MemoryTimeline() {
   const [anchorAware, setAnchorAware] = useState(true);
   const [hoverIdx, setHoverIdx] = useState<number | null>(null);
   const [hoverPos, setHoverPos] = useState<{ x: number; y: number }>({ x: 0, y: 0 });
+  const [shimT, setShimT] = useState(0); // shimmer phase 0..1
 
   // Compute current salience for both modes (we always have both ready
   // so the toggle animation is instant).
@@ -104,6 +128,21 @@ export function MemoryTimeline() {
     });
     ro.observe(el);
     return () => ro.disconnect();
+  }, []);
+
+  // Shimmer animation phase — drives holo color sweep on anchors
+  useEffect(() => {
+    if (typeof window === "undefined") return;
+    const reduce = window.matchMedia?.("(prefers-reduced-motion: reduce)").matches;
+    if (reduce) return; // hold static if user prefers reduced motion
+    let raf = 0;
+    const start = performance.now();
+    const tick = (now: number) => {
+      setShimT(((now - start) / 7000) % 1);
+      raf = requestAnimationFrame(tick);
+    };
+    raf = requestAnimationFrame(tick);
+    return () => cancelAnimationFrame(raf);
   }, []);
 
   // Map (daysAgo, salience) to (x, y) pixels.
@@ -185,42 +224,53 @@ export function MemoryTimeline() {
 
       const alpha = Math.min(1, 0.25 + s * 0.85);
       const isAnchor = item.e.anchor;
-      const r = isAnchor ? 4.5 : 2.6;
+      const r = isAnchor ? 5 : 2.6;
 
-      ctx.fillStyle = isAnchor
-        ? `rgba(255, 255, 255, ${0.45 + s * 0.55})`
-        : `rgba(245, 245, 245, ${alpha * 0.85})`;
-
-      ctx.beginPath();
       if (isAnchor) {
-        // Diamond shape for anchors
+        // holo color sampled from horizontal position + animated phase
+        const [hr, hg, hb] = sampleHolo(x / size.w + shimT);
+        // soft glow halo
+        const grad = ctx.createRadialGradient(x, y, 0, x, y, 18);
+        grad.addColorStop(0, `rgba(${hr},${hg},${hb},0.55)`);
+        grad.addColorStop(1, `rgba(${hr},${hg},${hb},0)`);
+        ctx.fillStyle = grad;
+        ctx.beginPath();
+        ctx.arc(x, y, 18, 0, Math.PI * 2);
+        ctx.fill();
+        // diamond
+        ctx.fillStyle = `rgb(${hr},${hg},${hb})`;
+        ctx.strokeStyle = "rgba(255,255,255,0.92)";
+        ctx.lineWidth = 1;
+        ctx.beginPath();
         ctx.moveTo(x, y - r);
         ctx.lineTo(x + r, y);
         ctx.lineTo(x, y + r);
         ctx.lineTo(x - r, y);
         ctx.closePath();
-      } else {
-        ctx.arc(x, y, r, 0, Math.PI * 2);
-      }
-      ctx.fill();
-
-      // Anchor crisp outline
-      if (isAnchor) {
-        ctx.strokeStyle = "rgba(255,255,255,0.95)";
-        ctx.lineWidth = 1;
+        ctx.fill();
         ctx.stroke();
+      } else {
+        ctx.fillStyle = `rgba(245, 245, 245, ${alpha * 0.85})`;
+        ctx.beginPath();
+        ctx.arc(x, y, r, 0, Math.PI * 2);
+        ctx.fill();
       }
 
-      // Highlight hovered
+      // Highlight hovered — holo ring on anchors, white on regular
       if (hoverIdx === item.i) {
-        ctx.strokeStyle = "rgba(255,255,255,0.9)";
+        if (isAnchor) {
+          const [hr, hg, hb] = sampleHolo(x / size.w + shimT);
+          ctx.strokeStyle = `rgba(${hr},${hg},${hb},0.95)`;
+        } else {
+          ctx.strokeStyle = "rgba(255,255,255,0.9)";
+        }
         ctx.lineWidth = 1.5;
         ctx.beginPath();
         ctx.arc(x, y, r + 5, 0, Math.PI * 2);
         ctx.stroke();
       }
     }
-  }, [size, anchorAware, hoverIdx, computed]);
+  }, [size, anchorAware, hoverIdx, computed, shimT]);
 
   // Pointer hit-test (find nearest dot within radius)
   const onPointerMove = (e: React.PointerEvent<HTMLCanvasElement>) => {

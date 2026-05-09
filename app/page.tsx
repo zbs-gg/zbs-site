@@ -5,10 +5,12 @@ import { Brand } from "@/components/brand";
 import { HeroCycle } from "@/components/hero-cycle";
 import { HoverFact } from "@/components/hover-fact";
 import { HL } from "@/components/highlight";
+import { ClickWipe } from "@/components/click-wipe";
 
 export default function Page() {
   return (
     <>
+      <ClickWipe />
       <ClientBg
         src="/elle-1.mp4"
         cellSize={9}
