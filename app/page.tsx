@@ -64,7 +64,13 @@ export default function Page() {
             <li>
               <span className="ev-key">Empathic Memory Bench v3</span>
               <span className="ev-val">
-                Garden.Pulse v3 leads on all 5 axes vs 6 baselines · 11 judges, 6 vendor families · κ_stateful = <span className="holo">0.81</span> · own corpus, judge prompts open
+                Garden.Pulse v3 leads on all 5 axes vs 8 baselines (incl.
+                Mem0, qdrant_filter) · 11 judges, 6 vendor families ·
+                κ_stateful = <span className="holo">0.815</span> label-disclosed,{" "}
+                <span className="holo">α_stateful = 0.699</span> in cross-vendor
+                label-blind re-run (Anthropic + OpenAI + xAI) · stateful Δ vs
+                strongest baseline +2.07 (label-blind) · own corpus, judge
+                prompts open
               </span>
             </li>
             <li>
@@ -124,11 +130,11 @@ export default function Page() {
             </HoverFact>
             <span className="receipts-sep"> · </span>
             <HoverFact
-              label="evaluation / κ_stateful = 0.81"
-              body="anthropic, openai, google, alibaba (qwen), zhipu (glm), moonshot (kimi). every judge sees the same answer under the same prompt; raw JSON per judge in the public bench. 0.81 isn’t agreement-in-words — it’s agreement after normalisation."
+              label="evaluation / α_stateful = 0.699 cross-vendor label-blind"
+              body="11-judge label-disclosed pool (anthropic, openai, google, alibaba/qwen, zhipu/glm, moonshot/kimi) gives κ_stateful=0.815. To check the disclosed-label anchoring concern, we ran a label-blind condition with 3 distinct vendor families (Claude Sonnet + OpenAI GPT-5.4 + xAI Grok 4): α_stateful drops to 0.699 (still above tentative threshold, expected when judges have genuinely different priors), and Pulse v3 still leads every system on every axis. Raw JSON per judge per condition in the public bench."
               side="top"
             >
-              11 LLM judges across 6 vendor families
+              11 LLM judges + cross-vendor label-blind α = 0.699
             </HoverFact>
             <span className="receipts-sep"> · </span>
             <HoverFact
