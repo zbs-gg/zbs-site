@@ -7,21 +7,20 @@
       <stop offset="78%"  stop-color="#ffe27a"/>
       <stop offset="100%" stop-color="#7df9ff"/>
     </linearGradient>
-    <radialGradient id="halo1" cx="22%" cy="40%" r="40%">
-      <stop offset="0%"   stop-color="rgba(192,132,252,0.18)"/>
+    <radialGradient id="halo1" cx="20%" cy="50%" r="38%">
+      <stop offset="0%"   stop-color="rgba(192,132,252,0.16)"/>
       <stop offset="100%" stop-color="rgba(192,132,252,0)"/>
     </radialGradient>
-    <radialGradient id="halo2" cx="80%" cy="70%" r="35%">
-      <stop offset="0%"   stop-color="rgba(125,249,255,0.14)"/>
+    <radialGradient id="halo2" cx="78%" cy="55%" r="32%">
+      <stop offset="0%"   stop-color="rgba(125,249,255,0.12)"/>
       <stop offset="100%" stop-color="rgba(125,249,255,0)"/>
     </radialGradient>
     <style><![CDATA[
       .mono { font-family: ui-monospace, "JetBrains Mono", "SF Mono", Menlo, monospace; }
       .fg     { fill: #f5f5f5; }
       .dim    { fill: rgba(245,245,245,0.55); }
-      .faint  { fill: rgba(245,245,245,0.35); }
+      .faint  { fill: rgba(245,245,245,0.32); }
       .holo   { fill: url(#holo); }
-      .rule   { stroke: rgba(245,245,245,0.12); stroke-width: 1; }
     ]]></style>
   </defs>
 
@@ -29,45 +28,36 @@
   <rect width="1584" height="396" fill="url(#halo1)"/>
   <rect width="1584" height="396" fill="url(#halo2)"/>
 
-  <!-- LEFT: brand + hero -->
-  <text x="72" y="50" class="mono faint" font-size="13" letter-spacing="6">▪ INDEPENDENT RESEARCH LAB</text>
-  <text x="72" y="92" class="mono fg" font-size="32" font-weight="500" letter-spacing="8">ZBS GG</text>
-  <text x="72" y="115" class="mono dim" font-size="12" letter-spacing="2">zbs · gg · twice good. unironically.</text>
+  <!-- ============== LEFT: brand + hero + stack ============== -->
+  <text x="110" y="60"  class="mono faint" font-size="12" letter-spacing="5">▪ INDEPENDENT RESEARCH LAB</text>
+  <text x="110" y="98"  class="mono fg"    font-size="32" letter-spacing="8" font-weight="500">ZBS GG</text>
+  <text x="110" y="120" class="mono dim"   font-size="11" letter-spacing="2">zbs · gg · twice good. unironically.</text>
 
-  <text x="72" y="200" class="mono fg" font-size="50" letter-spacing="-1" font-weight="400">memory that knows</text>
-  <text x="72" y="252" class="mono dim" font-size="50" letter-spacing="-1" font-weight="400">what matters.</text>
+  <text x="110" y="200" class="mono fg"  font-size="44" letter-spacing="-0.5">memory that knows</text>
+  <text x="110" y="248" class="mono dim" font-size="44" letter-spacing="-0.5">what matters.</text>
 
-  <line x1="72" y1="290" x2="900" y2="290" class="rule"/>
-  <text x="72" y="318" class="mono dim" font-size="13" letter-spacing="1.5">
-    Garden.Pulse · Garden.Heart · Garden.Emo.Bench · MIT · phuket
-  </text>
-  <text x="72" y="344" class="mono faint" font-size="13" letter-spacing="1.5">
-    zbs.gg  ·  github.com/nikshilov
+  <text x="110" y="298" class="mono faint" font-size="12" letter-spacing="2">
+    PULSE engine  ·  HEARTH chat  ·  BENCH open eval  ·  MIT  ·  zbs.gg
   </text>
 
-  <!-- RIGHT: numbers stack -->
-  <g transform="translate(960, 50)">
-    <text x="0" y="0" class="mono faint" font-size="13" letter-spacing="3">▪ EMPATHIC MEMORY BENCH v3</text>
+  <!-- ============== RIGHT: our numbers only ============== -->
+  <g transform="translate(880, 56)">
+    <text x="0" y="0" class="mono faint" font-size="12" letter-spacing="4">▪ PULSE v3 · EMPATHIC MEMORY BENCH v3</text>
 
-    <text x="0" y="42" class="mono fg" font-size="17" font-weight="500">Pulse v3 leads stateful axis</text>
-    <text x="0" y="64" class="mono dim" font-size="14">
-      Δ <tspan class="holo" font-weight="500">+3.44</tspan> vs Mem0  ·
-      <tspan class="holo" font-weight="500">+2.07</tspan> vs cosine_state
-    </text>
-    <text x="0" y="82" class="mono faint" font-size="11">label-blind judges, 0–10 scale</text>
+    <!-- KPI 1: stateful axis -->
+    <text x="0" y="38" class="mono dim" font-size="13" letter-spacing="1">stateful axis (judge-rated, 0–10 scale)</text>
+    <text x="0" y="84" class="mono holo" font-size="46" letter-spacing="-1" font-weight="500">8.00</text>
+    <text x="125" y="78" class="mono dim"  font-size="13">leads strongest baseline by</text>
+    <text x="125" y="96" class="mono holo" font-size="18" font-weight="500">+2.07</text>
+    <text x="180" y="96" class="mono dim"  font-size="13">on the 0–10 scale</text>
 
-    <text x="0" y="120" class="mono fg" font-size="17" font-weight="500">cross-vendor label-blind</text>
-    <text x="0" y="142" class="mono dim" font-size="14">
-      α<tspan baseline-shift="sub" font-size="10">stateful</tspan> = <tspan class="holo" font-weight="500">0.699</tspan> · 3 vendor families
-    </text>
-    <text x="0" y="160" class="mono faint" font-size="11">Anthropic Claude  ·  OpenAI GPT-5.4  ·  xAI Grok 4</text>
+    <!-- KPI 2: cross-vendor agreement -->
+    <text x="0" y="136" class="mono dim" font-size="13" letter-spacing="1">cross-vendor label-blind agreement</text>
+    <text x="0" y="168" class="mono fg"  font-size="22" font-weight="500">α<tspan baseline-shift="sub" font-size="13" class="dim">stateful</tspan> = <tspan class="holo">0.699</tspan></text>
+    <text x="220" y="168" class="mono dim" font-size="13">· 3 vendor families · Anthropic / OpenAI / xAI</text>
 
-    <text x="0" y="198" class="mono fg" font-size="17" font-weight="500">external benchmarks</text>
-    <text x="0" y="220" class="mono dim" font-size="14">
-      LongMemEval <tspan class="holo" font-weight="500">68.89%</tspan>  ·
-      ES-MemEval <tspan class="holo" font-weight="500">76%</tspan>  ·
-      LoCoMo <tspan class="holo" font-weight="500">32.51%</tspan> F1
-    </text>
-    <text x="0" y="238" class="mono faint" font-size="11">corpus + judge prompts + raw JSON · MIT</text>
+    <!-- KPI 3: external benchmark validation -->
+    <text x="0" y="208" class="mono dim" font-size="13" letter-spacing="1">public long-context benchmark validation</text>
+    <text x="0" y="240" class="mono fg"  font-size="17">LongMemEval <tspan class="holo" font-weight="500">68.89%</tspan>   ·   LoCoMo <tspan class="holo" font-weight="500">32.51%</tspan> F1</text>
   </g>
 </svg>
