@@ -30,6 +30,7 @@ const LEADERBOARD: Row[] = [
   { system: "hybrid (Cohere)", overall: 0.152, core: 0.4, stateful: 0.133, multi: 0.2, chain: 0.0 },
   { system: "bm25", overall: 0.067, core: 0.2, stateful: 0.067, multi: 0.067, chain: 0.0 },
   { system: "Graphiti (Zep) (text-embedding-3-small)", overall: 0.048, core: 0.2, stateful: 0.033, multi: 0.033, chain: 0.0 },
+  { system: "cross-encoder (bge-reranker-v2-m3, state-conditioned)", overall: 0.105, core: 0.333, stateful: 0.133, multi: 0.067, chain: 0.0 },
 ];
 
 function fmt(n: number) {
