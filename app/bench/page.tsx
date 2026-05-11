@@ -20,15 +20,16 @@ type Row = {
 };
 
 const LEADERBOARD: Row[] = [
-  { system: "Pulse v3", overall: 0.21, core: 0.267, stateful: 0.3, multi: 0.3, chain: 0.0, isOurs: true },
-  { system: "cosine", overall: 0.181, core: 0.4, stateful: 0.2, multi: 0.233, chain: 0.0 },
-  { system: "Mem0", overall: 0.171, core: 0.333, stateful: 0.2, multi: 0.233, chain: 0.0 },
-  { system: "LangMem", overall: 0.162, core: 0.4, stateful: 0.167, multi: 0.2, chain: 0.0 },
-  { system: "LlamaIndex Memory", overall: 0.162, core: 0.4, stateful: 0.167, multi: 0.2, chain: 0.0 },
-  { system: "OpenAI Memory", overall: 0.152, core: 0.267, stateful: 0.2, multi: 0.2, chain: 0.0 },
-  { system: "hybrid", overall: 0.152, core: 0.4, stateful: 0.133, multi: 0.2, chain: 0.0 },
+  { system: "Pulse v3 (Cohere embed-v4.0)", overall: 0.21, core: 0.267, stateful: 0.3, multi: 0.3, chain: 0.0, isOurs: true },
+  { system: "Pulse v3 (text-embedding-3-small, backbone-matched)", overall: 0.19, core: 0.2, stateful: 0.267, multi: 0.3, chain: 0.0, isOurs: true },
+  { system: "cosine (Cohere)", overall: 0.181, core: 0.4, stateful: 0.2, multi: 0.233, chain: 0.0 },
+  { system: "Mem0 (text-embedding-3-small)", overall: 0.171, core: 0.333, stateful: 0.2, multi: 0.233, chain: 0.0 },
+  { system: "LangMem (text-embedding-3-small)", overall: 0.162, core: 0.4, stateful: 0.167, multi: 0.2, chain: 0.0 },
+  { system: "LlamaIndex Memory (text-embedding-3-small)", overall: 0.162, core: 0.4, stateful: 0.167, multi: 0.2, chain: 0.0 },
+  { system: "OpenAI Memory (text-embedding-3-large)", overall: 0.152, core: 0.267, stateful: 0.2, multi: 0.2, chain: 0.0 },
+  { system: "hybrid (Cohere)", overall: 0.152, core: 0.4, stateful: 0.133, multi: 0.2, chain: 0.0 },
   { system: "bm25", overall: 0.067, core: 0.2, stateful: 0.067, multi: 0.067, chain: 0.0 },
-  { system: "Graphiti (Zep)", overall: 0.048, core: 0.2, stateful: 0.033, multi: 0.033, chain: 0.0 },
+  { system: "Graphiti (Zep) (text-embedding-3-small)", overall: 0.048, core: 0.2, stateful: 0.033, multi: 0.033, chain: 0.0 },
 ];
 
 function fmt(n: number) {
