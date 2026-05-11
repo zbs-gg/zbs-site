@@ -43,7 +43,7 @@ export default function Page() {
             <a href="https://github.com/nikshilov/hearth" target="_blank" rel="noopener">
               <ScrambleText text="hearth" />
             </a>
-            <a href="https://github.com/nikshilov/bench" target="_blank" rel="noopener">
+            <a href="/bench">
               <ScrambleText text="bench" />
             </a>
             <a href="mailto:team@zbs.gg">
