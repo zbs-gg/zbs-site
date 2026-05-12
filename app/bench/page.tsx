@@ -60,15 +60,11 @@ export default function BenchPage() {
             <Link href="/">
               <ScrambleText text="home" />
             </Link>
-            <a href="https://github.com/nikshilov/bench" target="_blank" rel="noopener">
-              <ScrambleText text="source" />
+            <a href="#" aria-disabled="true">
+              <ScrambleText text="source · soon" />
             </a>
-            <a
-              href="https://github.com/nikshilov/pulse-paper/raw/main/paper.pdf"
-              target="_blank"
-              rel="noopener"
-            >
-              <ScrambleText text="paper" />
+            <a href="#" aria-disabled="true">
+              <ScrambleText text="paper · soon" />
             </a>
             <a href="mailto:team@zbs.gg">
               <ScrambleText text="contact" />
@@ -158,8 +154,8 @@ export default function BenchPage() {
             <li>
               <span className="ev-key">Reproduce</span>
               <span className="ev-val">
-                <a href="https://github.com/nikshilov/bench" target="_blank" rel="noopener" className="link">github.com/nikshilov/bench</a>
-                {" — "}adapters in <code>external-evals/scripts/run_*_on_v3_bench.py</code>, raw retrievals in <code>external-evals/results/</code>, leaderboard in <code>external-evals/results/leaderboard-v3.{"{md,csv}"}</code>.
+                <em>github.com/zbs-gg/bench — public release soon.</em>
+                {" "}Adapters in <code>external-evals/scripts/run_*_on_v3_bench.py</code>, raw retrievals in <code>external-evals/results/</code>, leaderboard in <code>external-evals/results/leaderboard-v3.{"{md,csv}"}</code>.
               </span>
             </li>
             <li>

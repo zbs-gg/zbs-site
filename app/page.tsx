@@ -37,10 +37,10 @@ export default function Page() {
             <a href="#projects">
               <ScrambleText text="projects" />
             </a>
-            <a href="https://github.com/nikshilov/pulse" target="_blank" rel="noopener">
+            <a href="https://github.com/zbs-gg/pulse" target="_blank" rel="noopener">
               <ScrambleText text="pulse" />
             </a>
-            <a href="https://github.com/nikshilov/hearth" target="_blank" rel="noopener">
+            <a href="https://github.com/zbs-gg/hearth" target="_blank" rel="noopener">
               <ScrambleText text="hearth" />
             </a>
             <a href="/bench">
@@ -88,9 +88,9 @@ export default function Page() {
             <li>
               <span className="ev-key">replication</span>
               <span className="ev-val">
-                MIT · all corpora, judge prompts, scripts in
+                MIT · all corpora, judge prompts, scripts at
                 {" "}
-                <a href="https://github.com/nikshilov/bench" target="_blank" rel="noopener">github.com/nikshilov/bench</a>
+                <em>github.com/zbs-gg/bench — public release soon</em>
                 {" "}· scope: single-user deployment corpus (one person’s
                 year-long logs); external benchmarks cross-check the
                 foundation, v3 conditional boosts validated only on bench v3 ·
@@ -281,7 +281,7 @@ export default function Page() {
 
           <ul className="project-list">
             <li>
-              <a href="https://github.com/nikshilov/pulse" target="_blank" rel="noopener">
+              <a href="https://github.com/zbs-gg/pulse" target="_blank" rel="noopener">
                 <span className="proj-name"><ScrambleText text="Garden.Pulse" /></span>
                 <span className="proj-desc">
                   empathic memory engine — Go, MIT. anchor-aware decay,
@@ -292,7 +292,7 @@ export default function Page() {
               </a>
             </li>
             <li>
-              <a href="https://github.com/nikshilov/hearth" target="_blank" rel="noopener">
+              <a href="https://github.com/zbs-gg/hearth" target="_blank" rel="noopener">
                 <span className="proj-name"><ScrambleText text="Garden.Heart" /></span>
                 <span className="proj-desc">
                   state-aware chat companion built on Garden.Pulse — TS, MIT.
@@ -310,12 +310,12 @@ export default function Page() {
               </a>
             </li>
             <li>
-              <a href="https://github.com/nikshilov/bench" target="_blank" rel="noopener">
+              <a href="#" aria-disabled="true">
                 <span className="proj-name"><ScrambleText text="Garden.Emo.Bench" /></span>
                 <span className="proj-desc">
                   reproducible empathic-memory benchmark — corpus, queries,
                   judge prompts, agreement analysis, raw per-judge JSON. what
-                  i run against myself before shipping anything.
+                  i run against myself before shipping anything. <em>public release soon.</em>
                 </span>
               </a>
             </li>
@@ -324,7 +324,7 @@ export default function Page() {
                 <span className="proj-name"><ScrambleText text="paper" /></span>
                 <span className="proj-desc">
                   <em>Garden.Pulse v3: conditional multi-signal ranking for
-                  empathic memory retrieval</em> — arXiv preprint, in prep.
+                  empathic memory retrieval</em> — arXiv preprint, <em>soon.</em>
                 </span>
               </a>
             </li>
