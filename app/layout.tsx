@@ -3,7 +3,7 @@ import "./globals.css";
 
 const TITLE = "ZBS GG — memory that knows what matters";
 const DESCRIPTION =
-  "Independent research lab building empathic memory for AI companions. Garden.Pulse (engine), Garden.Heart (chat), Garden.Emo.Bench (public benchmark). MIT, one person, phuket.";
+  "Independent research lab building empathic memory for AI companions. Pulse (engine), Heart (chat), Emo.Bench (public benchmark). MIT, one person, phuket.";
 
 export const metadata: Metadata = {
   metadataBase: new URL("https://zbs.gg"),
@@ -19,7 +19,7 @@ export const metadata: Metadata = {
     "retrieval",
     "anchor-aware decay",
     "state-aware retrieval",
-    "Garden.Pulse",
+    "Pulse",
     "open source",
     "MIT",
   ],
@@ -38,7 +38,7 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     title: TITLE,
     description:
-      "Independent research lab. Garden.Pulse engine, Garden.Heart chat, public bench. MIT, my own money.",
+      "Independent research lab. Pulse engine, Heart chat, public bench. MIT, my own money.",
     creator: "@nikshilov",
   },
   robots: {

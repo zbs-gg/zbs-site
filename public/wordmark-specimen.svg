@@ -1,0 +1,98 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 1200" width="1600" height="1200">
+  <defs>
+    <style><![CDATA[
+      .mono   { font-family: ui-monospace, "JetBrains Mono", "SF Mono", Menlo, monospace; }
+      .fg     { fill: #ffffff; }
+      .dim    { fill: rgba(255,255,255,0.55); }
+      .faint  { fill: rgba(255,255,255,0.32); }
+      .ghost  { fill: rgba(255,255,255,0.18); }
+      .rule   { stroke: rgba(255,255,255,0.10); stroke-width: 1; }
+    ]]></style>
+
+    <!-- ASCII halftone treatment — letters made of dots on a grid -->
+    <pattern id="halftone" width="7" height="7" patternUnits="userSpaceOnUse">
+      <rect width="7" height="7" fill="#050505"/>
+      <circle cx="3.5" cy="3.5" r="1.3" fill="#ffffff"/>
+    </pattern>
+
+    <!-- denser halftone for smaller hero applications -->
+    <pattern id="halftoneDense" width="5" height="5" patternUnits="userSpaceOnUse">
+      <rect width="5" height="5" fill="#050505"/>
+      <circle cx="2.5" cy="2.5" r="1" fill="#ffffff"/>
+    </pattern>
+  </defs>
+
+  <rect width="1600" height="1200" fill="#050505"/>
+
+  <!-- ============ HEADER ============ -->
+  <text x="80" y="60" class="mono faint" font-size="11" letter-spacing="3">▪ ZBS.GG WORDMARK SYSTEM  ·  SPECIMEN SHEET  ·  v01</text>
+  <line x1="80" y1="80" x2="1520" y2="80" class="rule"/>
+
+  <!-- ============ 1. CORE WORDMARK (huge) ============ -->
+  <text x="80" y="120" class="mono dim" font-size="11" letter-spacing="2">01 · CORE</text>
+  <text x="80" y="138" class="mono faint" font-size="10" letter-spacing="1">paper title · slide · github avatar · favicon source · default everywhere</text>
+
+  <text x="800" y="280" class="mono fg" font-size="200" letter-spacing="-2" text-anchor="middle" font-weight="500">zbs.gg</text>
+
+  <line x1="80" y1="360" x2="1520" y2="360" class="rule"/>
+
+  <!-- ============ 2. HERO TREATMENT (halftone) ============ -->
+  <text x="80" y="400" class="mono dim" font-size="11" letter-spacing="2">02 · HERO TREATMENT</text>
+  <text x="80" y="418" class="mono faint" font-size="10" letter-spacing="1">landing · og:image · social banner · linkedin · same halftone as elle's face</text>
+
+  <!-- ghost video frame to suggest the landing context -->
+  <rect x="80" y="440" width="1440" height="220" fill="#0a0a0a" stroke="rgba(255,255,255,0.06)" stroke-width="1"/>
+  <text x="800" y="585" class="mono" font-size="160" letter-spacing="-2" text-anchor="middle" font-weight="500" fill="url(#halftone)">zbs.gg</text>
+
+  <line x1="80" y1="700" x2="1520" y2="700" class="rule"/>
+
+  <!-- ============ 3. SMALL / FAVICON LADDER ============ -->
+  <text x="80" y="740" class="mono dim" font-size="11" letter-spacing="2">03 · SMALL · FAVICON LADDER</text>
+  <text x="80" y="758" class="mono faint" font-size="10" letter-spacing="1">if the period disappears, fall back without it — never use a glyph stand-in</text>
+
+  <!-- 64px context (browser tab in retina) -->
+  <g transform="translate(160, 800)">
+    <rect x="0" y="0" width="64" height="64" fill="#050505" stroke="rgba(255,255,255,0.10)"/>
+    <text x="32" y="40" class="mono fg" font-size="14" letter-spacing="-0.5" text-anchor="middle" font-weight="500">zbs.gg</text>
+    <text x="32" y="92" class="mono faint" font-size="9" text-anchor="middle">64 · tab retina</text>
+  </g>
+
+  <!-- 32px context -->
+  <g transform="translate(380, 800)">
+    <rect x="0" y="0" width="64" height="64" fill="#050505" stroke="rgba(255,255,255,0.10)"/>
+    <text x="32" y="38" class="mono fg" font-size="11" letter-spacing="-0.3" text-anchor="middle" font-weight="500">zbs.gg</text>
+    <text x="32" y="92" class="mono faint" font-size="9" text-anchor="middle">32 · tab</text>
+  </g>
+
+  <!-- 16px context — period collapses, fall back to zbsgg -->
+  <g transform="translate(600, 800)">
+    <rect x="0" y="0" width="64" height="64" fill="#050505" stroke="rgba(255,255,255,0.10)"/>
+    <text x="32" y="38" class="mono fg" font-size="9" letter-spacing="0" text-anchor="middle" font-weight="500">zbsgg</text>
+    <text x="32" y="92" class="mono faint" font-size="9" text-anchor="middle">16 · fallback</text>
+  </g>
+
+  <!-- divider note -->
+  <text x="730" y="838" class="mono faint" font-size="11" letter-spacing="1">
+    rule: keep the period until it stops resolving cleanly. then drop it. never replace with a glyph or icon.
+  </text>
+
+  <line x1="80" y1="900" x2="1520" y2="900" class="rule"/>
+
+  <!-- ============ 4. PAPER TITLE / GRANT DECK LOCKUP ============ -->
+  <text x="80" y="940" class="mono dim" font-size="11" letter-spacing="2">04 · PAPER · GRANT DECK · BIO LOCKUP</text>
+  <text x="80" y="958" class="mono faint" font-size="10" letter-spacing="1">when context needs explanation — wordmark + subtitle. never the other way around.</text>
+
+  <!-- mock title slide -->
+  <g transform="translate(80, 990)">
+    <rect x="0" y="0" width="1440" height="180" fill="#070707" stroke="rgba(255,255,255,0.08)" stroke-width="1"/>
+
+    <text x="60" y="80" class="mono fg" font-size="56" letter-spacing="-1" font-weight="500">zbs.gg</text>
+    <text x="60" y="112" class="mono dim" font-size="13" letter-spacing="3">INDEPENDENT RESEARCH LAB  ·  PHUKET</text>
+
+    <!-- right side: micro context block -->
+    <text x="1380" y="60" class="mono faint" font-size="11" letter-spacing="1" text-anchor="end">pulse · memory engine</text>
+    <text x="1380" y="80" class="mono faint" font-size="11" letter-spacing="1" text-anchor="end">hearth · chat companion</text>
+    <text x="1380" y="100" class="mono faint" font-size="11" letter-spacing="1" text-anchor="end">bench · open eval</text>
+    <text x="1380" y="120" class="mono faint" font-size="11" letter-spacing="1" text-anchor="end">mit · open source</text>
+  </g>
+</svg>

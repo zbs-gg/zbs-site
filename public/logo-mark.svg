@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" width="256" height="256">
+  <rect width="256" height="256" fill="#050505"/>
+
+  <!-- bracket frame + dot — same mark as horizontal lockup -->
+  <g transform="translate(64, 88)">
+    <path d="M 0 0 L 0 80 M 0 0 L 18 0 M 0 80 L 18 80" fill="none" stroke="#ffffff" stroke-width="3"/>
+    <path d="M 128 0 L 128 80 M 128 0 L 110 0 M 128 80 L 110 80" fill="none" stroke="#ffffff" stroke-width="3"/>
+    <circle cx="64" cy="40" r="6" fill="#ffffff"/>
+  </g>
+
+  <text x="128" y="208" font-family="ui-monospace, 'JetBrains Mono', 'SF Mono', Menlo, monospace"
+        font-size="18" letter-spacing="5" font-weight="500" fill="#ffffff" text-anchor="middle">ZBS GG</text>
+</svg>

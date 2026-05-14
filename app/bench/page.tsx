@@ -43,14 +43,13 @@ export default function BenchPage() {
     <>
       <ClientBg
         src="/elle-1.mp4"
-        cellSize={9}
-        style="minimal"
-        colorMode={false}
+        cellSize={8}
         mouseGlowEnabled
-        mouseGlowIntensity={0.2}
+        mouseGlowIntensity={0.28}
+        mouseGlowRadius={200}
         contrastAdjust={1.25}
-        brightnessAdjust={-0.08}
-        vignetteIntensity={0.5}
+        brightnessAdjust={-0.05}
+        vignetteIntensity={0.7}
       />
 
       <main className="page">
@@ -60,8 +59,8 @@ export default function BenchPage() {
             <Link href="/">
               <ScrambleText text="home" />
             </Link>
-            <a href="#" aria-disabled="true">
-              <ScrambleText text="source · soon" />
+            <a href="https://github.com/zbs-gg/emo-bench" target="_blank" rel="noopener">
+              <ScrambleText text="source" />
             </a>
             <a href="#" aria-disabled="true">
               <ScrambleText text="paper · soon" />
@@ -154,7 +153,7 @@ export default function BenchPage() {
             <li>
               <span className="ev-key">Reproduce</span>
               <span className="ev-val">
-                <em>github.com/zbs-gg/bench — public release soon.</em>
+                <a href="https://github.com/zbs-gg/emo-bench" target="_blank" rel="noopener"><em>github.com/zbs-gg/emo-bench</em></a>.
                 {" "}Adapters in <code>external-evals/scripts/run_*_on_v3_bench.py</code>, raw retrievals in <code>external-evals/results/</code>, leaderboard in <code>external-evals/results/leaderboard-v3.{"{md,csv}"}</code>.
               </span>
             </li>

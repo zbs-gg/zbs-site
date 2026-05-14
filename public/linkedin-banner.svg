@@ -17,17 +17,15 @@
     </radialGradient>
     <style><![CDATA[
       .mono { font-family: ui-monospace, "JetBrains Mono", "SF Mono", Menlo, monospace; }
-      .fg     { fill: #f5f5f5; }
-      .dim    { fill: rgba(245,245,245,0.55); }
-      .faint  { fill: rgba(245,245,245,0.32); }
-      .holo   { fill: url(#holo); }
-      .rule   { stroke: rgba(245,245,245,0.10); stroke-width: 1; }
+      .fg     { fill: #ffffff; }
+      .dim    { fill: rgba(255,255,255,0.55); }
+      .faint  { fill: rgba(255,255,255,0.32); }
+      .holo   { fill: #ffffff; }
+      .rule   { stroke: rgba(255,255,255,0.10); stroke-width: 1; }
     ]]></style>
   </defs>
 
   <rect width="1584" height="396" fill="#050505"/>
-  <rect width="1584" height="396" fill="url(#halo1)"/>
-  <rect width="1584" height="396" fill="url(#halo2)"/>
 
   <!-- ============== LEFT: brand + hero + stack ============== -->
   <text x="110" y="58"  class="mono faint" font-size="12" letter-spacing="5">▪ INDEPENDENT RESEARCH LAB</text>

@@ -1,13 +1,10 @@
 "use client";
 
 import dynamic from "next/dynamic";
-import type { VideoSceneProps } from "./video-scene";
+import type { AsciiBgProps } from "./ascii-bg";
 
-const VideoScene = dynamic(
-  () => import("./video-scene").then((m) => m.VideoScene),
-  { ssr: false }
-);
+const AsciiBg = dynamic(() => import("./ascii-bg"), { ssr: false });
 
-export default function ClientBg(props: VideoSceneProps) {
-  return <VideoScene {...props} />;
+export default function ClientBg(props: AsciiBgProps) {
+  return <AsciiBg {...props} />;
 }

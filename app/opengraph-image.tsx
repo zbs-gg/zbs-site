@@ -76,7 +76,7 @@ export default async function OG() {
           }}
         >
           <span>
-            Garden.Pulse · Garden.Heart · Garden.Emo.Bench
+            Pulse · Heart · Emo.Bench
           </span>
           <span style={{ color: "rgba(245,245,245,0.35)" }}>
             MIT · phuket · κ_stateful = 0.81

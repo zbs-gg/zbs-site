@@ -23,8 +23,8 @@ const BRAND_GLOSS = [
 export function Brand() {
   const [open, setOpen] = useState(false);
   const tokens = open
-    ? ["zaebis", "good game!", "twice good. unironically."]
-    : ["zbs", "gg", "twice good. unironically."];
+    ? ["zaebis", "good game!", "no reset. no amnesia."]
+    : ["zbs", "gg", "no reset. no amnesia."];
   return (
     <div
       className={"brand" + (open ? " brand-open" : "")}
@@ -59,7 +59,7 @@ export function Brand() {
             <div className="gloss-def">{g.def}</div>
           </div>
         ))}
-        <div className="gloss-foot">∴ <em>twice good. unironically.</em></div>
+        <div className="gloss-foot">∴ <em>no reset. no amnesia.</em></div>
       </div>
     </div>
   );
