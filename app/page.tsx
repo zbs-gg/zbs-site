@@ -63,13 +63,17 @@ export default function Page() {
             <li>
               <span className="ev-key">Empathic Memory Bench v3</span>
               <span className="ev-val">
-                Pulse v3 leads on all 5 axes vs 8 baselines (incl.
-                Mem0, qdrant_filter) · 11 judges, 6 vendor families ·
-                κ_stateful = <span className="holo">0.815</span> label-disclosed,{" "}
-                <span className="holo">α_stateful = 0.699</span> in cross-vendor
-                label-blind re-run (Anthropic + OpenAI + xAI) · stateful Δ vs
-                strongest baseline +2.07 (label-blind) · own corpus, judge
-                prompts open
+                Pulse v3 (bge-m3 fine-tuned, strict zero-shot) leads with{" "}
+                <span className="holo">R@3 = 0.238</span> ·{" "}
+                <span className="holo">stateful 0.367</span> ·{" "}
+                <span className="holo">core 0.333</span> · adapter trained on
+                public EmpatheticDialogues + ESConv only, Pulse corpus never
+                seen during training · vs 8 baselines (incl. Mem0, Graphiti/Zep,
+                LangMem, LlamaIndex, OpenAI Memory) · 11 judges, 6 vendor
+                families · κ_stateful = <span className="holo">0.815</span>{" "}
+                label-disclosed, <span className="holo">α_stateful = 0.699</span>{" "}
+                in cross-vendor label-blind re-run (Claude + GPT + Grok) ·
+                own corpus, judge prompts open
               </span>
             </li>
             <li>

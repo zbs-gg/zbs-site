@@ -20,6 +20,7 @@ type Row = {
 };
 
 const LEADERBOARD: Row[] = [
+  { system: "Pulse v3 (bge-m3 fine-tuned, zero-shot)", overall: 0.238, core: 0.333, stateful: 0.367, multi: 0.3, chain: 0.0, isOurs: true },
   { system: "Pulse v3 (Cohere embed-v4.0)", overall: 0.21, core: 0.267, stateful: 0.3, multi: 0.3, chain: 0.0, isOurs: true },
   { system: "Pulse v3 (text-embedding-3-small, backbone-matched)", overall: 0.19, core: 0.2, stateful: 0.267, multi: 0.3, chain: 0.0, isOurs: true },
   { system: "cosine (Cohere)", overall: 0.181, core: 0.4, stateful: 0.2, multi: 0.233, chain: 0.0 },
@@ -76,7 +77,7 @@ export default function BenchPage() {
             <ScrambleText text="empathic memory bench v3" />
           </h1>
           <p className="hero-sub">
-            <span className="dim">recall@3 · n=35 corpus · same backbone (gpt-4o-mini + text-embedding-3) · open source</span>
+            <span className="dim">recall@3 · n=35 corpus · 10 systems · open source · 2026-05-15 SOTA: Pulse v3 + bge-m3 fine-tuned (strict zero-shot)</span>
           </p>
         </section>
 
