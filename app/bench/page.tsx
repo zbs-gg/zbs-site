@@ -19,19 +19,27 @@ type Row = {
   isOurs?: boolean;
 };
 
+// Expanded n=100 probe suite (2026-05-16): 60 events + 100 probes, all 60 events
+// referenced in ideal_top_3 or ideal_chain. Pulse v3 stateful lead vs hybrid_state
+// widens 6x (n=35 +0.033 -> n=100 +0.200) as corpus expansion samples more
+// state-routing edge cases. Backbone-robust: Pulse-hybrid_state stateful gap
+// preserved across Cohere (+0.200) and fine-tuned bge-m3 mean-of-3-seeds (+0.226).
 const LEADERBOARD: Row[] = [
-  { system: "Pulse v3 (bge-m3 fine-tuned, zero-shot)", overall: 0.238, core: 0.333, stateful: 0.367, multi: 0.3, chain: 0.0, isOurs: true },
-  { system: "Pulse v3 (Cohere embed-v4.0)", overall: 0.21, core: 0.267, stateful: 0.3, multi: 0.3, chain: 0.0, isOurs: true },
-  { system: "Pulse v3 (text-embedding-3-small, backbone-matched)", overall: 0.19, core: 0.2, stateful: 0.267, multi: 0.3, chain: 0.0, isOurs: true },
-  { system: "cosine (Cohere)", overall: 0.181, core: 0.4, stateful: 0.2, multi: 0.233, chain: 0.0 },
-  { system: "Mem0 (text-embedding-3-small)", overall: 0.171, core: 0.333, stateful: 0.2, multi: 0.233, chain: 0.0 },
-  { system: "LangMem (text-embedding-3-small)", overall: 0.162, core: 0.4, stateful: 0.167, multi: 0.2, chain: 0.0 },
-  { system: "LlamaIndex Memory (text-embedding-3-small)", overall: 0.162, core: 0.4, stateful: 0.167, multi: 0.2, chain: 0.0 },
-  { system: "OpenAI Memory (text-embedding-3-large)", overall: 0.152, core: 0.267, stateful: 0.2, multi: 0.2, chain: 0.0 },
-  { system: "hybrid (Cohere)", overall: 0.152, core: 0.4, stateful: 0.133, multi: 0.2, chain: 0.0 },
-  { system: "bm25", overall: 0.067, core: 0.2, stateful: 0.067, multi: 0.067, chain: 0.0 },
-  { system: "Graphiti (Zep) (text-embedding-3-small)", overall: 0.048, core: 0.2, stateful: 0.033, multi: 0.033, chain: 0.0 },
-  { system: "cross-encoder (bge-reranker-v2-m3, state-conditioned)", overall: 0.105, core: 0.333, stateful: 0.133, multi: 0.067, chain: 0.0 },
+  { system: "Pulse v3 (Cohere embed-v4.0, n=100 headline)", overall: 0.416, core: 0.517, stateful: 0.419, multi: 0.333, chain: 0.412, isOurs: true },
+  { system: "Pulse v3 (bge-m3 LoRA fine-tuned, mean of 3 seeds)", overall: 0.375, core: 0.467, stateful: 0.378, multi: 0.289, chain: 0.388, isOurs: true },
+  { system: "cosine (Cohere, n=100)", overall: 0.420, core: 0.583, stateful: 0.343, multi: 0.307, chain: 0.533 },
+  { system: "cosine_state (Cohere, n=100)", overall: 0.390, core: 0.517, stateful: 0.314, multi: 0.293, chain: 0.517 },
+  { system: "hybrid (Cohere, n=100)", overall: 0.285, core: 0.500, stateful: 0.219, multi: 0.173, chain: 0.325 },
+  { system: "hybrid_state (Cohere, n=100)", overall: 0.262, core: 0.433, stateful: 0.219, multi: 0.133, chain: 0.325 },
+  { system: "state_concat_only (Cohere, n=100)", overall: 0.203, core: 0.100, stateful: 0.124, multi: 0.147, chain: 0.517 },
+  { system: "bm25 (n=100)", overall: 0.156, core: 0.350, stateful: 0.086, multi: 0.080, chain: 0.179 },
+  // n=35 backbone-matched memory-system baselines (frozen 2026-05-11 snapshot)
+  { system: "Mem0 (text-embedding-3-small, n=35)", overall: 0.171, core: 0.333, stateful: 0.200, multi: 0.233, chain: 0.0 },
+  { system: "LangMem (text-embedding-3-small, n=35)", overall: 0.162, core: 0.400, stateful: 0.167, multi: 0.200, chain: 0.0 },
+  { system: "LlamaIndex Memory (text-embedding-3-small, n=35)", overall: 0.162, core: 0.400, stateful: 0.167, multi: 0.200, chain: 0.0 },
+  { system: "OpenAI Memory (text-embedding-3-large, n=35)", overall: 0.152, core: 0.267, stateful: 0.200, multi: 0.200, chain: 0.0 },
+  { system: "Graphiti (Zep) (text-embedding-3-small, n=35)", overall: 0.048, core: 0.200, stateful: 0.033, multi: 0.033, chain: 0.0 },
+  { system: "cross-encoder (bge-reranker-v2-m3, state-conditioned, n=35)", overall: 0.105, core: 0.333, stateful: 0.133, multi: 0.067, chain: 0.0 },
 ];
 
 function fmt(n: number) {
