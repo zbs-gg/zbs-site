@@ -37,7 +37,7 @@ export default function Page() {
               <ScrambleText text="pulse" />
             </a>
             <a href="https://github.com/zbs-gg/hearth" target="_blank" rel="noopener">
-              <ScrambleText text="hearth" />
+              <ScrambleText text="heart" />
             </a>
             <a href="/bench">
               <ScrambleText text="bench" />
@@ -63,30 +63,32 @@ export default function Page() {
             <li>
               <span className="ev-key">Empathic Memory Bench v3</span>
               <span className="ev-val">
-                Pulse v3 (bge-m3 fine-tuned, strict zero-shot) leads with{" "}
-                <span className="holo">R@3 = 0.238</span> ·{" "}
-                <span className="holo">stateful 0.367</span> ·{" "}
-                <span className="holo">core 0.333</span> · adapter trained on
-                public EmpatheticDialogues + ESConv only, Pulse corpus never
-                seen during training · vs 8 baselines (incl. Mem0, Graphiti/Zep,
-                LangMem, LlamaIndex, OpenAI Memory) · 11 judges, 6 vendor
-                families · κ_stateful = <span className="holo">0.815</span>{" "}
-                label-disclosed, <span className="holo">α_stateful = 0.699</span>{" "}
-                in cross-vendor label-blind re-run (Claude + GPT + Grok) ·
-                own corpus, judge prompts open
+                n=100 deterministic probe suite. Pulse v3 leads the stateful
+                axis: <span className="holo">stateful R@3 = 0.419</span> vs
+                cosine_state 0.314, hybrid_state 0.219 — same query, different
+                user state, different ideal episode (stateless cosine itself:
+                0.343 stateful). on overall R@3 cosine leads Pulse{" "}
+                <span className="holo">0.420 vs 0.416</span> and we say so
+                plainly · vs 7 retrieval baselines + 6 memory-system
+                adapters (Mem0, Graphiti/Zep, LangMem, LlamaIndex, OpenAI
+                Memory, claude-mem) · label-blind judge check: Pulse{" "}
+                <span className="holo">7.722 vs 4.278</span> stateful fit over
+                a Mem0 adapter, α = <span className="holo">0.910</span>{" "}
+                (multi-vendor: 8.0 vs 5.4, α = 0.699, tentative) · own corpus,
+                judge prompts open
               </span>
             </li>
             <li>
               <span className="ev-key">LongMemEval_S</span>
-              <span className="ev-val">68.89% · published 500-question long-context evaluation (independent corpus)</span>
+              <span className="ev-val">68.89% · published 500-question long-context evaluation · sanity check of the cosine+recency base (public benchmarks carry no state fields, so the state layer collapses to identity)</span>
             </li>
             <li>
-              <span className="ev-key">ES-MemEval</span>
-              <span className="ev-val">76% (LLM-judge) · 1427 questions across 18 seekers (independent corpus)</span>
+              <span className="ev-key">EM-IB (internal)</span>
+              <span className="ev-val">76% (single LLM-judge) · 1427 questions across 18 simulated seekers · internal empathic-support benchmark we built, corpus unreleased pending privacy review — self-reported, not third-party reproduced; not the external benchmark of similar former name (arXiv:2602.01885)</span>
             </li>
             <li>
               <span className="ev-key">LoCoMo</span>
-              <span className="ev-val">32.51% F1 · 62.78% adversarial refusal · ACL 2024 corpus (independent)</span>
+              <span className="ev-val">32.51% F1 · 62.78% adversarial refusal · ACL 2024 corpus · base-retriever cross-check, not comparable to Mem0/Zep native J-score protocol</span>
             </li>
             <li>
               <span className="ev-key">replication</span>
@@ -135,16 +137,16 @@ export default function Page() {
             </HoverFact>
             <span className="receipts-sep"> · </span>
             <HoverFact
-              label="evaluation / α_stateful = 0.699 cross-vendor label-blind"
-              body="11-judge label-disclosed pool (anthropic, openai, google, alibaba/qwen, zhipu/glm, moonshot/kimi) gives κ_stateful=0.815. To check disclosed-label anchoring, we ran a label-blind condition with 3 distinct vendor families (Claude Sonnet + OpenAI GPT-5.4 + xAI Grok 4): α_stateful drops to 0.699 (above tentative threshold, expected when judges have genuinely different priors), and Pulse v3 still leads every system on every axis. Raw JSON per judge per condition in the public bench."
+              label="evaluation / label-blind judge check, α = 0.910"
+              body="main judge-bias check: ideal answers removed from the judge prompt entirely. In the label-blind Mem0-adapter subset Pulse leads on stateful fit 7.722 vs 4.278 with Krippendorff α = 0.910; the multi-vendor variant (Claude + GPT + Grok) agrees on direction at 8.0 vs 5.4 with α = 0.699 — tentative by Krippendorff's threshold, and we label it so. Supporting evidence for the stateful axis, not a claim that Pulse beats Mem0 on its native LoCoMo protocol. Raw JSON per judge per condition in the public bench."
               side="top"
             >
-              11 LLM judges + cross-vendor label-blind α = 0.699
+              label-blind judges: α = 0.910, direction holds cross-vendor
             </HoverFact>
             <span className="receipts-sep"> · </span>
             <HoverFact
               label="continuity / no reset"
-              body="one and the same companion across every model upgrade. previous companions broke on provider switch — same API name, different identity overnight. Pulse holds identity and state outside the model."
+              body="one and the same companion across every model upgrade. previous companions broke on provider switch — same API name, different identity overnight. Pulse holds identity and state outside the model. (the paper's evaluated deployment window is twelve months; identity continuity runs longer than the evaluated period.)"
               side="bottom"
             >
               14 months · no identity reset
@@ -198,12 +200,13 @@ export default function Page() {
               </a>
             </li>
             <li>
-              <a href="#" aria-disabled="true">
+              <a href="https://github.com/zbs-gg/pulse-paper" target="_blank" rel="noopener">
                 <span className="proj-name"><ScrambleText text="paper" /></span>
                 <span className="proj-desc">
-                  <em>Hearth and Pulse: A Twelve-Month Case Study of
-                  State-Aware Empathic Memory in Production</em> — arXiv
-                  preprint, <em>soon.</em>
+                  <em>Remember What Matters: State-Conditioned Episodic
+                  Retrieval for Emotional AI Companions</em> — source + PDF at{" "}
+                  <em>zbs-gg/pulse-paper</em>. scoped claim, negative results
+                  disclosed, privacy boundary documented.
                 </span>
               </a>
             </li>

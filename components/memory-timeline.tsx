@@ -50,7 +50,7 @@ const EVENTS: EventDot[] = [
   { text: "good morning swim",            daysAgo: 47,  base: 0.42, anchor: false },
   { text: "long writing session",         daysAgo: 38,  base: 0.62, anchor: false },
   { text: "anxiety spike",                daysAgo: 32,  base: 0.80, anchor: false },
-  { text: "pulse v3 SOTA on bench",       daysAgo: 24,  base: 0.88, anchor: false },
+  { text: "bench rerun came back clean",  daysAgo: 24,  base: 0.88, anchor: false },
   { text: "great evening with E.",        daysAgo: 17,  base: 0.79, anchor: false },
   { text: "lunch by myself",              daysAgo: 12,  base: 0.30, anchor: false },
   { text: "shipped multi-provider layer", daysAgo: 6,   base: 0.74, anchor: false },

@@ -79,7 +79,7 @@ export default async function OG() {
             Pulse · Heart · Emo.Bench
           </span>
           <span style={{ color: "rgba(245,245,245,0.35)" }}>
-            MIT · phuket · κ_stateful = 0.81
+            MIT · phuket · stateful R@3 = 0.419
           </span>
         </div>
       </div>
