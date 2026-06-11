@@ -1,6 +1,7 @@
 import ClientBg from "@/components/client-bg";
 import { ScrambleText } from "@/components/scramble-text";
 import { Brand } from "@/components/brand";
+import { Crumbs } from "@/components/crumbs";
 import Link from "next/link";
 
 export const metadata = {
@@ -122,6 +123,13 @@ export default function BenchPage() {
             </a>
           </nav>
         </header>
+
+        <Crumbs
+          trail={[
+            { label: "zbs.gg", href: "/" },
+            { label: "bench" },
+          ]}
+        />
 
         <section className="hero" id="hero">
           <h1 className="hero-line">

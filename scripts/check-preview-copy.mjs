@@ -6,7 +6,7 @@ import { dirname, join } from "node:path";
 const root = dirname(fileURLToPath(new URL("../package.json", import.meta.url)));
 const page = [
   readFileSync(join(root, "app/preview/page.tsx"), "utf8"),
-  readFileSync(join(root, "app/preview/AgentPromptCopy.tsx"), "utf8"),
+  readFileSync(join(root, "components/copy-button.tsx"), "utf8"),
 ].join("\n");
 const landing = readFileSync(join(root, "app/page.tsx"), "utf8");
 
@@ -19,7 +19,7 @@ function appearsBefore(earlier, later) {
 }
 
 // The one-command zero-config path is the primary story: command first.
-appearsBefore("claude mcp add pulse", "Copy install prompt");
+appearsBefore("claude mcp add pulse", "copy install prompt");
 assert.match(page, /claude mcp add pulse -- npx -y @zbs-gg\/pulse@preview mcp/);
 // The full engine stays an explicit optional upgrade.
 assert.match(page, /npx @zbs-gg\/pulse@preview init claude-code/);
