@@ -5,6 +5,7 @@ import { AgentPromptCopy } from "./AgentPromptCopy";
 const zeroConfigCommand = "claude mcp add pulse -- npx -y @zbs-gg/pulse@preview mcp";
 const fullEngineCommand = "npx @zbs-gg/pulse@preview init claude-code";
 const repoUrl = "https://github.com/zbs-gg/pulse";
+const demoVideoUrl = "https://www.zbs.gg/pulse-demo.mp4";
 
 const agentPrompt = `Hi. Please check whether it is safe to install Pulse:
 ${repoUrl}
@@ -116,7 +117,9 @@ export default function PreviewPage() {
 
             <div className="pulse-preview-actions" aria-label="Preview actions">
               <a href="#agent">Copy install prompt</a>
-              <a href="#demo">Watch the 90s demo</a>
+              <a href={demoVideoUrl} target="_blank" rel="noopener">
+                Open the 90s demo video
+              </a>
             </div>
           </div>
 
@@ -252,6 +255,13 @@ export default function PreviewPage() {
           preload="metadata"
           playsInline
         />
+        <p className="pulse-preview-demo-fallback">
+          If the embedded player does not start,{" "}
+          <a href={demoVideoUrl} target="_blank" rel="noopener">
+            open the demo video directly
+          </a>
+          .
+        </p>
       </section>
 
       <section className="pulse-preview-sources" aria-label="Import old context later">

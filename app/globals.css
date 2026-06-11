@@ -1638,6 +1638,19 @@ a:hover { opacity: 0.85; transition: opacity .2s; }
   background: #000;
 }
 
+.pulse-preview-demo-fallback {
+  margin: -0.8rem 0 0;
+  color: var(--pulse-muted);
+  font-size: 0.95rem;
+  text-align: center;
+}
+
+.pulse-preview-demo-fallback a {
+  color: var(--pulse-text);
+  text-decoration: underline;
+  text-underline-offset: 4px;
+}
+
 .pulse-preview-inline-code {
   font-family: var(--mono);
   font-size: 0.85em;
