@@ -4,10 +4,7 @@ import { fileURLToPath } from "node:url";
 import { dirname, join } from "node:path";
 
 const root = dirname(fileURLToPath(new URL("../package.json", import.meta.url)));
-const page = [
-  readFileSync(join(root, "app/preview/page.tsx"), "utf8"),
-  readFileSync(join(root, "components/copy-button.tsx"), "utf8"),
-].join("\n");
+const page = readFileSync(join(root, "app/preview/page.tsx"), "utf8");
 const landing = readFileSync(join(root, "app/page.tsx"), "utf8");
 
 function appearsBefore(earlier, later) {
@@ -18,23 +15,24 @@ function appearsBefore(earlier, later) {
   assert.ok(a < b, `${earlier} should appear before ${later}`);
 }
 
-// The one-command zero-config path is the primary story: command first.
-appearsBefore("claude mcp add pulse", "copy install prompt");
-assert.match(page, /claude mcp add pulse -- npx -y @zbs-gg\/pulse@preview mcp/);
-// The full engine stays an explicit optional upgrade.
-assert.match(page, /npx @zbs-gg\/pulse@preview init claude-code/);
+// The product path is Pulse Local Preview; Safe Mode is the fallback, below it.
+appearsBefore("npx @zbs-gg/pulse@preview init claude-code", "claude mcp add pulse");
 
 for (const required of [
   "https://github.com/zbs-gg/pulse",
-  "AGENTS.md",
   "npm view @zbs-gg/pulse dist-tags",
+  "0.6.0",
+  "pulse doctor",
+  "pulse demo",
+  "pulse demo --clean",
+  "SIMULATED corpus",
+  "drained, restored, angry",
+  "state x1.15",
+  "fallback, not the product",
   "Ask me for confirmation",
-  "first_run",
-  "pulse_resume",
-  "pulse_wipe",
-  "rm -rf ~/.pulse/standalone",
   "claude mcp remove pulse",
-  "never raw",
+  "rm -rf ~/.pulse/standalone",
+  "never raw transcripts",
   "/pulse-demo.mp4",
 ]) {
   assert.match(page, new RegExp(required.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")), `missing ${required}`);
@@ -45,10 +43,13 @@ for (const forbidden of [
   /production ready/i,
   /Pulse Cloud ready/i,
   /ChatGPT Store ready/i,
+  /Lite Pulse/i,
   /\bDetected\b/,
   /\bImported\b/,
-  // The lite store has no retrieval-engine bench claims to make.
+  // No bench numbers on the install page — they live on /bench, full engine only.
   /R@3|LongMemEval|LoCoMo/,
+  // The fallback must never be sold as the whole product.
+  /install — the whole thing/i,
 ]) {
   assert.doesNotMatch(page, forbidden, `forbidden claim ${forbidden}`);
 }
@@ -60,6 +61,7 @@ for (const forbidden of [
   /production ready/i,
   /Pulse Cloud ready/i,
   /ChatGPT Store ready/i,
+  /Lite Pulse/i,
 ]) {
   assert.doesNotMatch(landing, forbidden, `forbidden landing claim ${forbidden}`);
 }

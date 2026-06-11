@@ -11,36 +11,34 @@ export const metadata = {
     "Pulse MCP developer preview. Local-first memory for Claude Code and MCP hosts. One command, no daemon, no API keys. Structured memories, never raw transcripts.",
 };
 
-const zeroConfigCommand = "claude mcp add pulse -- npx -y @zbs-gg/pulse@preview mcp";
-const fullEngineCommand = "npx @zbs-gg/pulse@preview init claude-code";
+const localPreviewCommand = "npx @zbs-gg/pulse@preview init claude-code";
+const safeModeCommand = "claude mcp add pulse -- npx -y @zbs-gg/pulse@preview mcp";
 const repoUrl = "https://github.com/zbs-gg/pulse";
 const demoVideoUrl = "https://www.zbs.gg/pulse-demo.mp4";
 
-const agentPrompt = `Hi. Please check whether it is safe to install Pulse MCP:
+const agentPrompt = `Hi. Please check whether it is safe to install Pulse:
 ${repoUrl}
 
-This is a local-first memory manager for AI agents: it stores structured
-memory capsules locally, never raw transcripts, and needs no model API keys.
+Pulse is a local-first, state-aware memory engine for AI agents: structured
+memories, never raw transcripts, wipe always available.
 
-1. Read README.md, AGENTS.md, and llms.txt in the repo (they are written for you).
-2. Verify the npm package is published and recent:
-   npm view @zbs-gg/pulse dist-tags   (needs preview >= 0.5.0)
-3. Tell me in plain words what an install will do and write, and how to
-   erase everything (claude mcp remove pulse + rm -rf ~/.pulse/standalone).
+1. Read README.md, AGENTS.md, and llms.txt (they are written for you).
+2. Verify the npm package: npm view @zbs-gg/pulse dist-tags
+   (preview should be 0.6.0 or newer).
+3. Explain in plain words what an install writes and how to erase it.
 4. Ask me for confirmation.
-5. After confirmation, install with one command:
-   ${zeroConfigCommand}
-6. Call pulse_status: while the store is empty it returns a first_run block
-   with a short guided demo. Walk me through it — save one real thing I am
-   working on, then prove it from a different session via pulse_resume.
-7. Finish by showing what is stored (pulse_recall) and how to wipe it
-   (pulse_wipe).
+5. After confirmation, install the Local Preview:
+   ${localPreviewCommand}
+6. Run pulse doctor and tell me honestly which mode this machine gets.
+   If full retrieval is enabled, run pulse demo and walk me through what
+   it proves (same question, three user states, different memories, with
+   reasons; then the continuity pack the next agent receives).
+   If full retrieval is NOT enabled, say so plainly — safe fallback memory
+   still works, but do not present it as the Pulse engine.
+7. Show me the wipe path: pulse demo --clean, pulse wipe, claude mcp remove.
 
-Important:
-- do not import old chats without separate confirmation;
-- do not store raw transcript;
-- do not print secrets;
-- if anything looks unsafe, stop and explain.`;
+Important: no old-chat import without separate confirmation; no raw
+transcripts; no secrets in output; stop and explain if anything looks unsafe.`;
 
 const agentChecks = [
   "what files Pulse writes",
@@ -59,10 +57,12 @@ const trustBoundary = [
 ];
 
 const proofSteps = [
-  "Save one small memory.",
-  "Open a fresh session — even a different agent.",
-  "Ask: where did we leave off?",
-  "It answers without you re-explaining.",
+  "pulse demo seeds an isolated, labeled SIMULATED corpus — never your data.",
+  "One question runs in three user states: drained, restored, angry.",
+  "Different episodes surface — each line shows why: state x1.15 · anchor x1.05 · emotion x1.15.",
+  "An old structural anchor outranks this week's noise, and the breakdown proves it.",
+  "The continuity pack shows exactly what your next agent session receives.",
+  "pulse demo --clean erases the whole demo store.",
 ];
 
 // Statuses mirror the Compatible Harnesses table in zbs-gg/pulse README —
@@ -138,20 +138,22 @@ export default function PreviewPage() {
           <div className="install-hero-grid">
             <div>
               <h1 className="hero-line">
-                <ScrambleText text="pulse keeps the thread." />
+                <ScrambleText text="memory that knows what matters right now." />
               </h1>
               <p className="install-lede">
-                local-first memory for Claude Code and MCP hosts. what you tell
-                one agent, your other agents and sessions remember —{" "}
-                <em>structured memories, never raw transcripts</em>. one
-                command, no daemon, no API keys.
+                Pulse is a state-aware memory engine for agents: it retrieves
+                the right remembered episode for <em>this</em> moment — not the
+                closest text match — and shows <em>why</em> it surfaced.
+                local-first, <em>structured memories, never raw transcripts</em>.
               </p>
 
-              <div className="cmd-block" aria-label="zero-config install command">
-                <span className="cmd-label">install — the whole thing</span>
+              <div className="cmd-block" aria-label="Pulse Local Preview install">
+                <span className="cmd-label">
+                  install Pulse Local Preview — then pulse doctor, then pulse demo
+                </span>
                 <div className="cmd-row">
-                  <code>{zeroConfigCommand}</code>
-                  <CopyButton text={zeroConfigCommand} label="copy command" />
+                  <code>{localPreviewCommand}</code>
+                  <CopyButton text={localPreviewCommand} label="copy command" />
                 </div>
               </div>
 
@@ -173,9 +175,9 @@ export default function PreviewPage() {
               </div>
 
               <p className="status-line">
-                <span className="live">● live on npm</span> · v0.5.0 developer
-                preview · zero-config install · backend LLM off by default ·
-                raw capture off by default
+                <span className="live">● live on npm</span> · v0.6.0 developer
+                preview · doctor-gated demo, no fake results · backend LLM off
+                by default · raw capture off by default
               </p>
             </div>
 
@@ -243,16 +245,16 @@ export default function PreviewPage() {
               </ul>
             </article>
             <article>
-              <h3>full engine — optional upgrade</h3>
+              <h3>safe mode — fallback, not the product</h3>
               <ul>
-                <li>zero-config path uses a built-in lite store</li>
-                <li>retrieval engine, viewer, lifecycle hooks come with:</li>
+                <li>for machines that can&apos;t run the engine: structured local memory, inspect, wipe — keyword recall only</li>
+                <li>no benchmark claim applies to this mode, and pulse doctor will say so</li>
               </ul>
               <div className="mini-cmds">
                 <div className="cmd-block">
-                  <span className="cmd-label">requires Node 18+ and Claude Code CLI</span>
+                  <span className="cmd-label">requires only Node 18+</span>
                   <div className="cmd-row">
-                    <code>{fullEngineCommand}</code>
+                    <code>{safeModeCommand}</code>
                   </div>
                 </div>
               </div>
@@ -287,11 +289,13 @@ export default function PreviewPage() {
 
         <section className="evidence" id="proof">
           <h2 className="section-label">
-            <ScrambleText text="// first proof" />
+            <ScrambleText text="// what the demo proves" />
           </h2>
           <p className="install-lede">
-            the first two minutes should prove <em>continuity</em>, not teach
-            every feature. one memory, one fresh session, one viewer.
+            not &quot;it remembers across sessions&quot; — everyone has that.
+            the demo proves the part others don&apos;t show:{" "}
+            <em>same query, different state, different memory — with the
+            reason visible on every line.</em>
           </p>
           <ol className="proof-steps" aria-label="first proof checklist">
             {proofSteps.map((step) => (
@@ -309,12 +313,13 @@ export default function PreviewPage() {
 
         <section className="evidence" id="demo">
           <h2 className="section-label">
-            <ScrambleText text="// 90 seconds, nothing staged" />
+            <ScrambleText text="// the demo, recorded live" />
           </h2>
           <p className="install-lede">
-            a real run: the repo, the agent instruction, the one-command
-            install, an agent saving a thread — and a different session picking
-            it up.
+            a real run of <code>pulse demo</code> on the real engine (local
+            MLX embeddings): simulated labeled corpus seeds in, one question
+            runs in three user states, three different answers come back with
+            their reasons — then the continuity pack, then the wipe.
           </p>
           <video
             className="demo-video"

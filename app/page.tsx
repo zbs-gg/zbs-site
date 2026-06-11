@@ -24,8 +24,8 @@ export default function Page() {
         <a className="try-banner" href="/preview">
           <span className="try-banner-dot" aria-hidden="true" />
           <span>
-            Pulse MCP is live on npm — one command, no daemon, no API keys.{" "}
-            <b>Try it out →</b>
+            Pulse Local Preview is live — same question, different state,
+            different memory, with the reason. <b>Run the demo →</b>
           </span>
         </a>
 
@@ -174,11 +174,11 @@ export default function Page() {
               <a href="https://github.com/zbs-gg/pulse" target="_blank" rel="noopener">
                 <span className="proj-name"><ScrambleText text="Pulse" /></span>
                 <span className="proj-desc">
-                  empathic memory engine — Go + TS, MIT. now installable as a
-                  zero-config MCP server (npm: @zbs-gg/pulse): one command, and
-                  what you tell one agent your other agents remember.
-                  anchor-aware decay, conditional emotional and stateful boost
-                  signals, chain-expanded recall. multi-provider model layer.
+                  state-aware memory engine for agents — Go + TS, MIT. Local
+                  Preview on npm (@zbs-gg/pulse): doctor-gated install, seeded
+                  stateful demo — same query, different user state, different
+                  justified episode. anchor-aware decay, conditional emotional
+                  and stateful boosts, chain-expanded recall.
                 </span>
               </a>
             </li>
