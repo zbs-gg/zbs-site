@@ -23,6 +23,14 @@ export default function Page() {
       />
 
       <main className="page">
+        <a className="try-banner" href="/preview">
+          <span className="try-banner-dot" aria-hidden="true" />
+          <span>
+            Pulse MCP is live on npm — one command, no daemon, no API keys.{" "}
+            <b>Try it out →</b>
+          </span>
+        </a>
+
         <header className="topbar">
           <Brand />
 
@@ -38,6 +46,9 @@ export default function Page() {
             </a>
             <a href="https://github.com/zbs-gg/hearth" target="_blank" rel="noopener">
               <ScrambleText text="heart" />
+            </a>
+            <a href="/preview">
+              <ScrambleText text="install" />
             </a>
             <a href="/bench">
               <ScrambleText text="bench" />
@@ -108,6 +119,7 @@ export default function Page() {
           <MemoryTimeline />
 
           <p className="ev-note">
+            simulated memory corpus, illustrative — not anyone&apos;s real store.
             ◆ structural anchors stay bright. ● regular events fade.
             anchor-aware decay covers{" "}
             <HL tip="which past events stay vivid, which fade. user-flagged structural moments — breakups, breakthroughs, the call you couldn't take — keep weight indefinitely. regular noise decays on a schedule.">
@@ -164,10 +176,11 @@ export default function Page() {
               <a href="https://github.com/zbs-gg/pulse" target="_blank" rel="noopener">
                 <span className="proj-name"><ScrambleText text="Pulse" /></span>
                 <span className="proj-desc">
-                  empathic memory engine — Go, MIT. anchor-aware decay,
-                  conditional emotional and stateful boost signals,
-                  chain-expanded recall. multi-provider model layer (anthropic,
-                  openai, kimi, glm, local OAI-compatible).
+                  empathic memory engine — Go + TS, MIT. now installable as a
+                  zero-config MCP server (npm: @zbs-gg/pulse): one command, and
+                  what you tell one agent your other agents remember.
+                  anchor-aware decay, conditional emotional and stateful boost
+                  signals, chain-expanded recall. multi-provider model layer.
                 </span>
               </a>
             </li>
@@ -184,7 +197,7 @@ export default function Page() {
               <a href="#hero" aria-label="this site">
                 <span className="proj-name"><ScrambleText text="Garden.Live" /></span>
                 <span className="proj-desc">
-                  public landing + hosted Elle. shared root for the
+                  public landing. shared root for the
                   Pulse / Heart / Bench stack.
                 </span>
               </a>

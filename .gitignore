@@ -36,3 +36,6 @@ Thumbs.db
 # personal video assets — not licensed for redistribution
 public/elle-*.mp4
 public/*.mov
+
+# local backups
+/archive/

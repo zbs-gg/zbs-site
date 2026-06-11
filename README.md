@@ -30,6 +30,9 @@ npm run dev          # http://localhost:3000
 
 - `/` — landing (hero, evidence + interactive memory timeline, declared
   (Elle), manifesto, projects, contact)
+- `/preview` — Pulse MCP install page (zero-config command, agent install
+  prompt, 90s demo video, trust boundaries, wipe path)
+- `/bench` — benchmark leaderboard + method
 - `/dev` — live debug panel (sliders for every postfx uniform; `Copy JSON`
   exports the current preset)
 
