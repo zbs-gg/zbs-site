@@ -1173,3 +1173,50 @@ a:hover { opacity: 0.85; transition: opacity .2s; }
   .rc-lines div { grid-template-columns: 1fr; gap: 0.1rem; }
   .cmd-row .btn-ascii { width: 100%; text-align: left; }
 }
+
+/* --- hero prompt card (agent install prompt above the fold) --- */
+
+.hero-prompt {
+  display: flex;
+  flex-direction: column;
+  gap: 0.7rem;
+  min-width: 0;
+}
+
+.hero-prompt textarea {
+  width: 100%;
+  min-height: 300px;
+  resize: none;
+  font-family: var(--mono);
+  font-size: 0.72rem;
+  line-height: 1.45;
+  color: var(--fg);
+  background: color-mix(in srgb, var(--fg) 5%, transparent);
+  border: 1px solid color-mix(in srgb, var(--fg) 22%, transparent);
+  border-radius: 10px;
+  padding: 0.8rem;
+}
+
+.hero-prompt .rc-label {
+  margin: 0;
+}
+
+.hero-prompt-actions {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.8rem;
+  flex-wrap: wrap;
+}
+
+@media (max-width: 820px) {
+  .hero-prompt textarea {
+    min-height: 220px;
+  }
+}
+
+@media (max-width: 820px) {
+  .install-hero-grid {
+    grid-template-columns: 1fr;
+  }
+}

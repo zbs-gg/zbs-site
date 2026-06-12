@@ -157,23 +157,6 @@ export default function PreviewPage() {
                 </div>
               </div>
 
-              <div className="cmd-block" aria-label="agent install prompt">
-                <span className="cmd-label">
-                  or let your agent audit first — paste one prompt into Claude
-                  Code, Codex, or Cursor
-                </span>
-                <div className="cmd-row">
-                  <span className="cmd-note">
-                    safe-install walkthrough, confirmation before any write
-                  </span>
-                  <CopyButton
-                    text={agentPrompt}
-                    label="copy install prompt"
-                    doneLabel="prompt copied"
-                  />
-                </div>
-              </div>
-
               <p className="status-line">
                 <span className="live">● live on npm</span> · v0.6.0 developer
                 preview · doctor-gated demo, no fake results · backend LLM off
@@ -181,28 +164,17 @@ export default function PreviewPage() {
               </p>
             </div>
 
-            <aside className="resume-card" aria-label="what Pulse will tell Claude next">
-              <p className="rc-label">
-                what Pulse will tell Claude next — example after your first save
-              </p>
-              <h2>
-                <span className="heart">♥</span> pulse resume
-              </h2>
-              <div className="rc-lines">
-                <div>
-                  <b>where we left off</b>
-                  <span>No active thread yet.</span>
-                </div>
-                <div>
-                  <b>first memory</b>
-                  <span>You installed Pulse MCP and connected it to Claude Code.</span>
-                </div>
-                <div>
-                  <b>next</b>
-                  <span>Save one decision, then open a fresh session.</span>
-                </div>
+            <aside className="prompt-card hero-prompt" aria-label="agent install prompt">
+              <p className="rc-label">for your agent — paste this, it does the rest</p>
+              <textarea readOnly value={agentPrompt} aria-label="Pulse agent install prompt" />
+              <div className="hero-prompt-actions">
+                <CopyButton
+                  text={agentPrompt}
+                  label="copy install prompt"
+                  doneLabel="prompt copied"
+                />
+                <span className="cmd-note">audit first · confirmation before any write</span>
               </div>
-              <p className="rc-foot">stored locally / yours to inspect / yours to forget</p>
             </aside>
           </div>
         </section>
@@ -211,21 +183,12 @@ export default function PreviewPage() {
           <h2 className="section-label">
             <ScrambleText text="// install with your agent" />
           </h2>
-          <div className="prompt-card">
-            <p>
-              let your agent <em>audit Pulse before it installs anything</em>.
-              the agent reads the repo, shows the plan, asks confirmation,
-              installs, proves one memory, then shows wipe.
-            </p>
-            <textarea readOnly value={agentPrompt} aria-label="Pulse agent install prompt" />
-            <div>
-              <CopyButton
-                text={agentPrompt}
-                label="copy install prompt"
-                doneLabel="prompt copied"
-              />
-            </div>
-          </div>
+          <p className="install-lede">
+            the prompt at the top of this page makes your agent{" "}
+            <em>audit Pulse before it installs anything</em>: read the repo,
+            explain what gets written, ask confirmation, run doctor, then run
+            the demo — honestly.
+          </p>
 
           <div className="install-cols">
             <article>
@@ -295,7 +258,10 @@ export default function PreviewPage() {
             not &quot;it remembers across sessions&quot; — everyone has that.
             the demo proves the part others don&apos;t show:{" "}
             <em>same query, different state, different memory — with the
-            reason visible on every line.</em>
+            reason visible on every line.</em>{" "}
+            and friction is signal: a tense session, a hard week — Pulse reads
+            importance from the texture of your digital life, so you never
+            have to say &quot;this matters&quot; out loud.
           </p>
           <ol className="proof-steps" aria-label="first proof checklist">
             {proofSteps.map((step) => (

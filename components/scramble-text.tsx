@@ -88,9 +88,19 @@ export function ScrambleText({ text, speed = 30, autoplay = false, className }: 
       className={className}
       onPointerEnter={scramble}
       onFocus={scramble}
-      style={{ display: "inline-block" }}
+      // Layout-shift-proof: the final text (invisible) reserves the exact
+      // box; the animation paints in an absolute overlay. Scramble glyphs of
+      // any width can dance without moving a single neighbor.
+      style={{
+        display: "inline-block",
+        position: "relative",
+        verticalAlign: "bottom",
+      }}
     >
-      {display}
+      <span aria-hidden="true" style={{ visibility: "hidden" }}>
+        {text}
+      </span>
+      <span style={{ position: "absolute", inset: 0 }}>{display}</span>
     </span>
   );
 }
