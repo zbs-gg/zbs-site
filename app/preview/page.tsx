@@ -8,7 +8,7 @@ import Link from "next/link";
 export const metadata = {
   title: "install pulse — zbs.gg",
   description:
-    "Pulse MCP developer preview. Local-first memory for Claude Code and MCP hosts. One command, no daemon, no API keys. Structured memories, never raw transcripts.",
+    "Pulse MCP developer preview. Local-first memory for Claude Code and MCP hosts. One command, no daemon, no API keys. Structured memories; raw transcript capture is off by default.",
 };
 
 const localPreviewCommand = "npx @zbs-gg/pulse@preview init claude-code";
@@ -20,11 +20,11 @@ const agentPrompt = `Hi. Please check whether it is safe to install Pulse:
 ${repoUrl}
 
 Pulse is a local-first, state-aware memory engine for AI agents: structured
-memories, never raw transcripts, wipe always available.
+memories; raw transcript capture is off by default; wipe always available.
 
 1. Read README.md, AGENTS.md, and llms.txt (they are written for you).
 2. Verify the npm package: npm view @zbs-gg/pulse dist-tags
-   (preview should be 0.6.0 or newer).
+   (preview should be 0.6.3 or newer).
 3. Explain in plain words what an install writes and how to erase it.
 4. Ask me for confirmation.
 5. After confirmation, install the Local Preview:
@@ -144,7 +144,7 @@ export default function PreviewPage() {
                 Pulse is a state-aware memory engine for agents: it retrieves
                 the right remembered episode for <em>this</em> moment — not the
                 closest text match — and shows <em>why</em> it surfaced.
-                local-first, <em>structured memories, never raw transcripts</em>.
+                local-first, <em>structured memories; raw transcript capture off by default</em>.
               </p>
 
               <div className="cmd-block" aria-label="Pulse Local Preview install">
@@ -158,7 +158,7 @@ export default function PreviewPage() {
               </div>
 
               <p className="status-line">
-                <span className="live">● live on npm</span> · v0.6.0 developer
+                <span className="live">● live on npm</span> · v0.6.3 developer
                 preview · doctor-gated demo, no fake results · backend LLM off
                 by default · raw capture off by default
               </p>
@@ -259,9 +259,9 @@ export default function PreviewPage() {
             the demo proves the part others don&apos;t show:{" "}
             <em>same query, different state, different memory — with the
             reason visible on every line.</em>{" "}
-            and friction is signal: a tense session, a hard week — Pulse reads
-            importance from the texture of your digital life, so you never
-            have to say &quot;this matters&quot; out loud.
+            and friction is signal: a tense session, a hard week — when state
+            and salience signals are present, Pulse can rank which memory
+            matters now (shown in the demo on a labeled simulated corpus).
           </p>
           <ol className="proof-steps" aria-label="first proof checklist">
             {proofSteps.map((step) => (
