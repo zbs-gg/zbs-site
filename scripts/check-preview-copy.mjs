@@ -21,7 +21,7 @@ appearsBefore("npx @zbs-gg/pulse@preview init claude-code", "claude mcp add puls
 for (const required of [
   "https://github.com/zbs-gg/pulse",
   "npm view @zbs-gg/pulse dist-tags",
-  "0.6.0",
+  "0.6.3",
   "pulse doctor",
   "pulse demo",
   "pulse demo --clean",
@@ -32,7 +32,7 @@ for (const required of [
   "Ask me for confirmation",
   "claude mcp remove pulse",
   "rm -rf ~/.pulse/standalone",
-  "never raw transcripts",
+  "raw transcript capture is off by default",
   "/pulse-demo.mp4",
 ]) {
   assert.match(page, new RegExp(required.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")), `missing ${required}`);
