@@ -21,7 +21,7 @@ appearsBefore("npx @zbs-gg/pulse@preview init claude-code", "claude mcp add puls
 for (const required of [
   "https://github.com/zbs-gg/pulse",
   "npm view @zbs-gg/pulse dist-tags",
-  "0.6.3",
+  "0.6.4",
   "pulse doctor",
   "pulse demo",
   "pulse demo --clean",

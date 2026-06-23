@@ -24,7 +24,7 @@ memories; raw transcript capture is off by default; wipe always available.
 
 1. Read README.md, AGENTS.md, and llms.txt (they are written for you).
 2. Verify the npm package: npm view @zbs-gg/pulse dist-tags
-   (preview should be 0.6.3 or newer).
+   (preview should be 0.6.4 or newer).
 3. Explain in plain words what an install writes and how to erase it.
 4. Ask me for confirmation.
 5. After confirmation, install the Local Preview:
@@ -158,7 +158,7 @@ export default function PreviewPage() {
               </div>
 
               <p className="status-line">
-                <span className="live">● live on npm</span> · v0.6.3 developer
+                <span className="live">● live on npm</span> · v0.6.4 developer
                 preview · doctor-gated demo, no fake results · backend LLM off
                 by default · raw capture off by default
               </p>
