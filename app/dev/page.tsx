@@ -6,6 +6,7 @@ import type { AsciiPostFx } from "@/components/ascii-effect";
 
 type Settings = {
   src: string;
+  fallbackSrc: string;
   cellSize: number;
   invert: boolean;
   colorMode: boolean;
@@ -27,6 +28,7 @@ type Settings = {
 
 const DEFAULTS: Settings = {
   src: "/elle-1.mp4",
+  fallbackSrc: "/pulse-demo.mp4",
   cellSize: 9,
   invert: false,
   colorMode: false,
@@ -68,6 +70,7 @@ export default function DevPage() {
   const sceneProps = useMemo(
     () => ({
       src: s.src,
+      fallbackSrc: s.fallbackSrc,
       cellSize: s.cellSize,
       invert: s.invert,
       colorMode: s.colorMode,

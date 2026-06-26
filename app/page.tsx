@@ -11,6 +11,7 @@ export default function Page() {
     <>
       <ClientBg
         src="/elle-1.mp4"
+        fallbackSrc="/pulse-demo.mp4"
         cellSize={8}
         mouseGlowEnabled
         mouseGlowIntensity={0.32}
@@ -69,6 +70,20 @@ export default function Page() {
             <ScrambleText text="// what i have" />
           </h2>
           <ul className="ev-rows">
+            <li>
+              <span className="ev-key">Pulse Factual Bench</span>
+              <span className="ev-val">
+                latest real-extraction run, 2026-06-25:{" "}
+                <span className="holo">38 gold probes</span> over{" "}
+                <span className="holo">8 host-extracted docs</span>. primary
+                metric is judged answer accuracy from the same extracted event
+                texts: Pulse <span className="holo">21.1%</span> vs real Mem0{" "}
+                <span className="holo">23.7%</span>, bootstrap delta -2.6pp
+                (CI -7.9..0.0), <span className="holo">no significant difference</span>.
+                abstention stayed close (7/8 vs 8/8). verbatim recall@k is
+                diagnostic only because extraction paraphrases the source text.
+              </span>
+            </li>
             <li>
               <span className="ev-key">Empathic Memory Bench v3</span>
               <span className="ev-val">
@@ -206,7 +221,7 @@ export default function Page() {
                 <span className="proj-desc">
                   reproducible empathic-memory benchmark — corpus, queries,
                   judge prompts, agreement analysis, raw per-judge JSON.
-                  leaderboard live; source at <a href="https://github.com/zbs-gg/emo-bench" target="_blank" rel="noopener">zbs-gg/emo-bench</a>.
+                  leaderboard live; source at <em>zbs-gg/emo-bench</em>.
                 </span>
               </a>
             </li>

@@ -92,6 +92,7 @@ export default function PreviewPage() {
     <>
       <ClientBg
         src="/elle-2.mp4"
+        fallbackSrc="/pulse-demo.mp4"
         cellSize={8}
         mouseGlowEnabled
         mouseGlowIntensity={0.28}
