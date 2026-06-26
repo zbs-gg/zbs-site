@@ -4,8 +4,11 @@ import { fileURLToPath } from "node:url";
 import { dirname, join } from "node:path";
 
 const root = dirname(fileURLToPath(new URL("../package.json", import.meta.url)));
+const gitignore = readFileSync(join(root, ".gitignore"), "utf8");
 const page = readFileSync(join(root, "app/preview/page.tsx"), "utf8");
 const landing = readFileSync(join(root, "app/page.tsx"), "utf8");
+const bench = readFileSync(join(root, "app/bench/page.tsx"), "utf8");
+const asciiBg = readFileSync(join(root, "components/ascii-bg.tsx"), "utf8");
 
 function appearsBefore(earlier, later) {
   const a = page.indexOf(earlier);
@@ -66,5 +69,35 @@ for (const forbidden of [
   assert.doesNotMatch(landing, forbidden, `forbidden landing claim ${forbidden}`);
 }
 assert.match(landing, /simulated memory corpus/, "MemoryTimeline must be labeled simulated");
+assert.doesNotMatch(gitignore, /public\/elle-\*\.mp4/, "Elle background videos must be committed public assets");
+assert.doesNotMatch(asciiBg, /localHosts|preferFallback/, "Elle video must be the primary public background, fallback only handles load errors");
+assert.doesNotMatch(
+  landing,
+  /<span className="proj-name"><ScrambleText text="Emo\.Bench" \/><\/span>[\s\S]*<a href="https:\/\/github\.com\/zbs-gg\/emo-bench"/,
+  "landing must not nest the Emo.Bench GitHub link inside the /bench link",
+);
+
+for (const [name, source] of [
+  ["landing", landing],
+  ["preview", page],
+  ["bench", bench],
+]) {
+  assert.match(
+    source,
+    /src="\/elle-[12]\.mp4"[\s\S]*fallbackSrc="\/pulse-demo\.mp4"/,
+    `${name} Elle background must have deployed pulse-demo fallback`,
+  );
+}
+
+for (const required of [
+  "Pulse Factual Bench",
+  "38 gold probes",
+  "8 host-extracted docs",
+  "21.1%",
+  "23.7%",
+  "no significant difference",
+]) {
+  assert.match(landing, new RegExp(required.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")), `missing landing FFB result ${required}`);
+}
 
 console.log("preview copy checks passed");

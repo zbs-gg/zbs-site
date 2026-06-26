@@ -33,8 +33,7 @@ Thumbs.db
 # vercel
 .vercel
 
-# personal video assets — not licensed for redistribution
-public/elle-*.mp4
+# generated public video assets
 public/*.mov
 
 # local backups

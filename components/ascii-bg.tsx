@@ -4,6 +4,7 @@ import { useEffect, useRef } from "react";
 
 export type AsciiBgProps = {
   src: string;
+  fallbackSrc?: string;
   cellSize?: number;
   mouseGlowEnabled?: boolean;
   mouseGlowIntensity?: number;
@@ -27,6 +28,7 @@ const BG = "#050505";
 
 export default function AsciiBg({
   src,
+  fallbackSrc,
   cellSize = 8,
   mouseGlowEnabled = true,
   mouseGlowIntensity = 0.32,
@@ -49,7 +51,6 @@ export default function AsciiBg({
     if (!sctx) return;
 
     const video = document.createElement("video");
-    video.src = src;
     video.loop = true;
     video.muted = true;
     video.playsInline = true;
@@ -57,7 +58,20 @@ export default function AsciiBg({
     video.crossOrigin = "anonymous";
     video.preload = "auto";
     const tryPlay = () => video.play().catch(() => {});
-    tryPlay();
+    let triedFallback = false;
+    const setVideoSource = (nextSrc: string) => {
+      if (fallbackSrc && nextSrc === fallbackSrc) triedFallback = true;
+      video.src = nextSrc;
+      video.load();
+      tryPlay();
+    };
+    const onVideoError = () => {
+      if (!fallbackSrc || triedFallback || fallbackSrc === src) return;
+      triedFallback = true;
+      setVideoSource(fallbackSrc);
+    };
+    video.addEventListener("error", onVideoError);
+    setVideoSource(src);
     const wake = () => tryPlay();
     window.addEventListener("pointerdown", wake, { once: true });
 
@@ -199,6 +213,7 @@ export default function AsciiBg({
       window.removeEventListener("resize", resize);
       window.removeEventListener("pointermove", onMove);
       window.removeEventListener("pointerdown", wake);
+      video.removeEventListener("error", onVideoError);
       try {
         video.pause();
       } catch {}
@@ -207,6 +222,7 @@ export default function AsciiBg({
     };
   }, [
     src,
+    fallbackSrc,
     cellSize,
     mouseGlowEnabled,
     mouseGlowIntensity,

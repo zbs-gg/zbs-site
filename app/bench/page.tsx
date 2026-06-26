@@ -96,6 +96,7 @@ export default function BenchPage() {
     <>
       <ClientBg
         src="/elle-1.mp4"
+        fallbackSrc="/pulse-demo.mp4"
         cellSize={8}
         mouseGlowEnabled
         mouseGlowIntensity={0.28}
