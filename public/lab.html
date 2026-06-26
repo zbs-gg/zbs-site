@@ -1,0 +1,569 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Memory &amp; Context Lab — a lab for verifiable AI memory &amp; context</title>
+<meta name="description" content="A 4-week engineering lab where you build a verifiable memory layer for your AI and team. Lectures, practice, proof. Led by Nikita Shilov." />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Onest:wght@500;600;700;800&family=Golos+Text:wght@400;500;600&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet" />
+<style>
+:root{
+  --bg:#08090B;
+  --bg-2:#0D0F12;
+  --panel:#101317;
+  --panel-2:#14181D;
+  --card:#101216;
+  --fg:#ECEAE3;
+  --fg-2:#A4A096;
+  --fg-3:#67635B;
+  --line:rgba(236,234,227,.10);
+  --line-2:rgba(236,234,227,.055);
+  --accent:#8FB6FF;
+  --gold:#D8B25C;
+  --ok:#5FD2A0;
+  --holo:linear-gradient(108deg,#7df9ff 0%,#c084fc 34%,#ff9ad6 60%,#ffe27a 100%);
+  --disp:"Onest",system-ui,sans-serif;
+  --sans:"Golos Text",system-ui,sans-serif;
+  --mono:"JetBrains Mono",ui-monospace,monospace;
+  --maxw:1140px;
+  --gut:clamp(1.25rem,4vw,2.75rem);
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{
+  background:var(--bg);
+  color:var(--fg);
+  font-family:var(--sans);
+  font-size:clamp(16px,1.05vw,18px);
+  line-height:1.6;
+  -webkit-font-smoothing:antialiased;
+  text-rendering:optimizeLegibility;
+  overflow-x:hidden;
+}
+body::before{
+  content:"";position:fixed;inset:0;z-index:0;pointer-events:none;
+  background:
+    radial-gradient(80% 55% at 82% -8%,rgba(125,160,255,.07),transparent 60%),
+    radial-gradient(60% 50% at -5% 8%,rgba(216,178,92,.05),transparent 55%);
+}
+body::after{
+  content:"";position:fixed;inset:0;z-index:0;pointer-events:none;opacity:.5;mix-blend-mode:overlay;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.45'/%3E%3C/svg%3E");
+}
+::selection{background:var(--fg);color:var(--bg)}
+a{color:inherit;text-decoration:none}
+
+.holo{background:var(--holo);-webkit-background-clip:text;background-clip:text;color:transparent;-webkit-text-fill-color:transparent}
+.wrap{position:relative;z-index:1;max-width:var(--maxw);margin:0 auto;padding:0 var(--gut)}
+
+header.nav{position:sticky;top:0;z-index:40;transition:background .3s,box-shadow .3s,border-color .3s;border-bottom:1px solid transparent}
+header.nav.scrolled{background:rgba(8,9,11,.7);backdrop-filter:blur(14px) saturate(140%);-webkit-backdrop-filter:blur(14px) saturate(140%);border-bottom:1px solid var(--line)}
+.nav-row{display:flex;align-items:center;justify-content:space-between;gap:1.5rem;padding:.95rem 0}
+.brand{display:flex;flex-direction:column;line-height:1.18}
+.brand .bk{font-family:var(--mono);font-size:.6rem;letter-spacing:.26em;text-transform:uppercase;color:var(--fg-3)}
+.brand .bn{font-family:var(--disp);font-size:1.02rem;font-weight:700;letter-spacing:.005em}
+.nav-links{display:flex;align-items:center;gap:1.75rem;font-size:.82rem}
+.nav-links a{color:var(--fg-2);transition:color .2s}
+.nav-links a:hover{color:var(--fg)}
+.nav-links .navcta{font-family:var(--mono);font-size:.74rem;letter-spacing:.05em;text-transform:uppercase;color:var(--bg);background:var(--fg);padding:.6rem 1.05rem;border-radius:999px;transition:transform .2s,opacity .2s}
+.nav-links .navcta:hover{transform:translateY(-1px);opacity:.9}
+@media(max-width:760px){.nav-links a:not(.navcta){display:none}}
+
+section{position:relative;padding:clamp(3.6rem,8vw,6.5rem) 0}
+.eyebrow{display:flex;align-items:center;gap:.7rem;font-family:var(--mono);font-size:.72rem;letter-spacing:.18em;text-transform:uppercase;color:var(--fg-2);margin-bottom:1.4rem}
+.eyebrow .num{color:var(--gold)}
+.eyebrow .ln{height:1px;flex:1;background:var(--line);max-width:60px}
+h2.sec{font-family:var(--disp);font-weight:700;font-size:clamp(1.7rem,3.6vw,2.7rem);line-height:1.1;letter-spacing:-.02em;max-width:24ch}
+.sec-sub{color:var(--fg-2);font-size:1.05rem;max-width:64ch;margin-top:1rem}
+.divider{height:1px;background:var(--line);max-width:var(--maxw);margin:0 auto}
+
+.btn{display:inline-flex;align-items:center;gap:.55rem;font-family:var(--mono);font-size:.8rem;letter-spacing:.04em;padding:.92rem 1.5rem;border-radius:999px;border:1px solid transparent;cursor:pointer;transition:transform .2s,background .2s,border-color .2s,box-shadow .2s;text-transform:uppercase}
+.btn .arr{transition:transform .25s}
+.btn:hover .arr{transform:translateX(4px)}
+.btn-primary{background:var(--fg);color:var(--bg)}
+.btn-primary:hover{transform:translateY(-2px);box-shadow:0 16px 40px -16px rgba(236,234,227,.35)}
+.btn-ghost{background:transparent;color:var(--fg);border-color:var(--line)}
+.btn-ghost:hover{border-color:var(--fg);transform:translateY(-2px)}
+
+.hero{padding-top:clamp(3rem,7vw,5.5rem);padding-bottom:clamp(3rem,7vw,5rem)}
+.hero-kicker{font-family:var(--mono);font-size:.73rem;letter-spacing:.14em;text-transform:uppercase;color:var(--fg-2);margin-bottom:1.7rem;display:flex;flex-wrap:wrap;gap:.5rem .9rem;align-items:center}
+.hero-kicker .dot{width:5px;height:5px;border-radius:50%;background:var(--gold);display:inline-block}
+h1.hero-title{font-family:var(--disp);font-weight:800;font-size:clamp(2.4rem,6.2vw,4.5rem);line-height:1.04;letter-spacing:-.03em;max-width:19ch}
+.hero-lede{margin-top:1.7rem;font-size:clamp(1.08rem,1.5vw,1.3rem);line-height:1.55;color:var(--fg-2);max-width:58ch}
+.hero-lede b{color:var(--fg);font-weight:600}
+.hero-cta{margin-top:2.3rem;display:flex;flex-wrap:wrap;gap:.9rem}
+.hero-meta{margin-top:2.6rem;display:flex;flex-wrap:wrap;gap:1.6rem 2.4rem;padding-top:1.6rem;border-top:1px solid var(--line)}
+.hero-meta div{display:flex;flex-direction:column;gap:.25rem}
+.hero-meta .k{font-family:var(--mono);font-size:.68rem;letter-spacing:.12em;text-transform:uppercase;color:var(--fg-3)}
+.hero-meta .v{font-family:var(--disp);font-size:1.12rem;font-weight:600;color:var(--fg)}
+
+.lead-grid{display:grid;grid-template-columns:1fr;gap:2rem}
+.lead-big{font-family:var(--disp);font-weight:600;font-size:clamp(1.4rem,2.7vw,2rem);line-height:1.32;letter-spacing:-.02em}
+.lead-big .u{border-bottom:2px solid rgba(216,178,92,.5);padding-bottom:1px}
+.lead-body{color:var(--fg-2);font-size:1.05rem;max-width:66ch}
+.lead-body p+p{margin-top:1rem}
+
+.cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:1rem;margin-top:2.6rem}
+.card{position:relative;background:var(--card);border:1px solid var(--line);border-radius:14px;padding:1.6rem 1.5rem;transition:transform .3s,border-color .3s,background .3s}
+.card:hover{transform:translateY(-4px);border-color:rgba(236,234,227,.22);background:var(--panel)}
+.card .cnum{font-family:var(--mono);font-size:.74rem;color:var(--gold);letter-spacing:.08em;margin-bottom:.8rem}
+.card h3{font-family:var(--disp);font-weight:700;font-size:1.12rem;line-height:1.25;margin-bottom:.5rem;letter-spacing:-.01em}
+.card p{color:var(--fg-2);font-size:.95rem;line-height:1.55}
+
+.fixes{margin-top:2.4rem;border-top:1px solid var(--line)}
+.fix{display:grid;grid-template-columns:minmax(220px,.85fr) 1.4fr;gap:1rem 2.4rem;padding:1.5rem 0;border-bottom:1px solid var(--line);align-items:start}
+.fix .approach{font-family:var(--disp);font-style:italic;font-size:1.1rem;font-weight:500;color:var(--fg)}
+.fix .why{color:var(--fg-2);font-size:.98rem}
+.fix .why .x{font-family:var(--mono);color:var(--gold);font-size:.85em;margin-right:.5rem}
+@media(max-width:680px){.fix{grid-template-columns:1fr;gap:.45rem}}
+.fixes-note{margin-top:1.8rem;font-size:1.04rem;color:var(--fg);background:var(--panel);border:1px solid var(--line);border-left:2px solid var(--gold);border-radius:0 12px 12px 0;padding:1.2rem 1.4rem;max-width:74ch}
+.fixes-note b{color:var(--fg)}
+
+.format-band{background:linear-gradient(180deg,var(--panel-2),var(--panel));border:1px solid var(--line);border-radius:20px;padding:clamp(2rem,4vw,3.2rem);position:relative;overflow:hidden}
+.format-band::before{content:"";position:absolute;inset:0;pointer-events:none;background:radial-gradient(70% 60% at 90% 0%,rgba(125,160,255,.10),transparent 60%)}
+.flow{display:grid;grid-template-columns:repeat(3,1fr);gap:1rem;margin-top:2.4rem;position:relative}
+.flow-step{background:var(--bg-2);border:1px solid var(--line);border-radius:14px;padding:1.4rem;position:relative}
+.flow-step .fs-k{font-family:var(--mono);font-size:.7rem;letter-spacing:.13em;text-transform:uppercase;color:var(--accent);margin-bottom:.7rem}
+.flow-step h4{font-family:var(--disp);font-size:1.25rem;font-weight:700;margin-bottom:.4rem;color:var(--fg);letter-spacing:-.01em}
+.flow-step p{color:var(--fg-2);font-size:.92rem}
+.flow-step .fs-arrow{position:absolute;right:-.78rem;top:50%;transform:translateY(-50%);color:var(--gold);font-family:var(--mono);z-index:2}
+.flow-step:last-child .fs-arrow{display:none}
+@media(max-width:760px){.flow{grid-template-columns:1fr}.flow-step .fs-arrow{right:50%;top:auto;bottom:-1.1rem;transform:translateX(50%) rotate(90deg)}}
+.format-meta{display:flex;flex-wrap:wrap;gap:1.4rem 2.2rem;margin-top:2.2rem;padding-top:1.6rem;border-top:1px solid var(--line);font-family:var(--mono);font-size:.8rem;color:var(--fg-2);letter-spacing:.02em;position:relative}
+.format-meta b{color:var(--fg);font-weight:600}
+
+.weeks{margin-top:2.6rem;display:flex;flex-direction:column;gap:1rem}
+.week{display:grid;grid-template-columns:auto 1fr;gap:1.5rem;background:var(--card);border:1px solid var(--line);border-radius:14px;padding:1.7rem 1.6rem;transition:transform .3s,border-color .3s}
+.week:hover{transform:translateY(-3px);border-color:rgba(236,234,227,.2)}
+.week .wk-no{font-family:var(--disp);font-size:clamp(2.4rem,5vw,3.4rem);font-weight:800;color:transparent;-webkit-text-stroke:1.2px rgba(236,234,227,.3);line-height:.9;letter-spacing:-.04em}
+.week .wk-body h3{font-family:var(--disp);font-size:1.3rem;font-weight:700;margin-bottom:.9rem;letter-spacing:-.01em}
+.wk-lines{display:grid;gap:.6rem}
+.wk-line{display:grid;grid-template-columns:7.5rem 1fr;gap:1rem;align-items:baseline}
+.wk-line .wl-k{font-family:var(--mono);font-size:.72rem;letter-spacing:.07em;text-transform:uppercase;color:var(--accent)}
+.wk-line .wl-k.res{color:var(--gold)}
+.wk-line .wl-v{color:var(--fg-2);font-size:.97rem}
+.wk-line .wl-v b{color:var(--fg);font-weight:600}
+@media(max-width:620px){.week{grid-template-columns:1fr;gap:.7rem}.wk-line{grid-template-columns:1fr;gap:.1rem}.wk-line .wl-k{font-size:.66rem}}
+
+.proof-list{counter-reset:pf;margin-top:2.4rem;display:grid;gap:.2rem;max-width:64ch}
+.proof-list li{counter-increment:pf;list-style:none;display:grid;grid-template-columns:auto 1fr;gap:1.1rem;align-items:baseline;padding:1rem 0;border-top:1px solid var(--line);color:var(--fg-2)}
+.proof-list li::before{content:counter(pf,decimal-leading-zero);font-family:var(--mono);font-size:.8rem;color:var(--accent);font-weight:600}
+.proof-list li b{color:var(--fg);font-weight:600}
+.proof-list li.team::before{content:"+";color:var(--gold)}
+
+.tracks{display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin-top:2.6rem}
+@media(max-width:740px){.tracks{grid-template-columns:1fr}}
+.track{background:var(--panel);border:1px solid var(--line);border-radius:16px;padding:1.9rem 1.7rem}
+.track .tk-k{font-family:var(--mono);font-size:.72rem;letter-spacing:.13em;text-transform:uppercase;color:var(--gold);margin-bottom:.7rem}
+.track h3{font-family:var(--disp);font-size:1.4rem;font-weight:700;margin-bottom:.7rem;letter-spacing:-.01em}
+.track p{color:var(--fg-2);font-size:.99rem}
+
+.honest{background:var(--panel);border:1px solid var(--line);border-radius:20px;padding:clamp(1.8rem,4vw,2.8rem)}
+.honest-grid{display:grid;grid-template-columns:1fr 1fr;gap:1.2rem;margin-top:1.8rem}
+@media(max-width:680px){.honest-grid{grid-template-columns:1fr}}
+.stat{border:1px solid var(--line);border-radius:14px;padding:1.5rem;background:var(--bg-2)}
+.stat .st-k{font-family:var(--mono);font-size:.7rem;letter-spacing:.09em;text-transform:uppercase;color:var(--fg-3);margin-bottom:.8rem}
+.stat .st-v{font-family:var(--disp);font-size:clamp(2rem,5vw,2.9rem);font-weight:800;letter-spacing:-.03em;line-height:1;color:var(--fg)}
+.stat .st-d{margin-top:.8rem;font-size:.91rem;color:var(--fg-2)}
+.stat .st-d .mono{font-family:var(--mono);font-size:.84em;color:var(--fg)}
+.honest-foot{margin-top:1.6rem;font-size:.95rem;color:var(--fg-2);max-width:76ch}
+.honest-foot b{color:var(--fg)}
+
+.price-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1rem;margin-top:2.6rem;align-items:stretch}
+@media(max-width:840px){.price-grid{grid-template-columns:1fr}}
+.price{position:relative;display:flex;flex-direction:column;background:var(--card);border:1px solid var(--line);border-radius:16px;padding:1.9rem 1.6rem;transition:transform .3s,border-color .3s}
+.price:hover{transform:translateY(-4px);border-color:rgba(236,234,227,.2)}
+.price.feat{border-color:rgba(143,182,255,.5);background:linear-gradient(180deg,var(--panel),var(--card))}
+.price.feat::before{content:"for a team";position:absolute;top:-.8rem;left:1.6rem;font-family:var(--mono);font-size:.64rem;letter-spacing:.12em;text-transform:uppercase;color:var(--bg);background:var(--gold);padding:.32rem .7rem;border-radius:999px}
+.price .pk{font-family:var(--mono);font-size:.72rem;letter-spacing:.12em;text-transform:uppercase;color:var(--fg-3)}
+.price h3{font-family:var(--disp);font-size:1.4rem;font-weight:700;margin:.5rem 0 .2rem;letter-spacing:-.01em}
+.price .pdesc{color:var(--fg-2);font-size:.91rem;min-height:2.6em}
+.price .pamt{font-family:var(--disp);font-size:clamp(1.8rem,4vw,2.3rem);font-weight:800;letter-spacing:-.02em;margin:1.1rem 0 .2rem;color:var(--fg)}
+.price .pamt small{font-family:var(--mono);font-size:.42em;font-weight:500;color:var(--fg-3);letter-spacing:.04em}
+.price ul{list-style:none;margin:1.1rem 0 1.6rem;display:grid;gap:.55rem}
+.price li{font-size:.92rem;color:var(--fg-2);display:grid;grid-template-columns:auto 1fr;gap:.6rem;align-items:start}
+.price li::before{content:"—";color:var(--gold);font-family:var(--mono)}
+.price .btn{margin-top:auto;justify-content:center;width:100%}
+.price.feat .btn{background:var(--fg);color:var(--bg)}
+.price:not(.feat) .btn{background:transparent;color:var(--fg);border-color:var(--line)}
+.price:not(.feat) .btn:hover{border-color:var(--fg)}
+.guarantee{margin-top:1.6rem;display:flex;align-items:center;gap:.7rem;font-size:.93rem;color:var(--fg-2);font-family:var(--mono);letter-spacing:.01em}
+.guarantee .g-dot{width:9px;height:9px;border-radius:50%;background:var(--ok);box-shadow:0 0 0 4px rgba(95,210,160,.16)}
+
+.nogoals{margin-top:2.2rem;display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:.7rem}
+.nogoal{display:grid;grid-template-columns:auto 1fr;gap:.7rem;font-size:.95rem;color:var(--fg-2);padding:.9rem 0;border-top:1px solid var(--line)}
+.nogoal .ng-x{font-family:var(--mono);color:var(--fg-3)}
+
+.final{text-align:center;padding:clamp(4rem,9vw,7rem) 0}
+.final h2{font-family:var(--disp);font-weight:700;font-size:clamp(1.9rem,4.6vw,3.2rem);line-height:1.12;letter-spacing:-.025em;max-width:22ch;margin:0 auto}
+.final p{color:var(--fg-2);margin:1.3rem auto 0;max-width:50ch}
+.final .btn{margin-top:2.2rem}
+
+footer.foot{border-top:1px solid var(--line);background:var(--bg-2)}
+.foot-grid{display:grid;grid-template-columns:1.4fr 1fr 1fr 1fr;gap:1.6rem 2rem;padding:3rem 0 2.4rem}
+@media(max-width:760px){.foot-grid{grid-template-columns:1fr 1fr}}
+.foot-grid .ft-brand .bn{font-family:var(--disp);font-size:1.25rem;font-weight:700}
+.foot-grid .ft-brand p{color:var(--fg-2);font-size:.91rem;margin-top:.6rem;max-width:34ch}
+.foot-col .ft-k{font-family:var(--mono);font-size:.66rem;letter-spacing:.12em;text-transform:uppercase;color:var(--fg-3);margin-bottom:.7rem}
+.foot-col p{font-size:.91rem;color:var(--fg-2);margin:.15rem 0}
+.foot-col a{border-bottom:1px solid var(--line)}
+.foot-col a:hover{border-color:var(--fg)}
+.foot-base{display:flex;flex-wrap:wrap;justify-content:space-between;gap:1rem;padding:1.3rem 0;border-top:1px solid var(--line);font-family:var(--mono);font-size:.7rem;color:var(--fg-3);letter-spacing:.03em}
+
+.rv{opacity:0;transform:translateY(22px);transition:opacity .8s cubic-bezier(.2,.7,.2,1),transform .8s cubic-bezier(.2,.7,.2,1)}
+.rv.in{opacity:1;transform:none}
+.hero .rv{transition-duration:.9s}
+@media(prefers-reduced-motion:reduce){.rv{opacity:1;transform:none;transition:none}.btn,.card,.week,.price{transition:none}}
+</style>
+<noscript><style>.rv{opacity:1!important;transform:none!important}</style></noscript>
+</head>
+<body>
+
+<header class="nav" id="nav">
+  <div class="wrap nav-row">
+    <a class="brand" href="#top">
+      <span class="bk">ZBS GG · the lab</span>
+      <span class="bn">Memory &amp; Context Lab</span>
+    </a>
+    <nav class="nav-links">
+      <a href="#program">Program</a>
+      <a href="#format">How it runs</a>
+      <a href="#price">Pricing</a>
+      <a class="navcta" href="#price">Apply</a>
+    </nav>
+  </div>
+</header>
+
+<a id="top"></a>
+
+<section class="hero">
+  <div class="wrap">
+    <div class="hero-kicker rv">
+      <span>4 weeks</span><span class="dot"></span>
+      <span>small cohort</span><span class="dot"></span>
+      <span>lectures + practice</span><span class="dot"></span>
+      <span>led by Nikita Shilov</span>
+    </div>
+    <h1 class="hero-title rv">A memory layer you <span class="holo">check by hand</span> — not take on faith</h1>
+    <p class="hero-lede rv">You've already tried better prompts, a second brain, and "paste the whole history" — and every new chat still starts from zero. We take one real context failure, lock a baseline, and over 4 weeks build: <b>memory contract → context pack → trust checks → continuity proof</b>. No life-import — on your own data.</p>
+    <div class="hero-cta rv">
+      <a class="btn btn-primary" href="#price">Apply <span class="arr">→</span></a>
+      <a class="btn btn-ghost" href="#program">See the program</a>
+    </div>
+    <div class="hero-meta rv">
+      <div><span class="k">format</span><span class="v">The Lab</span></div>
+      <div><span class="k">duration</span><span class="v">4 weeks</span></div>
+      <div><span class="k">tracks</span><span class="v">Personal · Team</span></div>
+      <div><span class="k">finish</span><span class="v">Continuity proof</span></div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<section id="about">
+  <div class="wrap">
+    <div class="eyebrow rv"><span class="num">01</span><span>Why this</span><span class="ln"></span></div>
+    <div class="lead-grid">
+      <p class="lead-big rv">Every new chat starts from zero. You explain again who you are, what you're working on, and what's already decided. Decisions live in calls, the reasons behind them vanish, and <span class="u">summaries blend fact with guess</span> until you no longer know what to trust.</p>
+      <div class="lead-body rv">
+        <p>This isn't a bug in one model. It's the absence of a <b>memory layer</b> between you, your projects, your team, and your tools. Context leaks at every seam — between sessions, between people, between tools — and you pay for it in time and repeated mistakes.</p>
+        <p>The action layer is one thing; the memory layer is another — it holds decisions, their reasons, and continuity. Without it, every system has to be brought up to speed again each morning. This lab is about building that layer and proving it works.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="hidden" style="background:var(--bg-2)">
+  <div class="wrap">
+    <div class="eyebrow rv"><span class="num">02</span><span>The hidden problems</span><span class="ln"></span></div>
+    <h2 class="sec rv">You thought it was one problem. It's&nbsp;five.</h2>
+    <p class="sec-sub rv">"The AI forgets" is just the tip. Underneath it are five, and each costs more than the first.</p>
+    <div class="cards">
+      <div class="card rv"><div class="cnum">01</div><h3>A guess passed off as fact</h3><p>The AI answers smoothly and convincingly — but you can't see where your words end and its invention begins. You decide on a blend of truth and plausibility.</p></div>
+      <div class="card rv"><div class="cnum">02</div><h3>A blind handoff</h3><p>Before it answers, you can't see what it's leaning on. What made it into its "head" and what didn't stays unknown until it's too late.</p></div>
+      <div class="card rv"><div class="cnum">03</div><h3>Corrections don't stick</h3><p>You fix it — and next session the same mistake, as if the conversation never happened. The correction never becomes memory.</p></div>
+      <div class="card rv"><div class="cnum">04</div><h3>"Deleted" comes back</h3><p>You thought you removed it from context, and it resurfaces in answers. Between "forget" and "actually erase" lies a gulf.</p></div>
+      <div class="card rv"><div class="cnum">05</div><h3>The reason is lost in a team</h3><p>"We chose this" survives; "why exactly" does not. A strong person's expertise dies in their chats, and the next hire starts with archaeology.</p></div>
+    </div>
+  </div>
+</section>
+
+<section id="fixes">
+  <div class="wrap">
+    <div class="eyebrow rv"><span class="num">03</span><span>Why the usual fixes don't work</span><span class="ln"></span></div>
+    <h2 class="sec rv">How people usually try to solve it</h2>
+    <p class="sec-sub rv">You've probably tried some of these. Here's why none of them closed the problem.</p>
+    <div class="fixes">
+      <div class="fix rv"><div class="approach">"Just write better prompts"</div><div class="why"><span class="x">✕</span>A prompt is a one-shot instruction, not memory. However well you tune it, every session you explain yourself again. It improves one answer and remembers nothing of the next.</div></div>
+      <div class="fix rv"><div class="approach">"Put everything in a second brain"</div><div class="why"><span class="x">✕</span>An archive where everything is filed and nothing is found. It stores documents, not state and decisions. The AI doesn't go there itself and doesn't know what's still current.</div></div>
+      <div class="fix rv"><div class="approach">"Paste the whole history into context"</div><div class="why"><span class="x">✕</span>Noise and cost. The model still blends fact with guess; what you pasted has no source and no way to correct. The more you paste, the less you can trust it.</div></div>
+      <div class="fix rv"><div class="approach">"RAG over all chats, auto-import"</div><div class="why"><span class="x">✕</span>It retrieves the plausibly-wrong, confidently. Nothing is reviewed, private things leak into shared context, and without review and expiry it easily drags up the stale.</div></div>
+      <div class="fix rv"><div class="approach">"The assistant's built-in memory"</div><div class="why"><span class="x">✕</span>Often opaque: hard to inspect, correct, or set an expiry. And it travels poorly between tools — switch models and you start almost from scratch.</div></div>
+    </div>
+    <p class="fixes-note rv">What's missing isn't another store. It's a <b>verifiable layer</b> — where every fact has a source, a status (fact or hypothesis), and a lifespan, and you can inspect it before it's passed, correct it, and delete it.</p>
+  </div>
+</section>
+
+<section id="format">
+  <div class="wrap">
+    <div class="format-band rv">
+      <div class="eyebrow"><span class="num">04</span><span>How the lab runs</span><span class="ln"></span></div>
+      <h2 class="sec">Not webinars for show. Lecture → practice → result.</h2>
+      <p class="sec-sub">Each week: one lecture with the method, one hands-on clinic on your real material, and async review of artifacts between sessions. You don't listen about memory — you build it.</p>
+      <div class="flow">
+        <div class="flow-step"><div class="fs-k">step 1 · theory</div><h4>Lecture</h4><p>The week's method: concepts, boundaries, how to tell fact from decision, hypothesis, and the personal. One live session.</p><span class="fs-arrow">→</span></div>
+        <div class="flow-step"><div class="fs-k">step 2 · hands-on</div><h4>Practice</h4><p>A clinic on your case: you build the layer on your own data while the lead reviews your system live.</p><span class="fs-arrow">→</span></div>
+        <div class="flow-step"><div class="fs-k">step 3 · artifact</div><h4>Result</h4><p>Every week ends with an artifact in hand, not a topic. Async review between sessions.</p></div>
+      </div>
+      <div class="format-meta">
+        <span><b>1 lecture</b> per week</span>
+        <span><b>1 clinic</b> of practice per week</span>
+        <span><b>async review</b> of your artifacts</span>
+        <span><b>small cohort</b> — personal attention</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="program" style="background:var(--bg-2)">
+  <div class="wrap">
+    <div class="eyebrow rv"><span class="num">05</span><span>Week by week</span><span class="ln"></span></div>
+    <h2 class="sec rv">Four weeks — four artifacts</h2>
+    <div class="weeks">
+      <div class="week rv">
+        <div class="wk-no">01</div>
+        <div class="wk-body">
+          <h3>Memory Contract</h3>
+          <div class="wk-lines">
+            <div class="wk-line"><span class="wl-k">Lecture</span><span class="wl-v">What deserves memory and what must never be stored. Separate fact, decision, interpretation, hypothesis, and the personal. Access boundaries and lifespan.</span></div>
+            <div class="wk-line"><span class="wl-k">Practice</span><span class="wl-v">You take a real context failure, write your memory contract, and find where your current system breaks.</span></div>
+            <div class="wk-line"><span class="wl-k res">Result</span><span class="wl-v"><b>Memory contract + a baseline test</b> your system predictably fails.</span></div>
+          </div>
+        </div>
+      </div>
+      <div class="week rv">
+        <div class="wk-no">02</div>
+        <div class="wk-body">
+          <h3>Context Architecture</h3>
+          <div class="wk-lines">
+            <div class="wk-line"><span class="wl-k">Lecture</span><span class="wl-v">The path source → review → memory → retrieval → next-AI context. Structure for active threads, decisions, constraints, and continuity packs. One stack, not a zoo.</span></div>
+            <div class="wk-line"><span class="wl-k">Practice</span><span class="wl-v">You assemble the first context pack and a working path into a live AI session on your own stack.</span></div>
+            <div class="wk-line"><span class="wl-k res">Result</span><span class="wl-v"><b>First continuity pack</b> and a working path into the AI.</span></div>
+          </div>
+        </div>
+      </div>
+      <div class="week rv">
+        <div class="wk-no">03</div>
+        <div class="wk-body">
+          <h3>Trust &amp; Correction</h3>
+          <div class="wk-lines">
+            <div class="wk-line"><span class="wl-k">Lecture</span><span class="wl-v">A source on every claim. Fact vs hypothesis. Inspect what's passed, correct it, version conflict, expiry, delete / wipe / disconnect.</span></div>
+            <div class="wk-line"><span class="wl-k">Practice</span><span class="wl-v">You add sources and statuses, and verify correction and deletion on your own layer.</span></div>
+            <div class="wk-line"><span class="wl-k res">Result</span><span class="wl-v"><b>The memory stops being a black box.</b></span></div>
+          </div>
+        </div>
+      </div>
+      <div class="week rv">
+        <div class="wk-no">04</div>
+        <div class="wk-body">
+          <h3>Continuity Proof</h3>
+          <div class="wk-lines">
+            <div class="wk-line"><span class="wl-k">Lecture</span><span class="wl-v">What counts as proof of transfer. How acceptance checks are built so it's reproducible, not "pretty in a demo".</span></div>
+            <div class="wk-line"><span class="wl-k">Practice</span><span class="wl-v">You run four checks live (a fifth for teams).</span></div>
+            <div class="wk-line"><span class="wl-k res">Result</span><span class="wl-v"><b>A recorded continuity proof</b> — not a presentation.</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="proof">
+  <div class="wrap">
+    <div class="eyebrow rv"><span class="num">06</span><span>What you keep</span><span class="ln"></span></div>
+    <h2 class="sec rv">Proof, not a presentation</h2>
+    <p class="sec-sub rv">The lab ends in checks that either pass or don't — live, in front of you.</p>
+    <ol class="proof-list rv">
+      <li><b>A fresh session</b> recalls the right reviewed context.</li>
+      <li>You see <b>exactly what was passed</b> — and what was left out.</li>
+      <li><b>A correction</b> changes the next answer.</li>
+      <li><b>Deletion</b> removes the record from the working layer; we verify it with a new session.</li>
+      <li class="team">(Team) a new person or agent reconstructs a decision, its reason, and its status — <b>without the founder retelling it</b>.</li>
+    </ol>
+  </div>
+</section>
+
+<section id="tracks" style="background:var(--bg-2)">
+  <div class="wrap">
+    <div class="eyebrow rv"><span class="num">07</span><span>Who it's for</span><span class="ln"></span></div>
+    <h2 class="sec rv">Two tracks, one core</h2>
+    <div class="tracks">
+      <div class="track rv">
+        <div class="tk-k">Personal Memory</div>
+        <h3>For one person</h3>
+        <p>Founders, researchers, writers, designers, developers with long projects. You stop re-introducing every AI tool to your context; you get a reviewed layer of decisions, preferences, do-not-repeat warnings, and proof it carries across models.</p>
+      </div>
+      <div class="track rv">
+        <div class="tk-k">Team Memory</div>
+        <h3>For a team</h3>
+        <p>Product, research, and leadership teams. The core value is <b>Expertise Continuity</b>: a strong expert's confirmed edits and decisions become verifiable context for the next person or AI — not a shared second brain nobody opens.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="honest">
+  <div class="wrap">
+    <div class="eyebrow rv"><span class="num">08</span><span>Honest</span><span class="ln"></span></div>
+    <div class="honest rv">
+      <h2 class="sec">What it stands on — with both numbers</h2>
+      <p class="sec-sub">The method didn't grow from theory but from actually <b>measuring</b> memory. And we show both sides of every number. The measurement: 100 deterministic probes · 60 events · 1 user · our own eval harness — not a leaderboard and not team validation:</p>
+      <div class="honest-grid">
+        <div class="stat">
+          <div class="st-k">our harness · stateful axis</div>
+          <div class="st-v">0.419</div>
+          <div class="st-d">Recall@3 on the stateful axis <span class="mono">(100 probes)</span> against state-aware baselines <span class="mono">(cosine_state 0.314, hybrid_state 0.219)</span>. Same question, different state — a different memory needed. One run, one user — not a leaderboard.</div>
+        </div>
+        <div class="stat">
+          <div class="st-k">where we trail — overall</div>
+          <div class="st-v">0.420&nbsp;<span style="color:var(--fg-3);font-size:.6em">vs</span>&nbsp;0.416</div>
+          <div class="st-d">On the overall metric plain cosine beats us. <span class="mono">0.420 vs 0.416</span> — and we say so plainly.</div>
+        </div>
+      </div>
+      <p class="honest-foot rv">The honest promise: we know how to <b>design and verify the transfer of state and context</b> and we show it with a number on our own harness (stateful axis, n=1) — not "our memory is best at everything". Behind the method: a 12-month single-user deployment and our own benchmark; a founder-led case study, not validation across hundreds of teams. That's exactly why we teach the discipline rather than sell magic.</p>
+    </div>
+  </div>
+</section>
+
+<section id="price" style="background:var(--bg-2)">
+  <div class="wrap">
+    <div class="eyebrow rv"><span class="num">09</span><span>Pricing</span><span class="ln"></span></div>
+    <h2 class="sec rv">Pick a format</h2>
+    <p class="sec-sub rv">Prices are fixed below. Entry starts with one reproducible context failure.</p>
+    <div class="price-grid">
+      <div class="price rv">
+        <div class="pk">Personal</div>
+        <h3>Open cohort</h3>
+        <div class="pdesc">One seat in an open cohort. You leave with a recorded continuity proof on your own data, not notes.</div>
+        <div class="pamt">$790 <small>/ seat</small></div>
+        <ul>
+          <li>4 weeks · lectures + clinics</li>
+          <li>async review of your artifacts</li>
+          <li>Personal track</li>
+          <li>final continuity proof</li>
+        </ul>
+        <a class="btn" href="mailto:team@zbs.gg?subject=Memory%20and%20Context%20Lab%20%E2%80%94%20Personal">Book a seat</a>
+      </div>
+      <div class="price feat rv">
+        <div class="pk">Team</div>
+        <h3>Private cohort</h3>
+        <div class="pdesc">A closed cohort for one team, up to ~12 people. Team track, Expertise Continuity.</div>
+        <div class="pamt">from $6,900 <small>/ cohort</small></div>
+        <ul>
+          <li>everything in Personal, for a team</li>
+          <li>expertise transfer across roles</li>
+          <li>the 5th transfer check for teams</li>
+          <li>a bridge to a bespoke rollout</li>
+        </ul>
+        <a class="btn" href="mailto:team@zbs.gg?subject=Memory%20and%20Context%20Lab%20%E2%80%94%20Team">Talk about a cohort</a>
+      </div>
+      <div class="price rv">
+        <div class="pk">Bespoke</div>
+        <h3>Audit + rollout</h3>
+        <div class="pdesc">Done-with-you: we work through your process on your data and build a verifiable memory layer for your team.</div>
+        <div class="pamt">on request</div>
+        <ul>
+          <li>a process audit on your data</li>
+          <li>a verifiable memory layer for the team</li>
+          <li>you frame the hypotheses for your process — we bring the discipline to test them</li>
+          <li>monthly support</li>
+        </ul>
+        <a class="btn" href="mailto:team@zbs.gg?subject=Memory%20and%20Context%20Lab%20%E2%80%94%20Bespoke">Request a quote</a>
+      </div>
+    </div>
+    <div class="guarantee rv"><span class="g-dot"></span><span>After a preflight we lock a baseline and an acceptance criterion. If week 1 doesn't reproduce the baseline failure — we refund. No reproducible failure — you don't need the lab.</span></div>
+  </div>
+</section>
+
+<section id="not">
+  <div class="wrap">
+    <div class="eyebrow rv"><span class="num">10</span><span>Boundaries</span><span class="ln"></span></div>
+    <h2 class="sec rv">What this is not</h2>
+    <div class="nogoals">
+      <div class="nogoal rv"><span class="ng-x">✕</span><span>Not a "build an agent" or "automate your processes" course.</span></div>
+      <div class="nogoal rv"><span class="ng-x">✕</span><span>Not a "smart Notion" or one more place for notes.</span></div>
+      <div class="nogoal rv"><span class="ng-x">✕</span><span>Not "import your whole life, it figures itself out".</span></div>
+      <div class="nogoal rv"><span class="ng-x">✕</span><span>Not a promise that "the AI knows you" or "never forgets".</span></div>
+      <div class="nogoal rv"><span class="ng-x">✕</span><span>Not therapeutic or behavioural conclusions about your team.</span></div>
+      <div class="nogoal rv"><span class="ng-x">✕</span><span>Not "100% automation" — a verifiable layer you can trust.</span></div>
+    </div>
+  </div>
+</section>
+
+<section class="final" id="cta">
+  <div class="wrap">
+    <div class="eyebrow rv" style="justify-content:center"><span class="num">→</span><span>Entry</span></div>
+    <h2 class="rv">When did your AI last make you <span class="holo">explain everything from scratch?</span></h2>
+    <p class="rv">Take one real case of lost context — that's where we start. Not with a data import, but with one question.</p>
+    <a class="btn btn-primary rv" href="mailto:team@zbs.gg?subject=Memory%20and%20Context%20Lab%20%E2%80%94%20application">We'll work through one of your cases — no data import <span class="arr">→</span></a>
+  </div>
+</section>
+
+<footer class="foot">
+  <div class="wrap">
+    <div class="foot-grid">
+      <div class="foot-col ft-brand">
+        <div class="bn">Memory &amp; Context Lab</div>
+        <p>A lab for verifiable memory and context — for personal AI systems and team second brains.</p>
+      </div>
+      <div class="foot-col">
+        <div class="ft-k">Apply</div>
+        <p><a href="mailto:team@zbs.gg">team@zbs.gg</a></p>
+        <p>one real context failure</p>
+      </div>
+      <div class="foot-col">
+        <div class="ft-k">Led by</div>
+        <p>Nikita Shilov</p>
+        <p>method author · runs the lab</p>
+      </div>
+      <div class="foot-col">
+        <div class="ft-k">Entity</div>
+        <p>ZBS GG LLC</p>
+        <p>Delaware, USA</p>
+      </div>
+    </div>
+    <div class="foot-base">
+      <span>© 2026 Memory &amp; Context Lab · ZBS GG LLC</span>
+      <span>Memory you can verify, correct, and forget.</span>
+    </div>
+  </div>
+</footer>
+
+<script>
+(function(){
+  var nav=document.getElementById('nav');
+  var onScroll=function(){ if(window.scrollY>12) nav.classList.add('scrolled'); else nav.classList.remove('scrolled'); };
+  onScroll(); window.addEventListener('scroll',onScroll,{passive:true});
+  var reduce=window.matchMedia&&window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var rv=document.querySelectorAll('.rv');
+  if(reduce||!('IntersectionObserver'in window)){ rv.forEach(function(el){el.classList.add('in');}); return; }
+  var hero=document.querySelectorAll('.hero .rv');
+  hero.forEach(function(el,i){ setTimeout(function(){el.classList.add('in');}, 90*i+80); });
+  var io=new IntersectionObserver(function(entries){
+    entries.forEach(function(e){
+      if(e.isIntersecting){
+        var sibs=e.target.parentNode?e.target.parentNode.querySelectorAll(':scope > .rv'):[e.target];
+        var idx=Array.prototype.indexOf.call(sibs,e.target);
+        e.target.style.transitionDelay=(Math.max(0,idx)*70)+'ms';
+        e.target.classList.add('in'); io.unobserve(e.target);
+      }
+    });
+  },{threshold:.14,rootMargin:'0px 0px -8% 0px'});
+  rv.forEach(function(el){ if(!el.closest('.hero')) io.observe(el); });
+})();
+</script>
+</body>
+</html>
