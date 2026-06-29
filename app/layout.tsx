@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { ClickWipe } from "@/components/click-wipe";
+import { EasterEggs } from "@/components/site/easter-eggs";
 import "./globals.css";
 
 const TITLE = "ZBS GG — memory that knows what matters";
@@ -66,6 +67,7 @@ export default function RootLayout({
     <html lang="en">
       <body>
         <ClickWipe />
+        <EasterEggs />
         {children}
       </body>
     </html>
