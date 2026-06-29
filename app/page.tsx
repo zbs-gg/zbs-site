@@ -46,6 +46,9 @@ export default function Page() {
             <a href="https://github.com/zbs-gg/hearth" target="_blank" rel="noopener">
               <ScrambleText text="heart" />
             </a>
+            <a href="/eye">
+              <ScrambleText text="eye" />
+            </a>
             <a href="/preview">
               <ScrambleText text="install" />
             </a>
@@ -203,6 +206,16 @@ export default function Page() {
                 <span className="proj-desc">
                   state-aware chat companion built on Pulse — TS, MIT.
                   self-hosted reference client.
+                </span>
+              </a>
+            </li>
+            <li>
+              <a href="/eye">
+                <span className="proj-name"><ScrambleText text="Eye" /></span>
+                <span className="proj-desc">
+                  the eye — macOS eternal memory: it records your screen +
+                  audio, on-device, and remembers everything. 100% local,
+                  notarized, not in the App Store. Swift.
                 </span>
               </a>
             </li>

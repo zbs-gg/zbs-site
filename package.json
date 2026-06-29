@@ -6,7 +6,8 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "test:preview": "node scripts/check-preview-copy.mjs"
+    "test:preview": "node scripts/check-preview-copy.mjs",
+    "verify": "tsc --noEmit && node scripts/check-preview-copy.mjs && next build"
   },
   "dependencies": {
     "next": "^15.1.6",
