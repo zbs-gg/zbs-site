@@ -28,11 +28,11 @@ export default function EyePage() {
         fallbackSrc="/pulse-demo.mp4"
         cellSize={8}
         mouseGlowEnabled
-        mouseGlowIntensity={0.28}
+        mouseGlowIntensity={0.16}
         mouseGlowRadius={200}
-        contrastAdjust={1.25}
-        brightnessAdjust={-0.05}
-        vignetteIntensity={0.7}
+        contrastAdjust={1.0}
+        brightnessAdjust={-0.24}
+        vignetteIntensity={0.85}
       />
 
       <main className="page">

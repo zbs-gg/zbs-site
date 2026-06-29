@@ -118,17 +118,23 @@ export function EyeHero() {
           fontSize: "0.95rem",
           letterSpacing: "0.02em",
           lineHeight: 1.6,
-          color: "var(--fg-dim)",
+          color: "var(--fg)",
           margin: "0 0 1.2rem",
           textShadow:
-            "0 0 14px var(--bg), 0 0 8px var(--bg), 0 0 3px var(--bg), 0 0 2px var(--bg)",
+            "0 0 16px var(--bg), 0 0 10px var(--bg), 0 0 5px var(--bg), 0 0 2px var(--bg)",
         }}
       >
         it sees everything. <span className="holo">it remembers everything.</span>{" "}
         and it all stays with you.
       </p>
 
-      <p className="status-line">
+      <p
+        className="status-line"
+        style={{
+          textShadow:
+            "0 0 16px var(--bg), 0 0 10px var(--bg), 0 0 5px var(--bg), 0 0 2px var(--bg)",
+        }}
+      >
         <span className="live">● shipped &amp; notarized</span> · Developer ID
         build · macOS 15+ · Apple Silicon · 100% local · not in the Mac App
         Store (by design)
