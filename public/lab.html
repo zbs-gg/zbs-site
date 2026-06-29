@@ -3,507 +3,665 @@
 <head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>Memory &amp; Context Lab — memory that surfaces when it matters</title>
-<meta name="description" content="A 4-week lab for builders on Claude Code, Kilo Code, OpenCode and Codex. You installed every skill, MCP and embedder — and the right memory still doesn't surface. We tune a memory layer that improves with you and your team. Led by Nikita Shilov." />
+<title>Memory &amp; Context Lab — one memory for the whole team</title>
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-<link href="https://fonts.googleapis.com/css2?family=Onest:wght@500;600;700;800&family=Golos+Text:wght@400;500;600&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet" />
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
 <style>
 :root{
-  --bg:#08090B;--bg-2:#0D0F12;--panel:#101317;--panel-2:#14181D;--card:#101216;
-  --fg:#ECEAE3;--fg-2:#A4A096;--fg-3:#67635B;
-  --line:rgba(236,234,227,.10);--line-2:rgba(236,234,227,.055);
-  --accent:#8FB6FF;--gold:#D8B25C;--ok:#5FD2A0;--bad:#E68A8A;
-  --holo:linear-gradient(108deg,#7df9ff 0%,#c084fc 34%,#ff9ad6 60%,#ffe27a 100%);
-  --disp:"Onest",system-ui,sans-serif;--sans:"Golos Text",system-ui,sans-serif;--mono:"JetBrains Mono",ui-monospace,monospace;
-  --maxw:1140px;--gut:clamp(1.25rem,4vw,2.75rem);
+  --fg:#f5f5f5;--dim:rgba(245,245,245,.6);--faint:rgba(245,245,245,.34);--bg:#050505;
+  --rule:rgba(245,245,245,.12);--rule2:rgba(245,245,245,.06);
+  --mono:"JetBrains Mono",ui-monospace,monospace;--sans:"Inter",system-ui,sans-serif;
+  --auth:#7df9ff;--gtm:#c084fc;--posts:#ff9ad6;--arch:#ffe27a;--priv:#8a8f98;
+  --frus:#ff7a7a;--stress:#ffb24d;--focus:#7df9ff;--ship:#6fe3a5;
+  --holo:linear-gradient(110deg,#7df9ff,#c084fc 32%,#ff9ad6 58%,#ffe27a 82%);
 }
 *{box-sizing:border-box;margin:0;padding:0}
-html{scroll-behavior:smooth}
-body{background:var(--bg);color:var(--fg);font-family:var(--sans);font-size:clamp(16px,1.05vw,18px);line-height:1.6;-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility;overflow-x:hidden}
-body::before{content:"";position:fixed;inset:0;z-index:0;pointer-events:none;background:radial-gradient(80% 55% at 82% -8%,rgba(125,160,255,.07),transparent 60%),radial-gradient(60% 50% at -5% 8%,rgba(216,178,92,.05),transparent 55%)}
-body::after{content:"";position:fixed;inset:0;z-index:0;pointer-events:none;opacity:.5;mix-blend-mode:overlay;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.45'/%3E%3C/svg%3E")}
-::selection{background:var(--fg);color:var(--bg)}
-a{color:inherit;text-decoration:none}
+body{background:var(--bg);color:var(--fg);font-family:var(--sans);-webkit-font-smoothing:antialiased;overflow-x:hidden}
 .holo{background:var(--holo);-webkit-background-clip:text;background-clip:text;color:transparent;-webkit-text-fill-color:transparent}
-.wrap{position:relative;z-index:1;max-width:var(--maxw);margin:0 auto;padding:0 var(--gut)}
+.wrap{max-width:1160px;margin:0 auto;padding:0 clamp(1.15rem,4vw,2.5rem)}
+body::before{content:"";position:fixed;inset:0;pointer-events:none;background:radial-gradient(70% 50% at 80% -8%,rgba(125,249,255,.05),transparent 60%),radial-gradient(55% 45% at -5% 10%,rgba(192,132,252,.045),transparent 55%)}
 
-header.nav{position:sticky;top:0;z-index:40;background:rgba(8,9,11,.72);backdrop-filter:blur(14px) saturate(140%);-webkit-backdrop-filter:blur(14px) saturate(140%);border-bottom:1px solid var(--line)}
-.nav-row{display:flex;align-items:center;justify-content:space-between;gap:1.5rem;padding:.9rem 0}
-.brand{display:flex;flex-direction:column;line-height:1.18}
-.brand .bk{font-family:var(--mono);font-size:.6rem;letter-spacing:.26em;text-transform:uppercase;color:var(--fg-3)}
-.brand .bn{font-family:var(--disp);font-size:1.02rem;font-weight:700}
-.nav-links{display:flex;align-items:center;gap:1.6rem;font-size:.82rem}
-.nav-links a{color:var(--fg-2);transition:color .2s}.nav-links a:hover{color:var(--fg)}
-.nav-links .navcta{font-family:var(--mono);font-size:.74rem;letter-spacing:.05em;text-transform:uppercase;color:var(--bg);background:var(--fg);padding:.55rem 1rem;border-radius:999px}
-@media(max-width:780px){.nav-links a:not(.navcta){display:none}}
+header{border-bottom:1px solid var(--rule2)}
+.bar{display:flex;justify-content:space-between;align-items:center;padding:.9rem 0;font-family:var(--mono)}
+.bar .b1{font-size:.58rem;letter-spacing:.24em;text-transform:uppercase;color:var(--faint)}
+.bar .b2{font-size:.85rem;letter-spacing:.16em}
+.bar nav{display:flex;gap:1.3rem;font-size:.78rem;color:var(--dim)}
+.bar nav a.cta{color:var(--bg);background:var(--fg);padding:.45rem .9rem;border-radius:3px}
+@media(max-width:760px){.bar nav a:not(.cta){display:none}}
 
-section{position:relative;padding:clamp(3.4rem,7vw,6rem) 0}
-.eyebrow{display:flex;align-items:center;gap:.7rem;font-family:var(--mono);font-size:.72rem;letter-spacing:.16em;text-transform:uppercase;color:var(--accent);margin-bottom:1.3rem;flex-wrap:wrap}
-.eyebrow .num{color:var(--gold)}
-.eyebrow .ln{height:1px;flex:1;background:var(--line);max-width:60px}
-h2.sec{font-family:var(--disp);font-weight:700;font-size:clamp(1.7rem,3.6vw,2.6rem);line-height:1.12;letter-spacing:-.02em;max-width:24ch}
-.sec-sub{color:var(--fg-2);font-size:1.05rem;max-width:64ch;margin-top:1rem}
-.divider{height:1px;background:var(--line);max-width:var(--maxw);margin:0 auto}
+.hero{padding:clamp(2rem,5vw,3.2rem) 0 clamp(2.6rem,6vw,4rem)}
+.kick{font-family:var(--mono);font-size:.74rem;letter-spacing:.08em;color:var(--dim);margin-bottom:1.1rem}
+.kick b{color:var(--fg)}
+h1{font-family:var(--mono);font-weight:500;font-size:clamp(1.7rem,4vw,2.9rem);line-height:1.1;letter-spacing:-.02em;max-width:24ch}
+.lede{margin-top:1rem;font-size:clamp(1rem,1.4vw,1.14rem);line-height:1.5;color:var(--dim);max-width:60ch}
+.cta-row{margin-top:1.4rem;display:flex;flex-wrap:wrap;gap:1rem 1.5rem;align-items:center}
+.btn{font-family:var(--mono);font-size:.84rem;color:var(--fg);padding:.55rem 0;cursor:pointer}
+.btn::before{content:"[ ";color:var(--faint)}.btn::after{content:" ]";color:var(--faint)}
+.btn:hover{background:var(--fg);color:var(--bg)}.btn:hover::before,.btn:hover::after{color:var(--bg)}
+.meta{font-family:var(--mono);font-size:.8rem;color:var(--dim)}.meta b{color:var(--fg)}
 
-.btn{display:inline-flex;align-items:center;gap:.55rem;font-family:var(--mono);font-size:.8rem;letter-spacing:.04em;padding:.92rem 1.5rem;border-radius:999px;border:1px solid transparent;cursor:pointer;transition:transform .2s,border-color .2s,box-shadow .2s;text-transform:uppercase}
-.btn .arr{transition:transform .25s}.btn:hover .arr{transform:translateX(4px)}
-.btn-primary{background:var(--fg);color:var(--bg)}.btn-primary:hover{transform:translateY(-2px);box-shadow:0 16px 40px -16px rgba(236,234,227,.35)}
-.btn-ghost{background:transparent;color:var(--fg);border-color:var(--line)}.btn-ghost:hover{border-color:var(--fg);transform:translateY(-2px)}
+/* stage */
+.stage{margin-top:1.8rem;border:1px solid var(--rule);border-radius:10px;background:linear-gradient(180deg,#0a0b0d,#070708);padding:clamp(1rem,2.2vw,1.4rem);position:relative;overflow:hidden}
+.stage-head{display:flex;justify-content:space-between;align-items:center;font-family:var(--mono);font-size:.64rem;letter-spacing:.07em;text-transform:uppercase;color:var(--faint);margin-bottom:.9rem;gap:1rem}
+.stage-head .dots{display:flex;gap:.35rem}
+.stage-head .dots i{width:6px;height:6px;border-radius:50%;background:var(--rule);transition:background .3s}
+.stage.s1 .dots i:nth-child(1),.stage.s2 .dots i:nth-child(2),.stage.s3 .dots i:nth-child(3),.stage.s4 .dots i:nth-child(4){background:var(--gtm)}
+.field{position:relative;height:430px}
+@media(max-width:760px){.field{height:auto;min-height:430px}}
 
-.hero{padding-top:clamp(2.6rem,6vw,4.6rem);padding-bottom:clamp(2.4rem,5vw,3.6rem)}
-.hero-kicker{font-family:var(--mono);font-size:.72rem;letter-spacing:.1em;text-transform:uppercase;color:var(--fg-2);margin-bottom:1.5rem;display:flex;flex-wrap:wrap;gap:.4rem .7rem;align-items:center}
-.hero-kicker .dot{width:5px;height:5px;border-radius:50%;background:var(--gold)}
-h1.hero-title{font-family:var(--disp);font-weight:800;font-size:clamp(2.3rem,5.8vw,4.2rem);line-height:1.05;letter-spacing:-.03em;max-width:20ch}
-.hero-lede{margin-top:1.6rem;font-size:clamp(1.06rem,1.5vw,1.28rem);line-height:1.55;color:var(--fg-2);max-width:60ch}
-.hero-lede b{color:var(--fg);font-weight:600}
-.hero-cta{margin-top:2.1rem;display:flex;flex-wrap:wrap;gap:.9rem}
+.scene{position:absolute;inset:0;opacity:0;pointer-events:none;transform:scale(.965);filter:blur(8px);transition:opacity .8s ease,transform .9s cubic-bezier(.22,.61,.36,1),filter .8s ease}
+.stage.s1 .scene1,.stage.s2 .scene2,.stage.s3 .scene3,.stage.s4 .scene4{opacity:1;pointer-events:auto;transform:none;filter:none}
+.stage.s2 .scene1{transform:scale(.32) translate(-46%,-52%);transform-origin:top left;opacity:0;filter:blur(3px)}
 
-/* ---- VIZ shared ---- */
-.viz{margin-top:2.4rem;background:var(--panel);border:1px solid var(--line);border-radius:18px;padding:clamp(1.4rem,3vw,2.1rem);position:relative;overflow:hidden}
-.viz::after{content:"";position:absolute;inset:0;pointer-events:none;background:radial-gradient(60% 60% at 92% 0%,rgba(125,160,255,.07),transparent 60%)}
-.viz-k{font-family:var(--mono);font-size:.68rem;letter-spacing:.14em;text-transform:uppercase;color:var(--fg-3);margin-bottom:1.1rem;position:relative}
-.viz-cap{font-family:var(--mono);font-size:.78rem;color:var(--fg-2);margin-top:1.2rem;line-height:1.5;position:relative}
-.viz-cap b{color:var(--fg)}
-.chips{display:flex;flex-wrap:wrap;gap:.45rem;position:relative}
-.chip{font-family:var(--mono);font-size:.72rem;color:var(--fg-2);border:1px solid var(--line);border-radius:999px;padding:.34rem .68rem;background:var(--bg-2);white-space:nowrap}
-.chips-wall{gap:.4rem}.chips-wall .chip{font-size:.7rem;padding:.3rem .6rem}
-.node{background:var(--bg-2);border:1px solid var(--line);border-radius:12px;padding:.95rem 1.05rem;position:relative}
-.node .nh{font-family:var(--mono);font-size:.66rem;letter-spacing:.08em;text-transform:uppercase;color:var(--fg-3);margin-bottom:.4rem}
-.node .nb{font-size:.92rem;color:var(--fg);line-height:1.4}
-.node.bad{border-color:rgba(230,138,138,.4)} .node.good{border-color:rgba(95,210,160,.45)}
-.node.bad .nh{color:var(--bad)} .node.good .nh{color:var(--ok)}
-.arrow{font-family:var(--mono);color:var(--gold);font-size:1.1rem;text-align:center}
+/* ---------- SCENE 1 — one person, 3 sources ---------- */
+.scene1{display:grid;grid-template-columns:1.15fr 1fr 1fr;gap:.8rem}
+@media(max-width:760px){.scene1{grid-template-columns:1fr}}
+.win{border:1px solid var(--rule);border-radius:8px;background:#0b0c0e;display:flex;flex-direction:column;overflow:hidden}
+.win .wt{font-family:var(--mono);font-size:.6rem;letter-spacing:.05em;text-transform:uppercase;color:var(--faint);padding:.5rem .6rem;border-bottom:1px solid var(--rule2);display:flex;align-items:center;gap:.4rem}
+.win .wt .ic{width:14px;height:14px;border-radius:3px;display:inline-flex;align-items:center;justify-content:center;font-size:.58rem;color:#0a0b0d;font-weight:700}
+.ic.slack{background:#ff9ad6}.ic.gpt{background:#6fe3a5}.ic.code{background:#ffe27a}
+.win .wb{padding:.55rem .6rem;display:flex;flex-direction:column;gap:.42rem;flex:1}
+.m{display:flex;gap:.45rem;align-items:flex-start;opacity:0;transform:translateY(6px);animation:rise .4s forwards}
+@keyframes rise{to{opacity:1;transform:none}}
+.av{width:17px;height:17px;border-radius:50%;flex:none;font-family:var(--mono);font-size:.54rem;display:flex;align-items:center;justify-content:center;color:#0a0b0d;font-weight:700}
+.av.you{background:#e8e8e8}.av.lena{background:#7df9ff}.av.max{background:#ff9ad6}.av.ai{background:var(--posts)}
+.mb{min-width:0}.mb .nm{font-family:var(--mono);font-size:.56rem;color:var(--faint);margin-bottom:.05rem}
+.tx{font-size:.76rem;line-height:1.3}
+.tag{position:relative;border-radius:4px;padding:.02rem .2rem;margin:-.02rem -.2rem}
+.tag.auth{background:rgba(125,249,255,.09)}.tag.gtm{background:rgba(192,132,252,.1)}.tag.posts{background:rgba(255,154,214,.1)}.tag.arch{background:rgba(255,226,122,.1)}.tag.priv{background:rgba(138,143,152,.14)}
+.meme{border:1px dashed var(--rule);border-radius:6px;padding:.4rem .5rem;font-size:.72rem;color:var(--dim);display:flex;gap:.4rem;align-items:center;background:#0d0e10}
+.meme .em{font-size:1rem}
+.code{font-family:var(--mono);font-size:.66rem;line-height:1.5;color:var(--dim);white-space:nowrap;overflow:hidden}
+.code .cm{color:var(--arch)}.code .kw{color:var(--auth)}
 
-/* viz1 — failing harness */
-.harness{display:grid;grid-template-columns:1.2fr auto 1fr;gap:1rem 1.2rem;align-items:center}
-@media(max-width:720px){.harness{grid-template-columns:1fr}.harness .arrow{transform:rotate(90deg)}}
-.harness .stack{display:flex;flex-direction:column;gap:.5rem}
-.q-state{font-family:var(--mono);font-size:.72rem;color:var(--accent);margin-bottom:.5rem}
+/* ---------- SCENE 2 — team grid ---------- */
+.scene2{display:flex;flex-direction:column}
+.s2head{display:flex;align-items:baseline;gap:.8rem;margin-bottom:.7rem;font-family:var(--mono)}
+.s2head .cnt{font-size:1.8rem;font-weight:600;color:var(--fg);min-width:2.4ch}
+.s2head .cl{font-size:.74rem;color:var(--dim)}
+.grid{display:grid;grid-template-columns:repeat(8,1fr);gap:.45rem;flex:1}
+@media(max-width:760px){.grid{grid-template-columns:repeat(5,1fr)}}
+.ptile{border:1px solid var(--rule2);border-radius:6px;background:#0a0b0d;padding:.4rem;display:flex;flex-direction:column;gap:.3rem;opacity:0;transform:scale(.6);transition:opacity .35s,transform .35s,border-color .35s}
+.ptile.on{opacity:1;transform:none}
+.ptile.you{border-color:rgba(125,249,255,.5)}
+.ptile .ph{display:flex;align-items:center;gap:.3rem}
+.ptile .pa{width:16px;height:16px;border-radius:50%;background:#23262b;font-family:var(--mono);font-size:.5rem;display:flex;align-items:center;justify-content:center;color:var(--dim)}
+.ptile.you .pa{background:#e8e8e8;color:#0a0b0d}
+.ptile .pl{font-family:var(--mono);font-size:.5rem;color:var(--faint)}
+.ptile .srcdots{display:flex;gap:.18rem}
+.ptile .srcdots i{width:5px;height:5px;border-radius:1px;background:var(--rule)}
+.ptile .srcdots i.a{background:#ff9ad6}.ptile .srcdots i.b{background:#6fe3a5}.ptile .srcdots i.c{background:#ffe27a}
+.ptile .mood{height:3px;border-radius:2px;background:var(--rule);width:100%}
+.stage.s3 .ptile .mood,.stage.s4 .ptile .mood{transition:background .5s}
 
-/* viz2 — same query, different state */
-.state2{display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin-top:.4rem}
-@media(max-width:640px){.state2{grid-template-columns:1fr}}
-.state2 .q{font-family:var(--mono);font-size:.8rem;color:var(--fg);background:var(--bg-2);border:1px solid var(--line);border-radius:10px;padding:.7rem .9rem;margin-bottom:.9rem}
+/* ---------- SCENE 3 — pulse colors topics + emotion ---------- */
+.scene3{display:grid;grid-template-columns:1fr 300px;gap:1rem}
+@media(max-width:760px){.scene3{grid-template-columns:1fr}}
+.s3grid{display:grid;grid-template-columns:repeat(8,1fr);gap:.45rem;align-content:start}
+@media(max-width:760px){.s3grid{grid-template-columns:repeat(5,1fr)}}
+.pcell{aspect-ratio:1.3;border-radius:5px;background:#0a0b0d;border:1px solid var(--rule2);position:relative;overflow:hidden}
+.pcell .top{position:absolute;inset:0;opacity:.85;background:transparent;transition:background .5s ease}
+.pcell .moodbar{position:absolute;left:0;right:0;bottom:0;height:4px;background:transparent;transition:background .5s ease}
+.panel{border:1px solid rgba(192,132,252,.4);border-radius:8px;background:#0a0b0d;padding:.85rem;display:flex;flex-direction:column;gap:.5rem;box-shadow:0 0 30px rgba(192,132,252,.12)}
+.panel .pt{font-family:var(--mono);font-size:.62rem;letter-spacing:.1em;text-transform:uppercase}
+.panel .sect{font-family:var(--mono);font-size:.56rem;letter-spacing:.06em;text-transform:uppercase;color:var(--faint);margin-top:.3rem}
+.row2{display:flex;align-items:center;gap:.5rem;font-size:.76rem}
+.row2 .sw{width:9px;height:9px;border-radius:50%;flex:none}
+.sw.auth{background:var(--auth)}.sw.gtm{background:var(--gtm)}.sw.posts{background:var(--posts)}.sw.arch{background:var(--arch)}
+.row2 .c{margin-left:auto;font-family:var(--mono);font-size:.66rem;color:var(--dim)}
+.emo{display:flex;flex-wrap:wrap;gap:.35rem}
+.emochip{font-family:var(--mono);font-size:.64rem;border-radius:999px;padding:.18rem .5rem;border:1px solid var(--rule)}
+.emochip.frus{color:var(--frus);border-color:rgba(255,122,122,.4)}
+.emochip.stress{color:var(--stress);border-color:rgba(255,178,77,.4)}
+.emochip.ship{color:var(--ship);border-color:rgba(111,227,165,.4)}
+.privrow{display:flex;align-items:center;gap:.5rem;font-size:.72rem;color:var(--priv);border-top:1px solid var(--rule2);padding-top:.5rem;margin-top:.2rem}
 
-/* viz3 — loop */
-.loop{display:grid;grid-template-columns:repeat(4,1fr);gap:.7rem;align-items:stretch;position:relative}
-@media(max-width:760px){.loop{grid-template-columns:1fr 1fr}}
-.loop .step{background:var(--bg-2);border:1px solid var(--line);border-radius:12px;padding:.9rem .95rem}
-.loop .step.gate{border-color:rgba(143,182,255,.55);box-shadow:0 0 0 1px rgba(143,182,255,.15) inset}
-.loop .si{font-family:var(--mono);font-size:.64rem;letter-spacing:.08em;text-transform:uppercase;color:var(--fg-3);margin-bottom:.4rem}
-.loop .st{font-family:var(--disp);font-size:1rem;font-weight:700;margin-bottom:.25rem;letter-spacing:-.01em}
-.loop .sd{font-size:.84rem;color:var(--fg-2);line-height:1.4}
-.loop-return{margin-top:.9rem;font-family:var(--mono);font-size:.74rem;color:var(--gold);display:flex;align-items:center;gap:.5rem}
-.loadbars{display:flex;gap:1.6rem;margin-top:1.3rem;flex-wrap:wrap}
-.loadbars .lb{flex:1;min-width:200px}
-.loadbars .lbk{font-family:var(--mono);font-size:.68rem;letter-spacing:.06em;text-transform:uppercase;color:var(--fg-3);margin-bottom:.5rem;display:flex;justify-content:space-between}
-.bar{height:7px;border-radius:999px;background:var(--bg-2);overflow:hidden;border:1px solid var(--line)}
-.bar > i{display:block;height:100%}
-.bar.flat > i{width:34%;background:var(--fg-3)}
-.bar.up > i{width:88%;background:var(--holo)}
+/* ---------- SCENE 4 — any harness + the loop ---------- */
+.scene4{display:flex;align-items:center;justify-content:center}
+.loopwrap{position:relative;width:430px;height:380px;max-width:100%}
+.loopwrap svg{position:absolute;inset:0;width:100%;height:100%}
+.lnode{position:absolute;font-family:var(--mono);font-size:.66rem;background:#0c0d0f;border:1px solid var(--rule);border-radius:6px;padding:.45rem .7rem;transform:translate(-50%,-50%);white-space:nowrap}
+.lnode .lk{font-size:.54rem;color:var(--faint);text-transform:uppercase;letter-spacing:.06em}
+.lnode b{color:var(--fg);font-weight:500}
+.lcore{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);text-align:center;border:1px solid rgba(192,132,252,.5);border-radius:10px;background:#0a0b0d;padding:.8rem 1rem;box-shadow:0 0 40px rgba(192,132,252,.18)}
+.lcore .lt{font-family:var(--mono);font-size:.64rem;letter-spacing:.1em;text-transform:uppercase}
+.lcore .ls{font-size:.7rem;color:var(--dim);margin-top:.25rem}
+.harness{display:flex;gap:.35rem;justify-content:center;margin-top:.45rem;flex-wrap:wrap}
+.hc{font-family:var(--mono);font-size:.56rem;color:var(--dim);border:1px solid var(--rule);border-radius:999px;padding:.12rem .45rem}
 
-/* viz4 — team strengths */
-.team{display:grid;grid-template-columns:1fr auto 1.1fr auto 1fr;gap:.8rem;align-items:center}
-@media(max-width:860px){.team{grid-template-columns:1fr;gap:.7rem}.team .arrow{transform:rotate(90deg)}}
-.people{display:flex;flex-direction:column;gap:.5rem}
-.person{display:flex;align-items:center;gap:.6rem;background:var(--bg-2);border:1px solid var(--line);border-radius:10px;padding:.5rem .7rem}
-.person .av{width:26px;height:26px;border-radius:50%;background:linear-gradient(135deg,#2a2f3a,#444b59);flex:none;font-family:var(--mono);font-size:.66rem;color:var(--fg-2);display:flex;align-items:center;justify-content:center}
-.person .pn{font-size:.82rem;color:var(--fg)}
-.person .pt{font-family:var(--mono);font-size:.64rem;color:var(--accent);margin-left:auto}
-.person.pro{border-color:rgba(95,210,160,.4)} .person.pro .pt{color:var(--ok)}
-.carto{background:var(--bg-2);border:1px solid rgba(143,182,255,.4);border-radius:12px;padding:1rem;text-align:center}
-.carto .cn{font-family:var(--disp);font-weight:700;font-size:1rem;margin-bottom:.25rem}
-.carto .cd{font-size:.82rem;color:var(--fg-2);line-height:1.4}
-.shared{display:flex;flex-direction:column;gap:.5rem}
-.skill{font-family:var(--mono);font-size:.74rem;border:1px solid var(--line);border-radius:8px;padding:.45rem .65rem;color:var(--fg-2);background:var(--bg-2)}
-.skill.on{border-color:rgba(95,210,160,.45);color:var(--fg)} .skill.on::before{content:"✓ ";color:var(--ok)}
-.skill.off{opacity:.55} .skill.off::before{content:"· ";color:var(--fg-3)}
+/* continuous motion + staggered reveals */
+.ring{transform-box:fill-box;transform-origin:center;animation:spin 26s linear infinite}
+@keyframes spin{to{transform:rotate(360deg)}}
+.stage.s4 .lnode,.stage.s4 .lcore{animation:popin .6s both}
+.stage.s4 .lcore{animation-delay:.05s}
+.stage.s4 .lnode:nth-child(2){animation-delay:.32s}
+.stage.s4 .lnode:nth-child(3){animation-delay:.52s}
+.stage.s4 .lnode:nth-child(4){animation-delay:.72s}
+@keyframes popin{from{opacity:0;transform:translate(-50%,-50%) scale(.88)}to{opacity:1;transform:translate(-50%,-50%) scale(1)}}
+.needsvg{position:absolute;inset:0;width:100%;height:100%;pointer-events:none;z-index:5}
+.needline{fill:none;stroke:url(#holoN);stroke-width:1.8;filter:drop-shadow(0 0 5px rgba(192,132,252,.7));transition:stroke-dashoffset .9s cubic-bezier(.3,.7,.3,1)}
+.ptile.need{border-color:rgba(192,132,252,.6);box-shadow:0 0 14px rgba(192,132,252,.22)}
+@media(prefers-reduced-motion:reduce){.ring{animation:none}.scene{transition:opacity .35s}}
 
-/* two-up advantage cards */
-.adv-head{display:flex;align-items:baseline;gap:.8rem;flex-wrap:wrap}
-.adv-tag{font-family:var(--mono);font-size:.7rem;letter-spacing:.1em;text-transform:uppercase;color:var(--gold);border:1px solid var(--line);border-radius:999px;padding:.25rem .6rem}
+.cap{font-family:var(--mono);font-size:.82rem;color:var(--dim);margin-top:1rem;min-height:1.3em;line-height:1.4}
+.cap b{color:var(--fg);font-weight:500}
 
-/* misses-you note */
-.note{margin-top:1.4rem;font-size:1.04rem;color:var(--fg);background:var(--panel);border:1px solid var(--line);border-left:2px solid var(--gold);border-radius:0 12px 12px 0;padding:1.1rem 1.3rem;max-width:74ch}
-.note b{color:var(--fg)}
+/* ---------- MOBILE ---------- */
+@media(max-width:760px){
+  .hero h1{font-size:clamp(1.55rem,6vw,2.2rem)}
+  .stage{padding:.9rem}
+  .field{height:600px}
+  /* scene 1 — stack the 3 sources */
+  .scene1{grid-template-columns:1fr;gap:.5rem}
+  .stage.s2 .scene1{transform:scale(.9)}
+  .win .wt{padding:.42rem .55rem}
+  .win .wb{gap:.3rem;padding:.45rem .55rem}
+  .tx{font-size:.74rem}.meme{font-size:.7rem;padding:.35rem .45rem}.code{font-size:.62rem}
+  /* scene 2 — team grid */
+  .grid{grid-template-columns:repeat(6,1fr);gap:.4rem}
+  .s2head .cnt{font-size:1.5rem}
+  /* scene 3 — stack cells over panel; cells stay compact heatmap */
+  .scene3{grid-template-columns:1fr;gap:.55rem;align-content:start}
+  .s3grid{grid-template-columns:repeat(8,1fr);gap:.3rem}
+  .pcell{aspect-ratio:1.5}
+  .panel{padding:.75rem;gap:.42rem}
+  .panel .row2{font-size:.74rem}.panel .pt{font-size:.6rem}.emochip{font-size:.6rem}
+  /* scene 4 — fit the loop to width; pull side nodes in, allow wrap */
+  .loopwrap{width:min(400px,88vw);height:auto;aspect-ratio:430/380}
+  .lnode{white-space:normal;max-width:108px;text-align:center;line-height:1.25;font-size:.6rem}
+  .scene4 .lnode:nth-child(3){left:82%}
+  .scene4 .lnode:nth-child(4){left:18%}
+}
+@media(max-width:430px){
+  .field{height:632px}
+  /* trim a couple of messages so 3 windows fit one screen */
+  .scene1 .win:nth-child(1) .m:nth-child(n+5){display:none}
+  .scene1 .win:nth-child(2) .m:nth-child(n+3){display:none}
+  .scene1 .win:nth-child(3) .m:nth-child(n+4){display:none}
+  .grid{grid-template-columns:repeat(5,1fr);gap:.36rem}
+  .s3grid{grid-template-columns:repeat(6,1fr)}
+  .loopwrap{width:min(330px,86vw)}
+  .lnode{font-size:.54rem;padding:.28rem .4rem;max-width:96px}
+  .lcore{padding:.55rem .7rem}
+  .lcore .ls{font-size:.64rem}.hc{font-size:.5rem;padding:.1rem .38rem}
+  .cap{font-size:.74rem}
+}
 
-/* format steps */
-.steps{display:grid;grid-template-columns:repeat(4,1fr);gap:.8rem;margin-top:2.2rem}
-@media(max-width:760px){.steps{grid-template-columns:1fr 1fr}}
-.stp{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:1.1rem}
-.stp .sk{font-family:var(--mono);font-size:.66rem;letter-spacing:.08em;text-transform:uppercase;color:var(--accent);margin-bottom:.5rem}
-.stp h4{font-family:var(--disp);font-size:1.05rem;font-weight:700;margin-bottom:.3rem;letter-spacing:-.01em}
-.stp p{font-size:.86rem;color:var(--fg-2);line-height:1.45}
+/* ===================== PAGE SECTIONS ===================== */
+.sec{padding:clamp(2.8rem,6vw,4.6rem) 0;border-top:1px solid var(--rule2)}
+.q{font-family:var(--mono);font-size:.78rem;letter-spacing:.05em;color:var(--dim);margin-bottom:1rem}
+.q::before{content:"// ";color:var(--faint)}
+.sec h2{font-family:var(--mono);font-weight:500;font-size:clamp(1.4rem,3vw,2.1rem);line-height:1.15;letter-spacing:-.01em;max-width:26ch}
+.sec .answer{color:var(--dim);font-size:1.02rem;max-width:62ch;margin-top:.85rem}
+.sec .answer b{color:var(--fg)}
+.fig{margin-top:1.8rem;border:1px solid var(--rule);border-radius:8px;background:linear-gradient(180deg,#0a0b0d,#070708);padding:clamp(1rem,2.4vw,1.6rem)}
+.figcap{font-family:var(--mono);font-size:.76rem;color:var(--dim);margin-top:1.1rem;line-height:1.55;max-width:80ch}
+.figcap b{color:var(--fg)}
+.reveal{opacity:0;transform:translateY(22px);transition:opacity .85s cubic-bezier(.2,.7,.2,1),transform .85s cubic-bezier(.2,.7,.2,1)}
+.reveal.in{opacity:1;transform:none}
+@media(prefers-reduced-motion:reduce){.reveal{opacity:1;transform:none;transition:none}}
+.pbtn{display:inline-block;font-family:var(--mono);font-size:.84rem;color:var(--fg);cursor:pointer;margin-top:.4rem}
+.pbtn::before{content:"[ ";color:var(--faint)}.pbtn::after{content:" ]";color:var(--faint)}
+.pbtn:hover{background:var(--fg);color:var(--bg)}.pbtn:hover::before,.pbtn:hover::after{color:var(--bg)}
 
-/* honest */
-.honest{background:var(--panel);border:1px solid var(--line);border-radius:20px;padding:clamp(1.6rem,4vw,2.6rem)}
-.honest-grid{display:grid;grid-template-columns:1fr 1fr;gap:1.2rem;margin-top:1.6rem}
-@media(max-width:680px){.honest-grid{grid-template-columns:1fr}}
-.stat{border:1px solid var(--line);border-radius:14px;padding:1.4rem;background:var(--bg-2)}
-.stat .st-k{font-family:var(--mono);font-size:.68rem;letter-spacing:.08em;text-transform:uppercase;color:var(--fg-3);margin-bottom:.7rem}
-.stat .st-v{font-family:var(--disp);font-size:clamp(2rem,5vw,2.8rem);font-weight:800;letter-spacing:-.03em;line-height:1;color:var(--fg)}
-.stat .st-d{margin-top:.7rem;font-size:.9rem;color:var(--fg-2)}
-.stat .st-d .mono{font-family:var(--mono);font-size:.84em;color:var(--fg)}
-.honest-foot{margin-top:1.5rem;font-size:.94rem;color:var(--fg-2);max-width:76ch}
-.honest-foot b{color:var(--fg)}
+/* state-aware */
+.saquery{font-family:var(--mono);font-size:.9rem;color:var(--fg);border:1px dashed var(--rule);border-radius:6px;padding:.6rem .8rem;display:inline-block;margin-bottom:.9rem}
+.sarow{display:grid;grid-template-columns:1fr 36px 1.3fr;gap:.7rem;align-items:center;margin-bottom:.6rem}
+@media(max-width:620px){.sarow{grid-template-columns:1fr 22px 1fr}}
+.sabox{border:1px solid var(--rule);border-radius:7px;padding:.6rem .8rem;background:#0b0c0e}
+.sabox .k{font-family:var(--mono);font-size:.6rem;text-transform:uppercase;letter-spacing:.06em;color:var(--faint);margin-bottom:.25rem}
+.sabox .v{font-size:.84rem;line-height:1.3}
+.sabox.mem{border-color:rgba(111,227,165,.4)}
+.saarrow{font-family:var(--mono);color:var(--gtm);text-align:center;font-size:1rem}
+.saflat{font-family:var(--mono);font-size:.74rem;color:var(--faint);border-top:1px solid var(--rule2);margin-top:.8rem;padding-top:.8rem}
+.saflat b{color:var(--frus)}
+
+/* trust cards */
+.tcards{display:grid;grid-template-columns:1fr 1fr;gap:1rem}
+@media(max-width:620px){.tcards{grid-template-columns:1fr}}
+.tcard{border:1px solid var(--rule);border-radius:8px;background:#0b0c0e;padding:1rem}
+.tcard.private{border-color:rgba(138,143,152,.45)}.tcard.shared{border-color:rgba(192,132,252,.45)}
+.tcard .tc{font-size:.9rem;margin-bottom:.75rem;line-height:1.35}
+.tmeta{display:flex;flex-wrap:wrap;gap:.4rem}
+.tbadge{font-family:var(--mono);font-size:.62rem;border:1px solid var(--rule);border-radius:999px;padding:.2rem .5rem;color:var(--dim)}
+.tbadge.src{color:var(--auth);border-color:rgba(125,249,255,.3)}
+.tbadge.fact{color:var(--ship);border-color:rgba(111,227,165,.3)}
+.tbadge.hyp{color:var(--stress);border-color:rgba(255,178,77,.3)}
+.tbadge.priv{color:var(--priv)}
+.tbadge.team{color:var(--gtm);border-color:rgba(192,132,252,.3)}
+
+/* supersession */
+.supers{display:flex;flex-direction:column;gap:.55rem}
+.srow{display:grid;grid-template-columns:1fr 28px 1fr;gap:.7rem;align-items:center}
+@media(max-width:620px){.srow{grid-template-columns:1fr}}
+.scard{border:1px solid var(--rule);border-radius:7px;padding:.6rem .8rem;font-size:.84rem;background:#0b0c0e}
+.scard .sk{font-family:var(--mono);font-size:.58rem;text-transform:uppercase;color:var(--faint);margin-bottom:.2rem}
+.scard.old{opacity:.5}.scard.old .sv{text-decoration:line-through;text-decoration-color:var(--faint)}
+.scard.cur{border-color:rgba(111,227,165,.45)}.scard.cur .sk{color:var(--ship)}
+.sarrow2{font-family:var(--mono);color:var(--gtm);text-align:center}
+
+/* loop4 */
+.loop4{display:grid;grid-template-columns:repeat(4,1fr);gap:.7rem}
+@media(max-width:620px){.loop4{grid-template-columns:1fr 1fr}}
+.lstep{border:1px solid var(--rule);border-radius:7px;padding:.85rem;background:#0b0c0e}
+.lstep.gate{border-color:rgba(192,132,252,.5);box-shadow:0 0 0 1px rgba(192,132,252,.12) inset}
+.lstep .sk{font-family:var(--mono);font-size:.6rem;text-transform:uppercase;color:var(--gtm);margin-bottom:.35rem}
+.lstep .st{font-size:.95rem;font-weight:600;margin-bottom:.2rem}
+.lstep .sd{font-size:.8rem;color:var(--dim);line-height:1.35}
+.loopret{font-family:var(--mono);font-size:.74rem;color:var(--gtm);margin-top:.8rem}
+.effbars{display:flex;gap:1.6rem;margin-top:1.2rem;flex-wrap:wrap}
+.eb{flex:1;min-width:190px}
+.ebk{font-family:var(--mono);font-size:.64rem;text-transform:uppercase;color:var(--faint);display:flex;justify-content:space-between;margin-bottom:.45rem}
+.bar{height:6px;border-radius:3px;background:#15171a;overflow:hidden}
+.bar>i{display:block;height:100%}
+.bar.flat>i{width:32%;background:var(--faint)}
+.bar.up>i{width:88%;background:linear-gradient(90deg,#7df9ff,#c084fc,#ffe27a)}
+
+/* eval bars */
+.evbars{display:flex;flex-direction:column;gap:.7rem}
+.evbar{display:grid;grid-template-columns:118px 1fr 46px;gap:.8rem;align-items:center}
+@media(max-width:560px){.evbar{grid-template-columns:92px 1fr 42px}}
+.evbar .nm{font-family:var(--mono);font-size:.76rem;color:var(--dim);text-align:right}
+.evbar .track{height:15px;background:#15171a;border-radius:3px;overflow:hidden}
+.evbar .track>i{display:block;height:100%;border-radius:3px;background:rgba(245,245,245,.32)}
+.evbar .val{font-family:var(--mono);font-size:.76rem;color:var(--dim)}
+.evbar.win .nm{color:var(--fg)}.evbar.win .val{color:var(--bug)}
+.evbar.win .track>i{background:linear-gradient(90deg,#7df9ff,#c084fc 50%,#ffe27a)}
+
+/* weeks */
+.weeks{display:grid;grid-template-columns:repeat(4,1fr);gap:.7rem}
+@media(max-width:680px){.weeks{grid-template-columns:1fr 1fr}}
+.week{border:1px solid var(--rule);border-radius:7px;padding:.9rem;background:#0b0c0e}
+.week .wk{font-family:var(--mono);font-size:.6rem;text-transform:uppercase;color:var(--faint);margin-bottom:.45rem}
+.week h4{font-size:.96rem;margin-bottom:.3rem}
+.week p{font-size:.79rem;color:var(--dim);line-height:1.35}
+.week .art{font-family:var(--mono);font-size:.72rem;margin-top:.55rem}
+.week:nth-child(1) .art{color:var(--auth)}.week:nth-child(2) .art{color:var(--gtm)}.week:nth-child(3) .art{color:var(--posts)}.week:nth-child(4) .art{color:var(--bug)}
 
 /* pricing */
-.price-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1rem;margin-top:2.4rem;align-items:stretch}
-@media(max-width:840px){.price-grid{grid-template-columns:1fr}}
-.price{position:relative;display:flex;flex-direction:column;background:var(--card);border:1px solid var(--line);border-radius:16px;padding:1.8rem 1.5rem;transition:transform .3s,border-color .3s}
-.price:hover{transform:translateY(-4px);border-color:rgba(236,234,227,.2)}
-.price.feat{border-color:rgba(143,182,255,.5);background:linear-gradient(180deg,var(--panel),var(--card))}
-.price.feat::before{content:"for a team";position:absolute;top:-.8rem;left:1.5rem;font-family:var(--mono);font-size:.64rem;letter-spacing:.12em;text-transform:uppercase;color:var(--bg);background:var(--gold);padding:.3rem .65rem;border-radius:999px}
-.price .pk{font-family:var(--mono);font-size:.72rem;letter-spacing:.12em;text-transform:uppercase;color:var(--fg-3)}
-.price h3{font-family:var(--disp);font-size:1.35rem;font-weight:700;margin:.5rem 0 .2rem;letter-spacing:-.01em}
-.price .pdesc{color:var(--fg-2);font-size:.9rem;min-height:2.6em}
-.price .pamt{font-family:var(--disp);font-size:clamp(1.7rem,4vw,2.2rem);font-weight:800;letter-spacing:-.02em;margin:1rem 0 .2rem;color:var(--fg)}
-.price .pamt small{font-family:var(--mono);font-size:.42em;font-weight:500;color:var(--fg-3)}
-.price ul{list-style:none;margin:1rem 0 1.5rem;display:grid;gap:.5rem}
-.price li{font-size:.9rem;color:var(--fg-2);display:grid;grid-template-columns:auto 1fr;gap:.55rem;align-items:start}
-.price li::before{content:"—";color:var(--gold);font-family:var(--mono)}
-.price .btn{margin-top:auto;justify-content:center;width:100%}
-.price.feat .btn{background:var(--fg);color:var(--bg)}
-.price:not(.feat) .btn{background:transparent;color:var(--fg);border-color:var(--line)}.price:not(.feat) .btn:hover{border-color:var(--fg)}
-.guarantee{margin-top:1.5rem;display:flex;align-items:center;gap:.7rem;font-size:.92rem;color:var(--fg-2);font-family:var(--mono)}
-.guarantee .g-dot{width:9px;height:9px;border-radius:50%;background:var(--ok);box-shadow:0 0 0 4px rgba(95,210,160,.16)}
+.pricegrid{display:grid;grid-template-columns:repeat(3,1fr);gap:1rem;align-items:stretch}
+@media(max-width:820px){.pricegrid{grid-template-columns:1fr}}
+.price{border:1px solid var(--rule);border-radius:8px;background:#0b0c0e;padding:1.4rem;display:flex;flex-direction:column;position:relative}
+.price.feat{border-color:rgba(192,132,252,.5)}
+.price.feat::before{content:"most teams";position:absolute;top:-.7rem;left:1.3rem;font-family:var(--mono);font-size:.6rem;letter-spacing:.08em;text-transform:uppercase;color:var(--bg);background:var(--gtm);padding:.2rem .5rem;border-radius:3px}
+.price .pk{font-family:var(--mono);font-size:.66rem;text-transform:uppercase;letter-spacing:.1em;color:var(--faint)}
+.price h3{font-family:var(--mono);font-weight:500;font-size:1.15rem;margin:.4rem 0 .3rem}
+.price .pd{font-size:.86rem;color:var(--dim);min-height:3.2em}
+.price .amt{font-family:var(--mono);font-size:1.5rem;margin:.85rem 0 .1rem}
+.price .amt small{font-size:.48em;color:var(--faint)}
+.price ul{list-style:none;display:grid;gap:.42rem;margin:.95rem 0 1.2rem}
+.price li{font-size:.84rem;color:var(--dim);display:grid;grid-template-columns:auto 1fr;gap:.5rem}
+.price li::before{content:"·";color:var(--gtm)}
+.guar{margin-top:1.4rem;font-family:var(--mono);font-size:.8rem;color:var(--dim);display:flex;gap:.55rem;max-width:78ch}
+.guar .gd{color:var(--ship)}
 
-.nogoals{margin-top:2rem;display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:.6rem}
-.nogoal{display:grid;grid-template-columns:auto 1fr;gap:.6rem;font-size:.94rem;color:var(--fg-2);padding:.85rem 0;border-top:1px solid var(--line)}
-.nogoal .ng-x{font-family:var(--mono);color:var(--fg-3)}
+/* author ev */
+.ev{border-top:1px solid var(--rule);font-family:var(--mono);font-size:.86rem;margin-top:1.4rem}
+.ev .r{display:grid;grid-template-columns:minmax(120px,.3fr) 1fr;gap:1rem 1.5rem;padding:.8rem 0;border-bottom:1px solid var(--rule);align-items:baseline}
+.ev .r .k{color:var(--fg)}.ev .r .v{color:var(--dim);font-family:var(--sans)}
+.ev .r .v b{color:var(--fg)}.ev .r .v a{border-bottom:1px dotted var(--faint)}
+@media(max-width:560px){.ev .r{grid-template-columns:1fr;gap:.2rem}}
 
-.final{text-align:center;padding:clamp(3.6rem,8vw,6.5rem) 0}
-.final h2{font-family:var(--disp);font-weight:700;font-size:clamp(1.9rem,4.6vw,3.1rem);line-height:1.12;letter-spacing:-.025em;max-width:22ch;margin:0 auto}
-.final p{color:var(--fg-2);margin:1.2rem auto 0;max-width:50ch}
-.final .btn{margin-top:2rem}
+/* faq */
+.faqwrap{border-top:1px solid var(--rule);margin-top:1.4rem}
+.faqwrap details{border-bottom:1px solid var(--rule)}
+.faqwrap summary{list-style:none;cursor:pointer;padding:1rem 0;display:flex;gap:1rem;font-weight:600;font-size:1rem}
+.faqwrap summary::-webkit-details-marker{display:none}
+.faqwrap summary::after{content:"+";margin-left:auto;font-family:var(--mono);color:var(--faint)}
+.faqwrap details[open] summary::after{content:"–";color:var(--gtm)}
+.faqwrap .a{padding:0 0 1.1rem;color:var(--dim);font-size:.94rem;max-width:76ch}
 
-footer.foot{border-top:1px solid var(--line);background:var(--bg-2)}
-.foot-grid{display:grid;grid-template-columns:1.4fr 1fr 1fr 1fr;gap:1.5rem 2rem;padding:2.8rem 0 2.2rem}
-@media(max-width:760px){.foot-grid{grid-template-columns:1fr 1fr}}
-.foot-grid .ft-brand .bn{font-family:var(--disp);font-size:1.2rem;font-weight:700}
-.foot-grid .ft-brand p{color:var(--fg-2);font-size:.9rem;margin-top:.6rem;max-width:34ch}
-.foot-col .ft-k{font-family:var(--mono);font-size:.66rem;letter-spacing:.12em;text-transform:uppercase;color:var(--fg-3);margin-bottom:.6rem}
-.foot-col p{font-size:.9rem;color:var(--fg-2);margin:.15rem 0}
-.foot-col a{border-bottom:1px solid var(--line)}.foot-col a:hover{border-color:var(--fg)}
-.foot-base{display:flex;flex-wrap:wrap;justify-content:space-between;gap:1rem;padding:1.2rem 0;border-top:1px solid var(--line);font-family:var(--mono);font-size:.7rem;color:var(--fg-3)}
-
-.rv{opacity:0;transform:translateY(20px);transition:opacity .8s cubic-bezier(.2,.7,.2,1),transform .8s cubic-bezier(.2,.7,.2,1)}
-.rv.in{opacity:1;transform:none}
-@media(prefers-reduced-motion:reduce){.rv{opacity:1;transform:none;transition:none}.price,.stp{transition:none}}
+/* final + footer */
+.final{text-align:center;padding:clamp(3rem,7vw,5rem) 0;border-top:1px solid var(--rule2)}
+.final h2{font-family:var(--mono);font-weight:500;font-size:clamp(1.6rem,4vw,2.6rem);line-height:1.14;letter-spacing:-.01em;max-width:24ch;margin:0 auto}
+.final p{color:var(--dim);margin:1rem auto 0;max-width:50ch}
+.final .pbtn{margin-top:1.7rem}
+footer.foot{border-top:1px solid var(--rule)}
+.footgrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(165px,1fr));gap:1.3rem 2rem;padding:2.2rem 0;font-family:var(--mono);font-size:.82rem}
+.footgrid .ck{font-size:.62rem;text-transform:uppercase;letter-spacing:.1em;color:var(--faint);margin-bottom:.5rem}
+.footgrid p{color:var(--dim);margin:.12rem 0}
+.footgrid a{color:var(--fg);border-bottom:1px dotted var(--faint)}
+.footbase{padding:1rem 0;border-top:1px solid var(--rule);font-family:var(--mono);font-size:.7rem;color:var(--faint);display:flex;justify-content:space-between;flex-wrap:wrap;gap:.6rem}
 </style>
-<noscript><style>.rv{opacity:1!important;transform:none!important}</style></noscript>
 </head>
 <body>
+<header><div class="wrap bar">
+  <div><div class="b1">zbs gg · the lab</div><div class="b2">MEMORY &amp; CONTEXT LAB</div></div>
+  <nav><a href="#">how it works</a><a href="#">method</a><a href="#">pricing</a><a class="cta" href="#">talk to us</a></nav>
+</div></header>
 
-<header class="nav" id="nav">
-  <div class="wrap nav-row">
-    <a class="brand" href="#top">
-      <span class="bk">ZBS GG · the lab</span>
-      <span class="bn">Memory &amp; Context Lab</span>
-    </a>
-    <nav class="nav-links">
-      <a href="#problem">The problem</a>
-      <a href="#with-you">It improves with you</a>
-      <a href="#team">In a team</a>
-      <a href="#price">Pricing</a>
-      <a class="navcta" href="#price">Apply</a>
-    </nav>
+<section class="hero"><div class="wrap">
+  <div class="kick">for <b>teams &amp; companies</b> — not another personal "second brain"</div>
+  <h1>Your team's context lives in <span class="holo">31 heads and a thousand chats.</span> We weave it into one memory.</h1>
+  <p class="lede">Slack rants, ChatGPT threads, vibecoding, voice notes — across every person. Pulse colors the topics, reads the emotion, and remembers it, so anyone can continue the work in any harness.</p>
+  <div class="cta-row">
+    <span class="btn">book a call →</span>
+    <span class="meta"><b>4-week lab</b> · for teams of 5–50 · led by the author</span>
   </div>
-</header>
 
-<a id="top"></a>
+  <div class="stage s1" id="stage">
+    <div class="stage-head"><span id="phk">one person · scattered context</span><span class="dots"><i></i><i></i><i></i><i></i></span></div>
+    <div class="field">
 
-<!-- HERO -->
-<section class="hero">
-  <div class="wrap">
-    <div class="hero-kicker rv">
-      <span>for builders on</span><span class="dot"></span>
-      <span>Claude Code</span><span class="dot"></span>
-      <span>Kilo Code</span><span class="dot"></span>
-      <span>OpenCode</span><span class="dot"></span>
-      <span>Codex</span>
-    </div>
-    <h1 class="hero-title rv">You installed every skill, MCP and embedder. The memory you need <span class="holo">still doesn't surface.</span></h1>
-    <p class="hero-lede rv">This isn't a second-brain course. It's a 4-week lab where we tune a memory layer that <b>improves with you — and your team — as you work</b>. You stay in the loop, your cognitive load doesn't go up, and the right context shows up exactly when it matters.</p>
-    <div class="hero-cta rv">
-      <a class="btn btn-primary" href="#price">Apply <span class="arr">→</span></a>
-      <a class="btn btn-ghost" href="#with-you">How it works</a>
-    </div>
-
-    <!-- VIZ 1: failing harness -->
-    <div class="viz rv">
-      <div class="viz-k">what's happening in your setup right now</div>
-      <div class="q-state">your stack · 30 things installed — MCP servers · skills · embedders</div>
-      <div class="chips chips-wall">
-        <span class="chip">filesystem</span><span class="chip">github</span><span class="chip">git</span><span class="chip">postgres</span><span class="chip">sqlite</span><span class="chip">playwright</span><span class="chip">puppeteer</span><span class="chip">brave-search</span><span class="chip">fetch</span><span class="chip">memory</span><span class="chip">sequential-thinking</span><span class="chip">context7</span><span class="chip">slack</span><span class="chip">sentry</span><span class="chip">notion</span><span class="chip">linear</span><span class="chip">/commit</span><span class="chip">/code-review</span><span class="chip">/test-gen</span><span class="chip">/refactor</span><span class="chip">/pr-summary</span><span class="chip">/docs</span><span class="chip">/debug</span><span class="chip">/changelog</span><span class="chip">bge-m3</span><span class="chip">text-embedding-3</span><span class="chip">cohere embed-v4</span><span class="chip">voyage-3</span><span class="chip">mem0</span><span class="chip">Zep</span>
+      <!-- SCENE 1 -->
+      <div class="scene scene1" id="scene1">
+        <div class="win"><div class="wt"><span class="ic slack">#</span> slack · #team</div><div class="wb">
+          <div class="meme" style="animation-delay:.1s"><span class="em">🙄</span> meme: boss says "quick sync" — 2h later</div>
+          <div class="m" style="animation-delay:.5s"><span class="av you">Y</span><div class="mb"><div class="nm">you</div><div class="tx"><span class="tag priv">honestly these deadlines are killing me 💀</span></div></div></div>
+          <div class="m" style="animation-delay:.9s"><span class="av lena">L</span><div class="mb"><div class="nm">lena · eng</div><div class="tx"><span class="tag arch">arch: split auth into its own module?</span></div></div></div>
+          <div class="m" style="animation-delay:1.3s"><span class="av max">M</span><div class="mb"><div class="nm">max · pm</div><div class="tx"><span class="tag gtm">GTM: lead with the team angle, not solo</span></div></div></div>
+          <div class="m" style="animation-delay:1.7s"><span class="av you">Y</span><div class="mb"><div class="nm">you</div><div class="tx"><span class="tag posts">launch post draft by Fri 🙏</span></div></div></div>
+        </div></div>
+        <div class="win"><div class="wt"><span class="ic gpt">✦</span> chatgpt</div><div class="wb">
+          <div class="m" style="animation-delay:.7s"><span class="av you">Y</span><div class="mb"><div class="nm">you → gpt</div><div class="tx"><span class="tag auth">rewrite the auth ADR, cleaner</span></div></div></div>
+          <div class="m" style="animation-delay:1.2s"><span class="av you">Y</span><div class="mb"><div class="nm">you → gpt</div><div class="tx"><span class="tag gtm">tighten this GTM paragraph</span></div></div></div>
+          <div class="m" style="animation-delay:1.7s"><span class="av you">Y</span><div class="mb"><div class="nm">you → gpt</div><div class="tx"><span class="tag posts">10 hooks for the launch post</span></div></div></div>
+        </div></div>
+        <div class="win"><div class="wt"><span class="ic code">&lt;&gt;</span> vibecoding · auth.ts</div><div class="wb">
+          <div class="m" style="animation-delay:1s"><div class="code" style="width:100%"><span class="kw">export function</span> auth() {</div></div>
+          <div class="m" style="animation-delay:1.4s"><div class="code"><span class="cm tag auth">// JWT, no sessions — per #team</span></div></div>
+          <div class="m" style="animation-delay:1.8s"><div class="code"><span class="cm">// TODO: do not repeat migration</span></div></div>
+          <div class="m" style="animation-delay:2.1s"><div class="code">}</div></div>
+        </div></div>
       </div>
-      <div class="arrow" style="margin:1.1rem 0;font-size:1.35rem">↓</div>
-      <div class="node bad">
-        <div class="nh">at the moment you need it</div>
-        <div class="nb">the wrong memory surfaces — or none does. answers got <b style="color:var(--bad)">worse</b> than the bare model a year ago.</div>
+
+      <!-- SCENE 2 — team grid -->
+      <div class="scene scene2" id="scene2">
+        <div class="s2head"><span class="cnt" id="cnt">1</span><span class="cl">people — each with their own scattered context</span></div>
+        <div class="grid" id="grid"></div>
+        <svg class="needsvg" id="needsvg"><defs><linearGradient id="holoN" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#7df9ff"/><stop offset=".5" stop-color="#c084fc"/><stop offset="1" stop-color="#ffe27a"/></linearGradient><marker id="nah" markerWidth="8" markerHeight="8" refX="6" refY="4" orient="auto"><path d="M1,1 L6,4 L1,7" fill="none" stroke="#c084fc" stroke-width="1.4"/></marker></defs></svg>
       </div>
-      <div class="viz-cap">More tools didn't fix recall — they buried it. The bottleneck isn't storage. It's <b>surfacing the right thing for this moment</b>.</div>
-    </div>
-  </div>
-</section>
 
-<div class="divider"></div>
-
-<!-- PROBLEM -->
-<section id="problem">
-  <div class="wrap">
-    <div class="eyebrow rv"><span class="num">01</span><span>The real problem</span><span class="ln"></span></div>
-    <h2 class="sec rv">It's not that it forgets. It's that the right memory doesn't fire when it should.</h2>
-    <p class="sec-sub rv">The same question needs a different memory depending on the moment — what you're doing, where you are in the work, who's asking. Storage is solved. Retrieval-for-this-state is not.</p>
-
-    <!-- VIZ 2: same query, different state -->
-    <div class="viz rv">
-      <div class="viz-k">same query · different state · different right answer</div>
-      <div class="state2">
-        <div>
-          <div class="q">"how do we handle auth here?"</div>
-          <div style="display:flex;flex-direction:column;gap:.6rem">
-            <div class="node"><div class="nh">state — mid-incident, prod down</div><div class="nb">surface the rollback runbook + the decision "we dropped sessions for JWT, here's why".</div></div>
-          </div>
-        </div>
-        <div>
-          <div class="q">"how do we handle auth here?"</div>
-          <div style="display:flex;flex-direction:column;gap:.6rem">
-            <div class="node"><div class="nh">state — planning a new service</div><div class="nb">surface the auth ADR + the do-not-repeat note from the last migration.</div></div>
-          </div>
+      <!-- SCENE 3 — pulse colors + emotion -->
+      <div class="scene scene3" id="scene3">
+        <div class="s3grid" id="s3grid"></div>
+        <div class="panel">
+          <div class="pt holo">PULSE · one memory</div>
+          <div class="sect">topics, colored across the team</div>
+          <div class="row2"><span class="sw auth"></span> auth → JWT, decided <span class="c">9</span></div>
+          <div class="row2"><span class="sw gtm"></span> GTM → team angle <span class="c">7</span></div>
+          <div class="row2"><span class="sw posts"></span> launch posts <span class="c">5</span></div>
+          <div class="row2"><span class="sw arch"></span> architecture <span class="c">6</span></div>
+          <div class="sect">emotion, measured</div>
+          <div class="emo"><span class="emochip frus">😤 frustrated · boss</span><span class="emochip stress">🔥 deadline stress</span><span class="emochip ship">✨ shipping energy</span></div>
+          <div class="privrow">🔒 personal — memes &amp; rants stay private, never shared</div>
         </div>
       </div>
-      <div class="viz-cap">A flat vector store hands back the same nearest-text both times. <b>State-aware retrieval picks the memory this moment actually needs</b> — that's the axis the lab builds and measures.</div>
-    </div>
 
-    <p class="note rv">You've read the trillion "build your second brain" threads. They organize <b>one person's notes</b>. They don't make the right thing fire mid-work, and they say nothing about a team. That's not where the difficulty is — and it's not what this lab is.</p>
-  </div>
-</section>
-
-<!-- ADVANTAGE 1 -->
-<section id="with-you" style="background:var(--bg-2)">
-  <div class="wrap">
-    <div class="eyebrow rv"><span class="num">02</span><span>What you actually get</span><span class="ln"></span></div>
-    <div class="adv-head rv"><span class="adv-tag">advantage 1</span></div>
-    <h2 class="sec rv" style="margin-top:.8rem">It keeps improving with you — and your load stays flat.</h2>
-    <p class="sec-sub rv">You don't babysit a memory system. We set it up so it tunes itself to how <b>you and your team</b> actually work — not how an instructor would. It proposes, you judge, it adapts.</p>
-
-    <!-- VIZ 3: co-improvement loop -->
-    <div class="viz rv">
-      <div class="viz-k">the loop you leave running</div>
-      <div class="loop">
-        <div class="step"><div class="si">it observes</div><div class="st">Collects</div><div class="sd">builds a dataset from how you actually work — what you keep, fix, ignore.</div></div>
-        <div class="step"><div class="si">it proposes</div><div class="st">Hypotheses</div><div class="sd">"surface this earlier", "let this decay", "this prompt beats that one" — tested, not guessed.</div></div>
-        <div class="step gate"><div class="si">you decide</div><div class="st">Yes / no</div><div class="sd">a glance: did the right thing fire? you approve or reject. that's your whole job.</div></div>
-        <div class="step"><div class="si">it adapts</div><div class="st">Iterates</div><div class="sd">keeps what worked, drops what didn't, on your data — and runs again.</div></div>
-      </div>
-      <div class="loop-return">↺ runs every cycle — quality compounds while you just work</div>
-      <div class="loadbars">
-        <div class="lb"><div class="lbk"><span>your effort</span><span>flat</span></div><div class="bar flat"><i></i></div></div>
-        <div class="lb"><div class="lbk"><span>recall quality</span><span>↑ over weeks</span></div><div class="bar up"><i></i></div></div>
-      </div>
-      <div class="viz-cap">Honest about the gate: it improves <b>with you</b>, not on its own — nothing changes the shared layer until a human says yes. No autonomous magic, no black box.</div>
-    </div>
-  </div>
-</section>
-
-<!-- ADVANTAGE 2 — TEAM -->
-<section id="team">
-  <div class="wrap">
-    <div class="adv-head rv"><span class="adv-tag">advantage 2 · the part nobody else covers</span></div>
-    <h2 class="sec rv" style="margin-top:.8rem">In a team, your strengths stop dying in your chat.</h2>
-    <p class="sec-sub rv">Over time the Cartographer learns who is actually strong at what — and watches <b>how</b> they get there. A pro's prompt for writing, research or code review is proven; the same skill from a beginner isn't. When a strength is confirmed, it's promoted into the shared context and reaches everyone — the weak version isn't.</p>
-
-    <!-- VIZ 4: team strengths sharing -->
-    <div class="viz rv">
-      <div class="viz-k">strength detected → validated → shared with the team</div>
-      <div class="team">
-        <div class="people">
-          <div class="person pro"><span class="av">A</span><span class="pn">Senior — copy</span><span class="pt">strong</span></div>
-          <div class="person"><span class="av">B</span><span class="pn">Mid — research</span><span class="pt">learning</span></div>
-          <div class="person pro"><span class="av">C</span><span class="pn">Lead — code review</span><span class="pt">strong</span></div>
-        </div>
-        <div class="arrow">→</div>
-        <div class="carto">
-          <div class="cn">Cartographer</div>
-          <div class="cd">sees who is strong at what, and the flow that got them there. Confirms it against results.</div>
-        </div>
-        <div class="arrow">→</div>
-        <div class="shared">
-          <div class="skill on">A's landing-copy flow → shared</div>
-          <div class="skill on">C's review checklist → shared</div>
-          <div class="skill off">raw beginner prompt → kept local</div>
+      <!-- SCENE 4 — any harness + loop -->
+      <div class="scene scene4" id="scene4">
+        <div class="loopwrap">
+          <svg viewBox="0 0 430 380"><circle class="ring" cx="215" cy="190" r="150" fill="none" stroke="url(#g4)" stroke-width="1.4" stroke-dasharray="4 5" opacity=".55"/>
+            <defs><linearGradient id="g4" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#7df9ff"/><stop offset=".5" stop-color="#c084fc"/><stop offset="1" stop-color="#ffe27a"/></linearGradient>
+            <marker id="a4" markerWidth="8" markerHeight="8" refX="6" refY="4" orient="auto"><path d="M1,1 L6,4 L1,7" fill="none" stroke="#c084fc" stroke-width="1.3"/></marker></defs>
+            <path d="M300,75 A150,150 0 0,1 320,255" fill="none" stroke="#c084fc" stroke-width="1.3" opacity=".5" marker-end="url(#a4)"/>
+            <path d="M300,305 A150,150 0 0,1 110,305" fill="none" stroke="#c084fc" stroke-width="1.3" opacity=".5" marker-end="url(#a4)"/>
+            <path d="M110,75 A150,150 0 0,0 95,250" fill="none" stroke="#c084fc" stroke-width="1.3" opacity=".5" marker-end="url(#a4)"/>
+          </svg>
+          <div class="lnode" style="left:50%;top:10%"><span class="lk">collect</span><br><b>every source</b></div>
+          <div class="lnode" style="left:90%;top:72%"><span class="lk">ingest · process</span><br><b>topic + emotion</b></div>
+          <div class="lnode" style="left:10%;top:72%"><span class="lk">retrieval</span><br><b>right context, in state</b></div>
+          <div class="lcore"><div class="lt holo">PULSE memory</div><div class="ls">continue in any harness</div><div class="harness"><span class="hc">Claude Code</span><span class="hc">ChatGPT</span><span class="hc">Cursor</span><span class="hc">Slack</span></div></div>
         </div>
       </div>
-      <div class="viz-cap"><b>Everyone wrote about one person's memory. Team is where it gets interesting.</b> A junior verifying a landing now starts from the senior's proven flow — not from zero, not from noise. Sharing is consent-gated; private context stays private.</div>
-    </div>
-  </div>
-</section>
 
-<!-- HOW IT RUNS -->
-<section id="format" style="background:var(--bg-2)">
-  <div class="wrap">
-    <div class="eyebrow rv"><span class="num">03</span><span>How the lab runs</span><span class="ln"></span></div>
-    <h2 class="sec rv">4 weeks. Each one ends with something that runs, not a slide.</h2>
-    <p class="sec-sub rv">One lecture + one hands-on clinic on your real harness per week, async review between. We tune it on your stack, your data — then leave the loop running.</p>
-    <div class="steps">
-      <div class="stp rv"><div class="sk">week 1</div><h4>Memory Contract</h4><p>what's worth memory, what never is, access &amp; lifespan — and the baseline test where your setup fails today.</p></div>
-      <div class="stp rv"><div class="sk">week 2</div><h4>Context Architecture</h4><p>source → review → memory → next-AI, wired into your harness. First context pack that changes the answer.</p></div>
-      <div class="stp rv"><div class="sk">week 3</div><h4>Trust &amp; the Loop</h4><p>source, correction, expiry, delete — and the propose → you-judge → iterate loop running on your data.</p></div>
-      <div class="stp rv"><div class="sk">week 4</div><h4>Continuity Proof</h4><p>checks that pass or fail live; for teams, the strength-sharing flow turned on across roles.</p></div>
     </div>
+    <div class="cap" id="cap">one person — Slack memes &amp; rants, AI chats, vibecoding. Context everywhere.</div>
   </div>
-</section>
+</div></section>
 
-<!-- HONEST -->
-<section id="honest">
-  <div class="wrap">
-    <div class="eyebrow rv"><span class="num">04</span><span>For the skeptic</span><span class="ln"></span></div>
-    <div class="honest rv">
-      <h2 class="sec">We measure it. And we show both numbers.</h2>
-      <p class="sec-sub">Builders don't trust vibes, so here's the eval. 100 deterministic probes · 60 events · 1 user · our own harness — not a leaderboard, not team validation:</p>
-      <div class="honest-grid">
-        <div class="stat">
-          <div class="st-k">our harness · stateful axis</div>
-          <div class="st-v">0.419</div>
-          <div class="st-d">Recall@3 where the moment decides the memory, vs state-aware baselines <span class="mono">(cosine_state 0.314, hybrid_state 0.219)</span>. This is the axis that fixes "didn't fire when I needed it".</div>
-        </div>
-        <div class="stat">
-          <div class="st-k">where we trail — overall</div>
-          <div class="st-v">0.420&nbsp;<span style="color:var(--fg-3);font-size:.6em">vs</span>&nbsp;0.416</div>
-          <div class="st-d">On the plain overall metric, ordinary cosine beats us. <span class="mono">0.420 vs 0.416</span> — we say it out loud instead of hiding it.</div>
-        </div>
-      </div>
-      <p class="honest-foot rv">The honest promise: we know how to <b>design and verify state/context transfer</b> on our own harness (stateful axis, n=1) — not "best at everything". Behind it: a 12-month single-user deployment, not validation across hundreds of teams. That's why we teach the loop instead of selling magic.</p>
-    </div>
+<!-- ===== Q1 · state-aware retrieval ===== -->
+<section class="sec"><div class="wrap">
+  <div class="q reveal">isn't this just a vector search?</div>
+  <h2 class="reveal">No. The same question needs a <span class="holo">different memory</span> depending on the moment.</h2>
+  <p class="answer reveal">A flat vector store returns the same nearest-text every time. State-aware retrieval reads <b>where the work is right now</b> and surfaces the memory this moment actually needs.</p>
+  <div class="fig reveal">
+    <div class="saquery">query · "how do we handle auth?"</div>
+    <div class="sarow"><div class="sabox"><div class="k">state — mid-incident</div><div class="v">prod is down, you're firefighting</div></div><div class="saarrow">→</div><div class="sabox mem"><div class="k">surfaces</div><div class="v">the rollback runbook + "why we dropped sessions"</div></div></div>
+    <div class="sarow"><div class="sabox"><div class="k">state — planning</div><div class="v">scoping a new service</div></div><div class="saarrow">→</div><div class="sabox mem"><div class="k">surfaces</div><div class="v">the auth ADR + the do-not-repeat note</div></div></div>
+    <div class="sarow"><div class="sabox"><div class="k">state — onboarding</div><div class="v">a new hire is ramping</div></div><div class="saarrow">→</div><div class="sabox mem"><div class="k">surfaces</div><div class="v">the 5-min "how auth works" map</div></div></div>
+    <div class="saflat">flat search → returns the <b>same nearest-text all three times.</b> state decides which memory is right.</div>
   </div>
-</section>
+</div></section>
 
-<!-- PRICING -->
-<section id="price" style="background:var(--bg-2)">
-  <div class="wrap">
-    <div class="eyebrow rv"><span class="num">05</span><span>Pricing</span><span class="ln"></span></div>
-    <h2 class="sec rv">Pick a format</h2>
-    <p class="sec-sub rv">Prices are fixed below. Entry starts with one reproducible recall failure from your harness.</p>
-    <div class="price-grid">
-      <div class="price rv">
-        <div class="pk">Personal</div>
-        <h3>Open cohort</h3>
-        <div class="pdesc">One seat. You leave with a tuned memory layer on your stack and the loop running.</div>
-        <div class="pamt">$790 <small>/ seat</small></div>
-        <ul>
-          <li>4 weeks · lectures + clinics on your harness</li>
-          <li>the propose → judge → iterate loop, set up</li>
-          <li>async review of your artifacts</li>
-          <li>recorded continuity proof</li>
-        </ul>
-        <a class="btn" href="mailto:team@zbs.gg?subject=Memory%20and%20Context%20Lab%20%E2%80%94%20Personal">Book a seat</a>
-      </div>
-      <div class="price feat rv">
-        <div class="pk">Team</div>
-        <h3>Private cohort</h3>
-        <div class="pdesc">A closed cohort for one team, up to ~12. Strength-sharing turned on across roles.</div>
-        <div class="pamt">from $6,900 <small>/ cohort</small></div>
-        <ul>
-          <li>everything in Personal, for the team</li>
-          <li>Cartographer surfaces &amp; shares proven strengths</li>
-          <li>shared context across roles, consent-gated</li>
-          <li>a bridge to a bespoke rollout</li>
-        </ul>
-        <a class="btn" href="mailto:team@zbs.gg?subject=Memory%20and%20Context%20Lab%20%E2%80%94%20Team">Talk about a cohort</a>
-      </div>
-      <div class="price rv">
-        <div class="pk">Bespoke</div>
-        <h3>Audit + rollout</h3>
-        <div class="pdesc">Done-with-you: we work through your process on your data and stand up the loop for the team.</div>
-        <div class="pamt">on request</div>
-        <ul>
-          <li>process audit on your data</li>
-          <li>memory layer + improvement loop, built in</li>
-          <li>you frame the hypotheses — we bring the discipline</li>
-          <li>monthly support</li>
-        </ul>
-        <a class="btn" href="mailto:team@zbs.gg?subject=Memory%20and%20Context%20Lab%20%E2%80%94%20Bespoke">Request a quote</a>
-      </div>
+<!-- ===== Q2 · privacy / leak ===== -->
+<section class="sec"><div class="wrap">
+  <div class="q reveal">won't it leak my private stuff to the team?</div>
+  <h2 class="reveal">Every memory carries a <span class="holo">visibility</span>. Work is shared. The boss memes are not.</h2>
+  <p class="answer reveal">Each entry knows where it came from, whether it's <b>fact or hypothesis</b>, who can see it, and when it expires. Sharing into the team layer is consent-gated — personal stays personal.</p>
+  <div class="fig reveal">
+    <div class="tcards">
+      <div class="tcard shared"><div class="tc">"we use JWT for auth — sessions dropped, here's why."</div><div class="tmeta"><span class="tbadge src">src · #product</span><span class="tbadge fact">fact</span><span class="tbadge team">👥 team — shared</span><span class="tbadge">expires: on supersede</span></div></div>
+      <div class="tcard private"><div class="tc">"😤 boss said 'quick sync' again — so done with these deadlines."</div><div class="tmeta"><span class="tbadge src">src · DM</span><span class="tbadge hyp">mood</span><span class="tbadge priv">🔒 private — never shared</span></div></div>
     </div>
-    <div class="guarantee rv"><span class="g-dot"></span><span>After a preflight we lock a baseline and an acceptance criterion. Week 1 doesn't reproduce the failure — we refund. No reproducible failure, you don't need the lab.</span></div>
+    <div class="figcap">Same inbox, two fates: the <b>decision</b> reaches everyone; the <b>rant</b> never leaves you. You can inspect, correct, expire or delete any of it.</div>
   </div>
-</section>
+</div></section>
 
-<!-- NON GOALS -->
-<section id="not">
-  <div class="wrap">
-    <div class="eyebrow rv"><span class="num">06</span><span>Boundaries</span><span class="ln"></span></div>
-    <h2 class="sec rv">What this is not</h2>
-    <div class="nogoals">
-      <div class="nogoal rv"><span class="ng-x">✕</span><span>Not another "build your second brain" walkthrough.</span></div>
-      <div class="nogoal rv"><span class="ng-x">✕</span><span>Not autonomous magic — nothing changes shared memory without a human yes.</span></div>
-      <div class="nogoal rv"><span class="ng-x">✕</span><span>Not "import your whole life" — we start from one real failure.</span></div>
-      <div class="nogoal rv"><span class="ng-x">✕</span><span>Not "the AI knows you" or "never forgets".</span></div>
-      <div class="nogoal rv"><span class="ng-x">✕</span><span>Not ranking your people — it surfaces strengths, it doesn't score humans.</span></div>
-      <div class="nogoal rv"><span class="ng-x">✕</span><span>Not "100% automation" — a loop you stay in control of.</span></div>
+<!-- ===== Q3 · hallucination / stale ===== -->
+<section class="sec"><div class="wrap">
+  <div class="q reveal">how do i know it won't repeat old, wrong answers?</div>
+  <h2 class="reveal">Superseded decisions are <span class="holo">marked superseded</span> — not silently re-served.</h2>
+  <p class="answer reveal">When a decision changes, the old one isn't deleted and isn't surfaced as current. The new one wins, with a source. No confident answers from last quarter's plan.</p>
+  <div class="fig reveal">
+    <div class="supers">
+      <div class="srow"><div class="scard old"><div class="sk">decision · v1 · April</div><div class="sv">feature X ships in Q3</div></div><div class="sarrow2">→</div><div class="scard cur"><div class="sk">current · v2 · June ✓</div><div class="sv">X moves to Q4 — capacity</div></div></div>
+      <div class="srow"><div class="scard old"><div class="sk">decision · v1</div><div class="sv">auth via sessions</div></div><div class="sarrow2">→</div><div class="scard cur"><div class="sk">current ✓</div><div class="sv">auth via JWT, no sessions</div></div></div>
     </div>
+    <div class="figcap">Ask "what's our auth plan?" and you get <b>v2</b>, with a link to v1 and why it changed — never the stale one, presented as fact.</div>
   </div>
-</section>
+</div></section>
 
-<!-- FINAL CTA -->
-<section class="final" id="cta">
-  <div class="wrap">
-    <div class="eyebrow rv" style="justify-content:center"><span class="num">→</span><span>Entry</span></div>
-    <h2 class="rv">Bring one moment your harness <span class="holo">should have remembered — and didn't.</span></h2>
-    <p class="rv">We reproduce it on your stack, set up the loop, and you watch the right thing start to fire. No data import — one real failure.</p>
-    <a class="btn btn-primary rv" href="mailto:team@zbs.gg?subject=Memory%20and%20Context%20Lab%20%E2%80%94%20application">Bring your recall failure <span class="arr">→</span></a>
+<!-- ===== Q4 · the loop ===== -->
+<section class="sec"><div class="wrap">
+  <div class="q reveal">does it drift, or does someone have to babysit it?</div>
+  <h2 class="reveal">It improves <span class="holo">with you</span> — you just say yes or no.</h2>
+  <p class="answer reveal">It proposes (collects a dataset from how you work, tests hypotheses), you approve or reject in a glance, it keeps what worked. Honest: nothing changes the shared layer without a human yes — no autonomous magic.</p>
+  <div class="fig reveal">
+    <div class="loop4">
+      <div class="lstep"><div class="sk">it observes</div><div class="st">Collect</div><div class="sd">a dataset from real work — what you keep, fix, ignore</div></div>
+      <div class="lstep"><div class="sk">it proposes</div><div class="st">Hypotheses</div><div class="sd">"surface this earlier", "let this decay" — tested, not guessed</div></div>
+      <div class="lstep gate"><div class="sk">you decide</div><div class="st">Yes / no</div><div class="sd">a glance — your whole job in the loop</div></div>
+      <div class="lstep"><div class="sk">it adapts</div><div class="st">Iterate</div><div class="sd">keep what worked, drop what didn't, on your data</div></div>
+    </div>
+    <div class="loopret">↺ every cycle — quality compounds while you just work</div>
+    <div class="effbars">
+      <div class="eb"><div class="ebk"><span>your effort</span><span>flat</span></div><div class="bar flat"><i></i></div></div>
+      <div class="eb"><div class="ebk"><span>recall quality</span><span>↑ over weeks</span></div><div class="bar up"><i></i></div></div>
+    </div>
   </div>
-</section>
+</div></section>
 
-<!-- FOOTER -->
-<footer class="foot">
-  <div class="wrap">
-    <div class="foot-grid">
-      <div class="foot-col ft-brand">
-        <div class="bn">Memory &amp; Context Lab</div>
-        <p>A memory &amp; context layer for the harnesses you actually build in — that improves with you and your team.</p>
-      </div>
-      <div class="foot-col">
-        <div class="ft-k">Apply</div>
-        <p><a href="mailto:team@zbs.gg">team@zbs.gg</a></p>
-        <p>one real recall failure</p>
-      </div>
-      <div class="foot-col">
-        <div class="ft-k">Led by</div>
-        <p>Nikita Shilov</p>
-        <p>method author · runs the lab</p>
-      </div>
-      <div class="foot-col">
-        <div class="ft-k">Entity</div>
-        <p>ZBS GG LLC</p>
-        <p>Delaware, USA</p>
-      </div>
+<!-- ===== Q5 · proof ===== -->
+<section class="sec"><div class="wrap">
+  <div class="q reveal">where's the proof?</div>
+  <h2 class="reveal">We measure it — and show where we <span class="holo">lead</span> and where we <span class="holo">lose</span>.</h2>
+  <p class="answer reveal">100 deterministic probes · 60 events · our own harness · n=1 — a founder-led case study, not validation across hundreds of teams.</p>
+  <div class="fig reveal">
+    <div style="font-family:var(--mono);font-size:.66rem;letter-spacing:.08em;text-transform:uppercase;color:var(--faint);margin-bottom:1rem">stateful axis · Recall@3 · higher = better</div>
+    <div class="evbars">
+      <div class="evbar win"><div class="nm">Pulse (ours)</div><div class="track"><i style="width:83.8%"></i></div><div class="val">0.419</div></div>
+      <div class="evbar"><div class="nm">cosine_state</div><div class="track"><i style="width:62.8%"></i></div><div class="val">0.314</div></div>
+      <div class="evbar"><div class="nm">hybrid_state</div><div class="track"><i style="width:43.8%"></i></div><div class="val">0.219</div></div>
+      <div class="evbar"><div class="nm">bm25</div><div class="track"><i style="width:17.2%"></i></div><div class="val">0.086</div></div>
     </div>
-    <div class="foot-base">
-      <span>© 2026 Memory &amp; Context Lab · ZBS GG LLC</span>
-      <span>Memory that surfaces when it matters — and improves with you.</span>
+    <div class="figcap">We lead on the <b>stateful</b> axis — the one that fixes "didn't fire when I needed it". And we say the rest out loud: on the plain <b>overall</b> metric ordinary cosine beats us, <span class="holo">0.420 vs 0.416</span>. We teach the loop, not magic.</div>
+  </div>
+</div></section>
+
+<!-- ===== program ===== -->
+<section class="sec" id="program"><div class="wrap">
+  <div class="q reveal">what do we actually do for 4 weeks?</div>
+  <h2 class="reveal">Each week ends with something that <span class="holo">runs</span> — on your real harness.</h2>
+  <p class="answer reveal">One lecture + one hands-on clinic on your stack per week, async review between. We tune it on your data, then leave the loop running.</p>
+  <div class="fig reveal">
+    <div class="weeks">
+      <div class="week"><div class="wk">week 1</div><h4>Memory Contract</h4><p>what deserves memory, visibility &amp; lifespan; the baseline test you fail today.</p><div class="art">→ contract + baseline</div></div>
+      <div class="week"><div class="wk">week 2</div><h4>Context Architecture</h4><p>source → review → memory → next-AI, wired into your harness, across the team.</p><div class="art">→ first context pack</div></div>
+      <div class="week"><div class="wk">week 3</div><h4>Trust &amp; the Loop</h4><p>source, supersede, expire, delete — and the propose → you-judge → iterate loop, running.</p><div class="art">→ loop on your data</div></div>
+      <div class="week"><div class="wk">week 4</div><h4>Continuity Proof</h4><p>checks that pass or fail live; strength-sharing turned on across roles.</p><div class="art">→ recorded proof</div></div>
     </div>
   </div>
-</footer>
+</div></section>
+
+<!-- ===== pricing ===== -->
+<section class="sec" id="pricing"><div class="wrap">
+  <div class="q reveal">what does it cost?</div>
+  <h2 class="reveal">For teams of 5–50. Start with one real recall failure.</h2>
+  <div class="fig reveal" style="background:none;border:none;padding:0;margin-top:1.6rem">
+    <div class="pricegrid">
+      <div class="price"><div class="pk">team · cohort</div><h3>Private cohort</h3><div class="pd">A closed 4-week cohort for one team, up to ~12. The memory layer + the loop, on your stack.</div><div class="amt">from $6,900 <small>/ cohort</small></div><ul><li>lectures + clinics on your harness</li><li>topic + emotion memory, set up</li><li>shared context, consent-gated</li><li>recorded continuity proof</li></ul><a class="pbtn" href="mailto:team@zbs.gg?subject=MCL%20Team%20cohort">talk about a cohort →</a></div>
+      <div class="price feat"><div class="pk">company · rollout</div><h3>Audit + rollout</h3><div class="pd">Done-with-you: we work through your process on your data and build the loop into the org.</div><div class="amt">on request</div><ul><li>process audit across teams</li><li>memory + loop, built in</li><li>harness-agnostic integration</li><li>monthly support &amp; regression checks</li></ul><a class="pbtn" href="mailto:team@zbs.gg?subject=MCL%20Company%20rollout">request a quote →</a></div>
+      <div class="price"><div class="pk">pilot</div><h3>One-team pilot</h3><div class="pd">A single team, one reproducible recall failure, four weeks to fix it and prove it.</div><div class="amt">from $790 <small>/ seat</small></div><ul><li>everything in cohort, scoped to a pilot</li><li>a baseline you measurably beat</li><li>a bridge to a full rollout</li></ul><a class="pbtn" href="mailto:team@zbs.gg?subject=MCL%20Pilot">book a pilot →</a></div>
+    </div>
+    <div class="guar"><span class="gd">●</span><span>After a preflight we lock a baseline and an acceptance criterion. If week 1 doesn't reproduce your recall failure, we refund — no questions.</span></div>
+  </div>
+</div></section>
+
+<!-- ===== author ===== -->
+<section class="sec"><div class="wrap">
+  <div class="q reveal">who runs it?</div>
+  <h2 class="reveal">Nikita Shilov — I build and <span class="holo">measure</span> AI memory.</h2>
+  <div class="ev reveal">
+    <div class="r"><span class="k">the method</span><span class="v">author of a state-aware retrieval engine + a public benchmark and paper — the harness this lab teaches from.</span></div>
+    <div class="r"><span class="k">since 2017</span><span class="v">shipping ML in production — LLMs, vision, retrieval. Not slideware.</span></div>
+    <div class="r"><span class="k">the deployment</span><span class="v">a 12-month single-user deployment, 200&nbsp;MB+ of real logs the method grew from. Stated as <b>n=1</b> — honest about scale.</span></div>
+    <div class="r"><span class="k">links</span><span class="v"><a href="https://zbs.gg/bench">benchmark</a> · <a href="https://github.com/zbs-gg/pulse" target="_blank" rel="noopener">open source</a> · <a href="https://nik.care" target="_blank" rel="noopener">writing</a></span></div>
+  </div>
+</div></section>
+
+<!-- ===== faq ===== -->
+<section class="sec"><div class="wrap">
+  <div class="q reveal">faq</div>
+  <h2 class="reveal">Honest answers.</h2>
+  <div class="faqwrap reveal">
+    <details open><summary>Is this for solo builders?</summary><div class="a">No — solo "second brain" tools already exist. This is built for teams and companies: shared context across people, where one person's knowledge stops dying in their chat.</div></details>
+    <details><summary>Which harnesses does it work with?</summary><div class="a">It's harness-agnostic — Claude Code, Kilo Code, OpenCode, Codex, ChatGPT, Cursor, Slack. The memory lives across all of them; you continue the work wherever you are.</div></details>
+    <details><summary>Does it learn by itself / is it autonomous?</summary><div class="a">No. It proposes; a human approves or rejects. Nothing changes the shared layer without a yes. The magic is compounding quality at near-zero added effort — not running without you.</div></details>
+    <details><summary>How do you measure emotion without it being creepy?</summary><div class="a">Affective state is a retrieval signal (frustrated, blocked, shipping) and a privacy boundary — venting is flagged private and never shared. It surfaces strengths and context, it doesn't score or rank people.</div></details>
+    <details><summary>What about our data?</summary><div class="a">It runs on your stack. You see what's stored and passed; you can correct, supersede, expire and delete. Team sharing is consent-gated and reviewed — not raw transcripts.</div></details>
+    <details><summary>What's the refund?</summary><div class="a">Week 1 ends with a baseline test on your data. If we can't reproduce the recall failure you brought, we refund — no questions.</div></details>
+  </div>
+</div></section>
+
+<!-- ===== final ===== -->
+<section class="final"><div class="wrap">
+  <h2 class="reveal">Bring one moment your team <span class="holo">should have remembered</span> — and didn't.</h2>
+  <p class="reveal">We reproduce it on your stack, set up the loop, and you watch the right thing start to fire across the team. No data import — one real failure.</p>
+  <a class="pbtn reveal" href="mailto:team@zbs.gg?subject=Memory%20and%20Context%20Lab">bring your recall failure →</a>
+</div></section>
+
+<footer class="foot"><div class="wrap">
+  <div class="footgrid">
+    <div><div class="ck">apply</div><p><a href="mailto:team@zbs.gg">team@zbs.gg</a></p><p>one real recall failure</p></div>
+    <div><div class="ck">led by</div><p>Nikita Shilov</p><p>method author</p></div>
+    <div><div class="ck">proof</div><p><a href="https://zbs.gg/bench">benchmark</a></p><p><a href="https://github.com/zbs-gg/pulse" target="_blank" rel="noopener">open source</a></p></div>
+    <div><div class="ck">entity</div><p>ZBS GG LLC</p><p>Delaware, USA</p></div>
+  </div>
+  <div class="footbase"><span>© 2026 memory &amp; context lab · zbs gg llc</span><span>memory that surfaces when it matters — for the whole team</span></div>
+</div></footer>
 
 <script>
 (function(){
-  var reduce=window.matchMedia&&window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-  var rv=document.querySelectorAll('.rv');
-  if(reduce||!('IntersectionObserver'in window)){ rv.forEach(function(el){el.classList.add('in');}); return; }
-  var io=new IntersectionObserver(function(entries){
-    entries.forEach(function(e){
-      if(e.isIntersecting){
-        var sibs=e.target.parentNode?e.target.parentNode.querySelectorAll(':scope > .rv'):[e.target];
-        var idx=Array.prototype.indexOf.call(sibs,e.target);
-        e.target.style.transitionDelay=(Math.max(0,idx)*60)+'ms';
-        e.target.classList.add('in'); io.unobserve(e.target);
-      }
+  var stage=document.getElementById('stage'),cap=document.getElementById('cap'),phk=document.getElementById('phk');
+  var grid=document.getElementById('grid'),s3grid=document.getElementById('s3grid'),cnt=document.getElementById('cnt');
+  var N=31;
+  var topics=['a','b','c','arch'];
+  var topicColor={auth:'rgba(125,249,255,.16)',gtm:'rgba(192,132,252,.18)',posts:'rgba(255,154,214,.18)',arch:'rgba(255,226,122,.16)'};
+  var moodColor=['var(--frus)','var(--stress)','var(--focus)','var(--ship)'];
+  // build team grid tiles
+  var tiles=[];
+  for(var i=0;i<N;i++){
+    var t=document.createElement('div');t.className='ptile'+(i===0?' you':'');
+    var label=i===0?'you':('p'+(i+1));
+    t.innerHTML='<div class="ph"><span class="pa">'+(i===0?'Y':String.fromCharCode(65+(i%26)))+'</span><span class="pl">'+label+'</span></div>'+
+      '<div class="srcdots"><i class="a"></i><i class="b"></i><i class="c"></i></div><div class="mood"></div>';
+    grid.appendChild(t);tiles.push(t);
+  }
+  // build scene3 colored cells
+  var cells=[];
+  for(var j=0;j<N;j++){
+    var c=document.createElement('div');c.className='pcell';
+    c.innerHTML='<div class="top"></div><div class="moodbar"></div>';
+    s3grid.appendChild(c);cells.push(c);
+  }
+  function paintPulse(){
+    var tk=['auth','gtm','posts','arch'];
+    cells.forEach(function(c,k){
+      var top=c.querySelector('.top'),mb=c.querySelector('.moodbar');
+      top.style.transitionDelay=(k*16)+'ms';mb.style.transitionDelay=(k*16)+'ms';
+      top.style.background=topicColor[tk[k%4]];
+      mb.style.background=moodColor[(k*3)%4];
     });
+  }
+  function clearPulse(){cells.forEach(function(c){c.querySelector('.top').style.background='transparent';c.querySelector('.moodbar').style.background='transparent';});}
+  var svgns='http://www.w3.org/2000/svg';
+  function clearNeed(){var svg=document.getElementById('needsvg');[].slice.call(svg.querySelectorAll('path')).forEach(function(p){p.remove();});tiles.forEach(function(t){t.classList.remove('need');});}
+  function needWeave(){
+    var svg=document.getElementById('needsvg');clearNeed();
+    var fr=svg.getBoundingClientRect();svg.setAttribute('viewBox','0 0 '+fr.width+' '+fr.height);
+    function ctr(i){var r=tiles[i].getBoundingClientRect();return {x:r.left-fr.left+r.width/2,y:r.top-fr.top+r.height/2};}
+    var pairs=[[8,0],[0,15],[23,4]];
+    pairs.forEach(function(pr,k){
+      tiles[pr[0]].classList.add('need');tiles[pr[1]].classList.add('need');
+      var a=ctr(pr[0]),b=ctr(pr[1]);var mx=(a.x+b.x)/2,my=Math.min(a.y,b.y)-22;
+      var d='M'+a.x.toFixed(0)+','+a.y.toFixed(0)+' Q'+mx.toFixed(0)+','+my.toFixed(0)+' '+b.x.toFixed(0)+','+b.y.toFixed(0);
+      var p=document.createElementNS(svgns,'path');p.setAttribute('class','needline');p.setAttribute('d',d);p.setAttribute('marker-end','url(#nah)');
+      var len=Math.hypot(b.x-a.x,b.y-a.y)*1.7;p.style.strokeDasharray=len;p.style.strokeDashoffset=len;
+      svg.appendChild(p);setTimeout(function(){p.style.strokeDashoffset=0;},120+k*200);
+    });
+  }
+  function setScene(n){
+    clearNeed();stage.className='stage s'+n;
+    if(n===1){tiles.forEach(function(t){t.classList.remove('on');});cnt.textContent='1';clearPulse();}
+    if(n===2){var on=0;var iv=setInterval(function(){
+      if(on<N){tiles[on].classList.add('on');on++;cnt.textContent=on;}
+      else clearInterval(iv);
+    },62);}
+    if(n===3){tiles.forEach(function(t){t.classList.add('on');});paintPulse();}
+  }
+  var caps={
+    1:'one person — Slack memes &amp; rants, AI chats, vibecoding. <b>context everywhere.</b>',
+    2:'now zoom out. you’re <b>1 of 31</b> — each with their own scattered context, none of it shared.',
+    need:'and everyone <b>needs someone else’s context</b> — the auth call, the GTM thread — locked in another person’s chat.',
+    3:'Pulse colors every topic, <b>reads the emotion</b>, remembers it — work is shared, <b>the boss memes stay private.</b>',
+    4:'now it’s a loop: <b>collect → ingest → retrieve.</b> Continue the work in <span class="holo">any harness, any time.</span>'
+  };
+  // freeze for capture: ?scene=N (add &need for the need-beat overlay)
+  var m=location.search.match(/scene=(\d)/);
+  if(m){var n=+m[1];setScene(n);
+    if(n===2){tiles.forEach(function(t){t.classList.add('on');});cnt.textContent=N;
+      if(location.search.indexOf('need')>=0){setTimeout(function(){needWeave();},80);cap.innerHTML=caps.need;phk.textContent='2 · who needs what';return;}}
+    if(n===3){tiles.forEach(function(t){t.classList.add('on');});paintPulse();}
+    cap.innerHTML=caps[n];phk.textContent='scene '+n+' / 4';return;}
+  function run(){
+    var seq=[
+      [0,    function(){setScene(1);cap.innerHTML=caps[1];phk.textContent='1 · one person';}],
+      [3800, function(){setScene(2);cap.innerHTML=caps[2];phk.textContent='2 · the team';}],
+      [7000, function(){needWeave();cap.innerHTML=caps.need;phk.textContent='2 · who needs what';}],
+      [9800, function(){setScene(3);cap.innerHTML=caps[3];phk.textContent='3 · pulse remembers';}],
+      [13100,function(){setScene(4);cap.innerHTML=caps[4];phk.textContent='4 · the loop';}],
+      [18200,function(){run();}]
+    ];
+    seq.forEach(function(s){setTimeout(s[1],s[0]);});
+  }
+  run();
+})();
+</script>
+<script>
+(function(){
+  var rv=document.querySelectorAll('.reveal');
+  if(!('IntersectionObserver' in window)){rv.forEach(function(e){e.classList.add('in');});return;}
+  var io=new IntersectionObserver(function(es){
+    es.forEach(function(e){if(e.isIntersecting){
+      var sibs=e.target.parentNode.querySelectorAll(':scope > .reveal');
+      var idx=Array.prototype.indexOf.call(sibs,e.target);
+      e.target.style.transitionDelay=(Math.max(0,idx)*70)+'ms';
+      e.target.classList.add('in');io.unobserve(e.target);
+    }});
   },{threshold:.12,rootMargin:'0px 0px -8% 0px'});
-  rv.forEach(function(el){ io.observe(el); });
+  rv.forEach(function(e){io.observe(e);});
 })();
 </script>
 </body>
