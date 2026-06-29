@@ -91,7 +91,7 @@ export default function PreviewPage() {
   return (
     <>
       <ClientBg
-        src="/elle-2.mp4"
+        src="/hero-bg-2.mp4"
         fallbackSrc="/pulse-demo.mp4"
         cellSize={8}
         mouseGlowEnabled

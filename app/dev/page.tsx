@@ -27,7 +27,7 @@ type Settings = {
 };
 
 const DEFAULTS: Settings = {
-  src: "/elle-1.mp4",
+  src: "/hero-bg-1.mp4",
   fallbackSrc: "/pulse-demo.mp4",
   cellSize: 9,
   invert: false,
@@ -101,8 +101,8 @@ export default function DevPage() {
                 label="video"
                 value={s.src}
                 options={[
-                  { value: "/elle-1.mp4", label: "elle-1.mp4" },
-                  { value: "/elle-2.mp4", label: "elle-2.mp4" },
+                  { value: "/hero-bg-1.mp4", label: "hero-bg-1.mp4" },
+                  { value: "/hero-bg-2.mp4", label: "hero-bg-2.mp4" },
                 ]}
                 onChange={(v) => setS((p) => ({ ...p, src: v }))}
               />

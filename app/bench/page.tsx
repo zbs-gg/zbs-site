@@ -95,7 +95,7 @@ export default function BenchPage() {
   return (
     <>
       <ClientBg
-        src="/elle-1.mp4"
+        src="/hero-bg-1.mp4"
         fallbackSrc="/pulse-demo.mp4"
         cellSize={8}
         mouseGlowEnabled
