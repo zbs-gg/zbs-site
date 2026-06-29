@@ -40,7 +40,7 @@ export default function Page() {
             <a href="#projects">
               <ScrambleText text="projects" />
             </a>
-            <a href="https://github.com/zbs-gg/pulse" target="_blank" rel="noopener">
+            <a href="/pulse">
               <ScrambleText text="pulse" />
             </a>
             <a href="https://github.com/zbs-gg/hearth" target="_blank" rel="noopener">
@@ -189,10 +189,10 @@ export default function Page() {
 
           <ul className="project-list">
             <li>
-              <a href="https://github.com/zbs-gg/pulse" target="_blank" rel="noopener">
+              <a href="/pulse">
                 <span className="proj-name"><ScrambleText text="Pulse" /></span>
                 <span className="proj-desc">
-                  state-aware memory engine for agents — Go + TS, MIT. Local
+                  state-aware memory engine for agents — Go + TS, AGPL-3.0. Local
                   Preview on npm (@zbs-gg/pulse): doctor-gated install, seeded
                   stateful demo — same query, different user state, different
                   justified episode. anchor-aware decay, conditional emotional
