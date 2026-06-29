@@ -69,8 +69,8 @@ for (const forbidden of [
   assert.doesNotMatch(landing, forbidden, `forbidden landing claim ${forbidden}`);
 }
 assert.match(landing, /simulated memory corpus/, "MemoryTimeline must be labeled simulated");
-assert.doesNotMatch(gitignore, /public\/elle-\*\.mp4/, "Elle background videos must be committed public assets");
-assert.doesNotMatch(asciiBg, /localHosts|preferFallback/, "Elle video must be the primary public background, fallback only handles load errors");
+assert.doesNotMatch(gitignore, /public\/hero-bg-\*\.mp4/, "background videos must be committed public assets");
+assert.doesNotMatch(asciiBg, /localHosts|preferFallback/, "background video must be the primary public background, fallback only handles load errors");
 assert.doesNotMatch(
   landing,
   /<span className="proj-name"><ScrambleText text="Emo\.Bench" \/><\/span>[\s\S]*<a href="https:\/\/github\.com\/zbs-gg\/emo-bench"/,
@@ -84,8 +84,8 @@ for (const [name, source] of [
 ]) {
   assert.match(
     source,
-    /src="\/elle-[12]\.mp4"[\s\S]*fallbackSrc="\/pulse-demo\.mp4"/,
-    `${name} Elle background must have deployed pulse-demo fallback`,
+    /src="\/hero-bg-[12]\.mp4"[\s\S]*fallbackSrc="\/pulse-demo\.mp4"/,
+    `${name} background must have deployed pulse-demo fallback`,
   );
 }
 
