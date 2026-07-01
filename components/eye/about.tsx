@@ -33,7 +33,7 @@ const rows: Row[] = [
   {
     key: "Audio + transcription",
     val:
-      "System audio (calls, meetings, video) and microphone → on-device transcription (SFSpeech), with voice-activity detection — silence and music aren't transcribed.",
+      "System audio (calls, meetings, video) and microphone → on-device transcription (SFSpeech). Meetings-only by default: audio records only while a call is detected (a meeting app using the mic), off otherwise to save disk — plus always / off modes and a menu-bar force on/off. VAD skips silence and music.",
   },
   {
     key: "Hybrid search",

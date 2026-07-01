@@ -3,6 +3,7 @@ import { ScrambleText } from "@/components/scramble-text";
 import { Brand } from "@/components/brand";
 import { Crumbs } from "@/components/crumbs";
 import { EyeHero } from "@/components/eye/hero";
+import { EyeHowItWorks } from "@/components/eye/how-it-works";
 import { EyeAbout } from "@/components/eye/about";
 import { EyeInstall } from "@/components/eye/install";
 import { Share } from "@/components/site/share";
@@ -11,13 +12,13 @@ import Link from "next/link";
 export const metadata = {
   title: "eye — zbs.gg",
   description:
-    "ZBS Eye — eternal memory for your Mac. Continuously records screen + audio, on-device: OCR, transcription, hybrid search, timeline, Ask over a local LLM. 100% local, no cloud, no account, no subscription. Notarized Developer ID — not in the Mac App Store.",
+    "ZBS Eye — eternal memory for your Mac. Continuously records your screen (and audio during meetings) on-device: OCR, transcription, hybrid search, timeline, Ask over a local LLM. 100% local, no cloud, no account, no subscription. Free to download for Apple Silicon.",
 };
 
 const repoUrl = "https://github.com/zbs-gg/eye";
 
 const shareText =
-  "ZBS Eye — eternal memory for your Mac. it records your screen + audio on-device and remembers everything. 100% local, notarized, not in the App Store.";
+  "ZBS Eye — eternal memory for your Mac. it records your screen + audio on-device and remembers everything. 100% local: no cloud, no account, no subscription. free to download.";
 const shareUrl = "https://zbs.gg/eye";
 
 export default function EyePage() {
@@ -65,6 +66,8 @@ export default function EyePage() {
         />
 
         <EyeHero />
+
+        <EyeHowItWorks />
 
         <EyeAbout />
 
