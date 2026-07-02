@@ -213,10 +213,25 @@ export default function CartographerPage() {
               any MCP host.
             </li>
             <li style={{ marginTop: ".6rem" }}>
+              <span className="live">● done</span> &mdash; the analysis pipeline
+              as constraints: model output is untrusted input (no causal
+              &ldquo;observations&rdquo;, no hypothesis without an alternative and
+              a falsifier, resistance is never evidence), provenance is granted by
+              the host, and only the integrator writes. Deterministic today;
+              the live model pass is next.
+            </li>
+            <li style={{ marginTop: ".6rem" }}>
+              <span className="live">● done</span> &mdash; the two-channel evidence
+              flow, proven on fixtures: support and counter-evidence retrieved
+              separately, a firewall so the map can never confirm itself,
+              &ldquo;provider unavailable&rdquo; never read as &ldquo;no
+              counterexamples&rdquo;.
+            </li>
+            <li style={{ marginTop: ".6rem" }}>
               <span style={{ opacity: 0.55 }}>○ next</span> &mdash; hooks (passive
-              mapping from a session, no manual step), a skill surface, the
-              analysis subagents, and a <Link href="/pulse">Pulse</Link> bridge so
-              the map is built from your memories.
+              mapping from a session, no manual step), the live model provider,
+              and the read-only <Link href="/pulse">Pulse</Link> adapter so the
+              map is built from your memories.
             </li>
           </ul>
 
