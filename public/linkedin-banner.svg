@@ -1,82 +1,91 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1584 396" width="1584" height="396" preserveAspectRatio="xMidYMid meet">
   <defs>
     <linearGradient id="holo" x1="0%" y1="0%" x2="100%" y2="0%">
-      <stop offset="0%"   stop-color="#7df9ff"/>
-      <stop offset="30%"  stop-color="#c084fc"/>
-      <stop offset="55%"  stop-color="#ff9ad6"/>
-      <stop offset="78%"  stop-color="#ffe27a"/>
-      <stop offset="100%" stop-color="#7df9ff"/>
+      <stop offset="0%" stop-color="#7df9ff"/>
+      <stop offset="35%" stop-color="#c084fc"/>
+      <stop offset="62%" stop-color="#ff9ad6"/>
+      <stop offset="100%" stop-color="#ffe27a"/>
     </linearGradient>
-    <radialGradient id="halo1" cx="20%" cy="50%" r="38%">
-      <stop offset="0%"   stop-color="rgba(192,132,252,0.16)"/>
-      <stop offset="100%" stop-color="rgba(192,132,252,0)"/>
-    </radialGradient>
-    <radialGradient id="halo2" cx="78%" cy="55%" r="32%">
-      <stop offset="0%"   stop-color="rgba(125,249,255,0.12)"/>
-      <stop offset="100%" stop-color="rgba(125,249,255,0)"/>
-    </radialGradient>
     <style><![CDATA[
       .mono { font-family: ui-monospace, "JetBrains Mono", "SF Mono", Menlo, monospace; }
-      .fg     { fill: #ffffff; }
-      .dim    { fill: rgba(255,255,255,0.55); }
-      .faint  { fill: rgba(255,255,255,0.32); }
-      .holo   { fill: #ffffff; }
-      .rule   { stroke: rgba(255,255,255,0.10); stroke-width: 1; }
+      .fg { fill: #f7f7f7; }
+      .dim { fill: rgba(247,247,247,0.58); }
+      .faint { fill: rgba(247,247,247,0.34); }
+      .ghost { fill: rgba(247,247,247,0.20); }
+      .holo { fill: url(#holo); }
+      .rule { stroke: rgba(247,247,247,0.12); stroke-width: 1; }
+      .soft-rule { stroke: rgba(247,247,247,0.07); stroke-width: 1; }
+      .box { fill: rgba(255,255,255,0.025); stroke: rgba(247,247,247,0.13); stroke-width: 1; }
+      .badge { fill: rgba(125,249,255,0.055); stroke: rgba(125,249,255,0.26); stroke-width: 1; }
+      .warn { fill: rgba(255,226,122,0.08); stroke: rgba(255,226,122,0.30); stroke-width: 1; }
     ]]></style>
   </defs>
 
   <rect width="1584" height="396" fill="#050505"/>
 
-  <!-- ============== LEFT: brand + hero + stack ============== -->
-  <text x="110" y="58"  class="mono faint" font-size="12" letter-spacing="5">▪ INDEPENDENT RESEARCH LAB</text>
-  <text x="110" y="96"  class="mono fg"    font-size="32" letter-spacing="8" font-weight="500">ZBS GG</text>
-  <text x="110" y="118" class="mono dim"   font-size="11" letter-spacing="2">zbs · gg · twice good. unironically.</text>
+  <!-- Sparse terminal noise, kept below text contrast. -->
+  <g class="ghost" font-family="ui-monospace, 'SF Mono', Menlo, monospace" font-size="8">
+    <text x="105" y="338">·· ·· ···   ·   ··</text>
+    <text x="500" y="62">· ·· ·  ··· ··</text>
+    <text x="1345" y="318">·· · ··   ···</text>
+    <text x="1185" y="58">· ··· ·· ·</text>
+  </g>
 
-  <text x="110" y="196" class="mono fg"  font-size="42" letter-spacing="-0.5">memory that knows</text>
-  <text x="110" y="240" class="mono dim" font-size="42" letter-spacing="-0.5">what matters.</text>
+  <!-- LEFT: brand + thesis -->
+  <g transform="translate(110, 50)">
+    <text x="0" y="0" class="mono faint" font-size="12" letter-spacing="5">▪ INDEPENDENT RESEARCH LAB</text>
+    <text x="0" y="38" class="mono fg" font-size="32" letter-spacing="8" font-weight="500">ZBS GG</text>
+    <text x="0" y="61" class="mono dim" font-size="11" letter-spacing="2">zbs · gg · no reset. no amnesia.</text>
 
-  <text x="110" y="288" class="mono faint" font-size="12" letter-spacing="2">
-    PULSE engine  ·  HEARTH chat  ·  BENCH open eval  ·  MIT  ·  zbs.gg
-  </text>
+    <text x="0" y="140" class="mono fg" font-size="42" letter-spacing="-0.5">memory that survives</text>
+    <text x="0" y="184" class="mono dim" font-size="42" letter-spacing="-0.5">contact with reality.</text>
 
-  <!-- ============== RIGHT: comparison table with our highlights ============== -->
-  <g transform="translate(840, 48)">
-    <text x="0" y="0" class="mono faint" font-size="12" letter-spacing="3">▪ STATEFUL AXIS  ·  LABEL-BLIND  ·  0–10 SCALE</text>
-
-    <!-- header -->
-    <text x="0"   y="28" class="mono dim" font-size="11" letter-spacing="2">SYSTEM</text>
-    <text x="380" y="28" class="mono dim" font-size="11" letter-spacing="2" text-anchor="end">SCORE</text>
-    <text x="640" y="28" class="mono dim" font-size="11" letter-spacing="2" text-anchor="end">Δ vs Pulse</text>
-    <line x1="0" y1="36" x2="640" y2="36" class="rule"/>
-
-    <!-- our row: Pulse v3 — holo -->
-    <text x="0"   y="68" class="mono fg"   font-size="20" font-weight="500">Pulse v3</text>
-    <text x="380" y="68" class="mono holo" font-size="28" font-weight="500" text-anchor="end">8.00</text>
-    <text x="640" y="68" class="mono dim"  font-size="14" text-anchor="end">—</text>
-
-    <line x1="0" y1="82" x2="640" y2="82" class="rule"/>
-
-    <!-- baseline rows -->
-    <text x="0"   y="108" class="mono dim" font-size="14">cosine_state  <tspan class="faint" font-size="10">(query+state fused)</tspan></text>
-    <text x="380" y="108" class="mono dim" font-size="18" text-anchor="end">5.93</text>
-    <text x="640" y="108" class="mono holo" font-size="16" font-weight="500" text-anchor="end">+2.07</text>
-
-    <text x="0"   y="132" class="mono dim" font-size="14">Mem0          <tspan class="faint" font-size="10">(graph-memory)</tspan></text>
-    <text x="380" y="132" class="mono dim" font-size="18" text-anchor="end">5.40</text>
-    <text x="640" y="132" class="mono holo" font-size="16" font-weight="500" text-anchor="end">+2.60</text>
-
-    <text x="0"   y="156" class="mono dim" font-size="14">cosine        <tspan class="faint" font-size="10">(stateless RAG floor)</tspan></text>
-    <text x="380" y="156" class="mono dim" font-size="18" text-anchor="end">4.40</text>
-    <text x="640" y="156" class="mono holo" font-size="16" font-weight="500" text-anchor="end">+3.60</text>
-
-    <line x1="0" y1="176" x2="640" y2="176" class="rule"/>
-
-    <text x="0" y="200" class="mono dim" font-size="13">cross-vendor α<tspan baseline-shift="sub" font-size="9" class="faint">stateful</tspan> =
-      <tspan class="holo" font-weight="500">0.699</tspan>  ·  Anthropic / OpenAI / xAI
+    <line x1="0" y1="228" x2="560" y2="228" class="soft-rule"/>
+    <text x="0" y="258" class="mono faint" font-size="12" letter-spacing="2">
+      PULSE engine · HEART chat · FACTUAL BENCH · MIT · zbs.gg
     </text>
-    <text x="0" y="222" class="mono dim" font-size="13">public benchmarks: LongMemEval
-      <tspan class="holo" font-weight="500">68.89%</tspan>  ·  LoCoMo
-      <tspan class="holo" font-weight="500">32.51%</tspan> F1
+  </g>
+
+  <!-- RIGHT: current Pulse factual bench, intentionally not a victory table. -->
+  <g transform="translate(820, 42)">
+    <text x="0" y="0" class="mono faint" font-size="12" letter-spacing="3">▪ PULSE FACTUAL BENCH · REAL EXTRACTION · 2026-06-25</text>
+
+    <rect x="0" y="26" width="642" height="238" rx="0" class="box"/>
+    <line x1="0" y1="74" x2="642" y2="74" class="rule"/>
+    <line x1="0" y1="122" x2="642" y2="122" class="soft-rule"/>
+    <line x1="0" y1="170" x2="642" y2="170" class="soft-rule"/>
+
+    <text x="24" y="56" class="mono faint" font-size="11" letter-spacing="2">SYSTEM</text>
+    <text x="420" y="56" class="mono faint" font-size="11" letter-spacing="2" text-anchor="end">JUDGED ANSWER ACC</text>
+    <text x="618" y="56" class="mono faint" font-size="11" letter-spacing="2" text-anchor="end">READ</text>
+
+    <text x="24" y="104" class="mono fg" font-size="20" font-weight="500">Pulse</text>
+    <text x="420" y="104" class="mono fg" font-size="30" font-weight="500" text-anchor="end">21.1%</text>
+    <text x="618" y="104" class="mono dim" font-size="14" text-anchor="end">8 / 38</text>
+
+    <text x="24" y="152" class="mono dim" font-size="20">real Mem0</text>
+    <text x="420" y="152" class="mono dim" font-size="26" text-anchor="end">23.7%</text>
+    <text x="618" y="152" class="mono dim" font-size="14" text-anchor="end">9 / 38</text>
+
+    <text x="24" y="200" class="mono dim" font-size="17">bootstrap delta</text>
+    <text x="420" y="200" class="mono dim" font-size="24" text-anchor="end">-2.6pp</text>
+    <text x="618" y="200" class="mono faint" font-size="13" text-anchor="end">CI -7.9..0.0</text>
+
+    <rect x="22" y="218" width="598" height="28" rx="0" class="warn"/>
+    <text x="36" y="237" class="mono fg" font-size="14" letter-spacing="1">DECISION</text>
+    <text x="618" y="237" class="mono holo" font-size="15" font-weight="700" text-anchor="end">NO SIGNIFICANT DIFFERENCE</text>
+
+    <g transform="translate(0, 292)">
+      <rect x="0" y="-18" width="184" height="30" rx="0" class="badge"/>
+      <rect x="206" y="-18" width="204" height="30" rx="0" class="badge"/>
+      <rect x="432" y="-18" width="210" height="30" rx="0" class="badge"/>
+      <text x="14" y="2" class="mono fg" font-size="13">38 gold probes</text>
+      <text x="220" y="2" class="mono fg" font-size="13">8 extracted docs</text>
+      <text x="446" y="2" class="mono fg" font-size="13">same event texts</text>
+    </g>
+
+    <text x="0" y="336" class="mono dim" font-size="13">
+      recall@k diagnostic only · host extraction paraphrases source text · negative results stay public
     </text>
   </g>
 </svg>

@@ -38,6 +38,9 @@ export default function CartographerPage() {
             <a href="#problem">
               <ScrambleText text="problem" />
             </a>
+            <a href="#uses">
+              <ScrambleText text="use cases" />
+            </a>
             <a href="#how">
               <ScrambleText text="how it maps" />
             </a>
@@ -96,6 +99,49 @@ export default function CartographerPage() {
           </p>
         </section>
 
+        {/* SECTION 1b — Use cases */}
+        <section className="evidence" id="uses">
+          <h2 className="section-label">
+            <ScrambleText text="// use cases" />
+          </h2>
+          <p className="install-lede">
+            what this looks like on an ordinary day. the preview is honest about
+            its edges: episodes reach the map because you (or an agent you asked)
+            put them there &mdash; passive capture is the next build.
+          </p>
+          <p className="install-lede">
+            <strong>you asked for x. you meant y.</strong> i told the agent to
+            tidy my notes folder and it archived the drafts i live in &mdash;
+            exactly what i said, exactly wrong. with a map it can read over MCP,
+            the hypothesis &ldquo;keeps rough work close; dislikes silent
+            moves&rdquo; is sitting there with the episodes behind it, so it asks
+            before it archives.
+          </p>
+          <p className="install-lede">
+            <strong>a skill that fits how i actually work.</strong> before writing
+            me a custom skill, the agent reads the map first: what i optimize for,
+            what i quietly refuse to do, where i contradict my own instructions.
+            the skill comes back shaped to me, not to a generic user. early on the
+            map says &ldquo;i don&rsquo;t know yet&rdquo; a lot &mdash; which is
+            the point.
+          </p>
+          <p className="install-lede">
+            <strong>my own pattern, with receipts.</strong> the map holds
+            &ldquo;tends to say yes to scope i later resent&rdquo; &mdash; with the
+            episodes for it, the ones against, and what would change its mind. i
+            open the hypothesis, read exactly why it thinks so, and correct it;
+            corrections add history, they don&rsquo;t overwrite it. nothing on it
+            was captured behind my back.
+          </p>
+          <p className="install-lede">
+            <strong>the gentle question.</strong> &ldquo;looks like you actually
+            want this &mdash; your actions say so &mdash; does that ring
+            true?&rdquo; one question, earned, only when the answer would decide
+            between two live guesses. today that moment is one i start myself;
+            the skill that raises it unprompted is the next build.
+          </p>
+        </section>
+
         {/* SECTION 2 — How it maps */}
         <section className="evidence" id="how">
           <h2 className="section-label">
@@ -120,6 +166,33 @@ export default function CartographerPage() {
             confirmations across time and contexts, and from trying to{" "}
             <em>disprove</em> its own guesses.
           </p>
+          <ul className="install-lede" style={{ listStyle: "none", paddingLeft: 0 }}>
+            <li>
+              <code>01 · observe</code> &mdash; episodes enter an append-only
+              journal: what was said, what was chosen, in what context. today an
+              agent calls <code>cartographer_ingest</code> by hand; hooks make
+              this passive next.
+            </li>
+            <li style={{ marginTop: ".45rem" }}>
+              <code>02 · hypothesize</code> &mdash; each guess gets a scope,
+              alternative explanations, and a falsifier. what would prove it wrong
+              is written down before it&rsquo;s believed.
+            </li>
+            <li style={{ marginTop: ".45rem" }}>
+              <code>03 · weigh</code> &mdash; evidence for and evidence against,
+              held apart and never merged. the status is derived by code &mdash;
+              candidate, working, supported, contested, disconfirmed, retired.
+            </li>
+            <li style={{ marginTop: ".45rem" }}>
+              <code>04 · ask</code> &mdash; at most one gentle, non-leading
+              question, only when the answer decides between two live hypotheses.
+              &ldquo;does that ring true?&rdquo;
+            </li>
+            <li style={{ marginTop: ".45rem" }}>
+              <code>05 · hand off</code> &mdash; agents read the confirmed map
+              over MCP and act on what you meant, not just what you typed.
+            </li>
+          </ul>
         </section>
 
         {/* SECTION 3 — What ships today (honest) */}
@@ -135,8 +208,8 @@ export default function CartographerPage() {
             <li>
               <span className="live">● done</span> &mdash; the epistemic kernel
               (event journal, replay, status policy, redaction, invariants) and an
-              MCP server exposing four tools: <code>ingest</code>,{" "}
-              <code>map</code>, <code>review</code>, <code>redact</code>. Runs in
+              MCP server exposing four tools: <code>cartographer_ingest</code>,{" "}
+              <code>cartographer_map</code>, <code>cartographer_review</code>, <code>cartographer_redact</code>. Runs in
               any MCP host.
             </li>
             <li style={{ marginTop: ".6rem" }}>
