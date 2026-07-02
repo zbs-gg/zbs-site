@@ -56,6 +56,16 @@ const rows: Row[] = [
       "A daily on-device insight: a local LLM reads the day's activity — top apps (browsers broken down by site, not lumped as one), context switches, topics — and gives 2–3 concrete observations. On-device only.",
   },
   {
+    key: "Usage stats",
+    val:
+      "Front-and-center on the Daily Insights screen: where your last 7 days actually went — top sites (browsers split by real host, recovered from your own history), active minutes per day, context switches, busiest hour. On-device.",
+  },
+  {
+    key: "Self-repair",
+    val:
+      "Something broke? Describe it — Eye collects on-device diagnostics and hands your own AI agent a ready-to-run fix prompt (it reads the public source and fixes it), or opens a pre-filled GitHub issue. No dead ends, because the code is yours.",
+  },
+  {
     key: "Access for AI agents",
     val:
       "A local REST API (127.0.0.1, Bearer token) plus MCP over stdio, so your own LLMs and agents can work with your memory as a tool. Zero egress.",
