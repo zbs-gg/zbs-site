@@ -106,10 +106,10 @@ export function EyeHero() {
       </h1>
 
       <p className="install-lede">
-        ZBS Eye is a macOS app that continuously records everything you see and
-        hear — your screen and your audio — and lets you find any moment in
-        seconds. It runs <em>entirely on your machine</em>: no cloud, no
-        account, no subscription, no telemetry.
+        Your Mac already sees everything you do — ZBS Eye is the part that
+        remembers it. It records your screen and audio on-device, makes any
+        moment searchable in seconds, and{" "}
+        <em>none of it ever leaves your machine</em>.
       </p>
 
       <p
@@ -124,7 +124,8 @@ export function EyeHero() {
             "0 0 16px var(--bg), 0 0 10px var(--bg), 0 0 5px var(--bg), 0 0 2px var(--bg)",
         }}
       >
-        it sees everything. <span className="holo">it remembers everything.</span>{" "}
+        it sees everything.{" "}
+        <span className="holo-solid">it remembers everything.</span>{" "}
         and it all stays with you.
       </p>
 
@@ -135,10 +136,34 @@ export function EyeHero() {
             "0 0 16px var(--bg), 0 0 10px var(--bg), 0 0 5px var(--bg), 0 0 2px var(--bg)",
         }}
       >
-        <span className="live">● shipped &amp; notarized</span> · Developer ID
-        build · macOS 15+ · Apple Silicon · 100% local · not in the Mac App
-        Store (by design)
+        <span className="live">● free to download</span> · 100% on your Mac ·
+        Apple Silicon · no account, ever · no telemetry
       </p>
+
+      <div className="hero-cta">
+        <a
+          className="btn-download"
+          href="https://github.com/zbs-gg/eye/releases/latest"
+          target="_blank"
+          rel="noopener"
+        >
+          Download for Mac
+        </a>
+        <p className="cta-sub">
+          notarized · opens with a double-click · Apple Silicon
+        </p>
+        <p className="cta-secondary">
+          or{" "}
+          <a
+            href="https://github.com/zbs-gg/eye"
+            target="_blank"
+            rel="noopener"
+          >
+            read the source
+          </a>{" "}
+          · build it yourself · ask your agent to review it first
+        </p>
+      </div>
     </section>
   );
 }

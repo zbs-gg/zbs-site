@@ -38,6 +38,101 @@
   100% { background-position: 200% 50%; }
 }
 
+/* ── ZBS Eye /eye — hero accent + Download CTA + how-it-works diagram ──
+   .holo (above) clips a gradient to transparent text → a must-read line goes
+   near-invisible on #050505. .holo-solid is a solid on-brand accent instead. */
+.holo-solid {
+  color: var(--holo-1);
+  font-weight: 500;
+  text-shadow: 0 0 12px rgba(125, 249, 255, 0.45), 0 0 2px rgba(5, 5, 5, 0.9);
+}
+@media (prefers-reduced-motion: reduce) {
+  .holo-solid { text-shadow: 0 0 2px rgba(5, 5, 5, 0.9); }
+}
+
+.hero-cta { margin: 1.7rem 0 0; display: flex; flex-direction: column; gap: 0.55rem; align-items: flex-start; }
+.btn-download {
+  font-family: var(--mono);
+  font-size: 1.05rem;
+  letter-spacing: 0.03em;
+  color: var(--fg);
+  text-decoration: none;
+  display: inline-block;
+  padding: 0.82rem 1.5rem;
+  border: 1px solid transparent;
+  border-radius: 3px;
+  background: linear-gradient(var(--bg), var(--bg)) padding-box, var(--holo-grad) border-box;
+  transition: background 0.15s ease;
+}
+.btn-download:hover,
+.btn-download:focus-visible {
+  outline: none;
+  background:
+    linear-gradient(color-mix(in srgb, var(--holo-1) 14%, var(--bg)), color-mix(in srgb, var(--holo-1) 14%, var(--bg))) padding-box,
+    var(--holo-grad) border-box;
+}
+.cta-sub { font-family: var(--mono); font-size: 0.78rem; color: var(--fg-dim); margin: 0; }
+.cta-secondary { font-family: var(--mono); font-size: 0.8rem; color: var(--fg-faint); margin: 0.15rem 0 0; }
+.cta-secondary a { color: var(--fg-dim); }
+
+/* how it works — the on-device pipeline, all inside one "your Mac" frame */
+.hiw { margin: 0.4rem 0 0; }
+.hiw-frame {
+  position: relative;
+  border: 1px dashed var(--rule);
+  border-radius: 5px;
+  padding: 1.7rem 1.2rem 1.2rem;
+  background: rgba(5, 5, 5, 0.5);
+}
+.hiw-legend {
+  position: absolute;
+  top: -0.72rem;
+  left: 1rem;
+  padding: 0 0.55rem;
+  background: var(--bg);
+  font-family: var(--mono);
+  font-size: 0.76rem;
+  letter-spacing: 0.02em;
+  color: var(--fg-dim);
+}
+.hiw-legend .lock { color: #6fe3a5; }
+.hiw-flow { display: flex; align-items: stretch; gap: 0.6rem; }
+.hiw-stage { flex: 1 1 0; min-width: 0; display: flex; flex-direction: column; gap: 0.5rem; }
+.hiw-col-title {
+  font-family: var(--mono);
+  font-size: 0.7rem;
+  letter-spacing: 0.07em;
+  text-transform: uppercase;
+  color: var(--fg-faint);
+  margin: 0 0 0.15rem;
+}
+.hiw-node {
+  font-family: var(--mono);
+  border: 1px solid var(--rule);
+  border-radius: 3px;
+  padding: 0.5rem 0.6rem;
+  background: rgba(5, 5, 5, 0.6);
+}
+.hiw-node b { color: var(--fg); font-weight: 500; font-size: 0.9rem; }
+.hiw-node span { display: block; color: var(--fg-dim); font-size: 0.73rem; line-height: 1.4; margin-top: 0.2rem; }
+.hiw-engine .hiw-node {
+  border: 1px solid transparent;
+  background: linear-gradient(rgba(5, 5, 5, 0.85), rgba(5, 5, 5, 0.85)) padding-box, var(--holo-grad) border-box;
+}
+.hiw-arrow {
+  display: flex; align-items: center; justify-content: center;
+  flex: 0 0 1.1rem;
+  color: var(--fg-faint);
+  font-family: var(--mono);
+  font-size: 1.15rem;
+}
+.hiw-cloud { margin: 1.1rem 0 0; font-family: var(--mono); font-size: 0.76rem; color: var(--fg-faint); }
+.hiw-cloud .cut { color: #ff8f8f; }
+@media (max-width: 680px) {
+  .hiw-flow { flex-direction: column; }
+  .hiw-arrow { transform: rotate(90deg); flex-basis: auto; padding: 0.15rem 0; }
+}
+
 html, body {
   margin: 0;
   padding: 0;
