@@ -51,9 +51,9 @@ const rows: Row[] = [
       'Ask a question → hybrid search finds the fragments → a local LLM answers with citations you can click to jump on the timeline. A local equivalent of "Ask Rewind" — the model is whatever you\'ve loaded in LM Studio or Ollama.',
   },
   {
-    key: "Cartographer",
+    key: "Daily Insights",
     val:
-      "A daily on-device insight: a local LLM reads the day's activity — top apps, context switches, topics — and gives 2–3 concrete observations. On-device only.",
+      "A daily on-device insight: a local LLM reads the day's activity — top apps (browsers broken down by site, not lumped as one), context switches, topics — and gives 2–3 concrete observations. On-device only.",
   },
   {
     key: "Access for AI agents",
