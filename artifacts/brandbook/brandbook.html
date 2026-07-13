@@ -3,353 +3,382 @@
 <head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>zbs.gg — brandbook v2</title>
+<title>zbs.gg — brandbook v2.1</title>
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400..800&family=Instrument+Sans:ital,wght@0,400;0,500;0,600;1,400&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet" />
+<script src="assets/gsap.min.js"></script>
 <style>
   :root{
-    --bg:#050505; --panel:#0a0b0d;
-    --fg:#f5f5f5; --dim:rgba(245,245,245,.62); --faint:rgba(245,245,245,.34);
-    --rule:rgba(245,245,245,.12); --rule2:rgba(245,245,245,.06);
-    --accent:#7df9ff;
-    --holo-1:#7df9ff; --holo-2:#c084fc; --holo-3:#ff9ad6; --holo-4:#ffe27a;
-    --holo:linear-gradient(110deg,var(--holo-1),var(--holo-2) 34%,var(--holo-3) 62%,var(--holo-4));
+    --bg:#050505;
+    --plate:#0c0d10;
+    --plate-2:#111216;
+    --fg:#f5f5f5;
+    --white:#ffffff;
+    --dim:rgba(245,245,245,.68);
+    --faint:rgba(245,245,245,.38);
+    --rule:rgba(245,245,245,.14);
+    --rule2:rgba(245,245,245,.07);
+    --cyan:#7df9ff;
+    --holo:linear-gradient(110deg,#7df9ff,#c084fc 34%,#ff9ad6 62%,#ffe27a);
     --display:"Bricolage Grotesque",system-ui,sans-serif;
     --body:"Instrument Sans",system-ui,sans-serif;
-    --mono:"IBM Plex Mono",ui-monospace,"SF Mono",Menlo,monospace;
-    /* glass system */
-    --glass-neutral:rgba(255,255,255,.055);
-    --glass-neutral-border:rgba(255,255,255,.10);
-    --glass-tint:rgba(125,249,255,.08);
-    --glass-tint-border:rgba(125,249,255,.22);
-    --glass-blur:16px;
+    --mono:"IBM Plex Mono",ui-monospace,Menlo,monospace;
   }
   *{box-sizing:border-box;margin:0;padding:0}
   html{scroll-behavior:smooth}
   body{background:var(--bg);color:var(--fg);font-family:var(--body);-webkit-font-smoothing:antialiased;line-height:1.5}
-  .wrap{max-width:1120px;margin:0 auto;padding:0 2rem}
+  .wrap{max-width:1140px;margin:0 auto;padding:0 1.5rem}
   a{color:inherit}
 
-  /* nav */
+  /* sticky nav — solid dark, white/cyan type */
   .nav{
-    position:sticky;top:0;z-index:20;
-    background:rgba(5,5,5,.82);
-    -webkit-backdrop-filter:blur(12px);backdrop-filter:blur(12px);
-    border-bottom:1px solid var(--rule2);
+    position:sticky;top:0;z-index:40;
+    background:#050505ee;
+    border-bottom:1px solid var(--rule);
   }
-  .nav-inner{display:flex;gap:1.2rem;align-items:center;padding:.7rem 0;font-family:var(--mono);font-size:.7rem;color:var(--faint);overflow-x:auto}
-  .nav a{text-decoration:none;color:var(--dim);white-space:nowrap}
-  .nav a:hover{color:var(--accent)}
-  .nav .mark{color:var(--accent);font-weight:600;margin-right:.4rem}
+  .nav-inner{
+    display:flex;gap:1rem;align-items:center;padding:.75rem 0;
+    font-family:var(--mono);font-size:.72rem;overflow-x:auto;
+  }
+  .nav .mark{color:var(--cyan);font-weight:600;margin-right:.35rem}
+  .nav a{text-decoration:none;color:var(--white);opacity:.55;white-space:nowrap}
+  .nav a:hover{opacity:1;color:var(--cyan)}
 
-  /* section scaffolding — NO uppercase micro kickers as section titles */
-  section{padding:4.8rem 0;border-bottom:1px solid var(--rule)}
-  .sec-head{display:grid;grid-template-columns:auto 1fr;gap:1.2rem 1.6rem;align-items:start;margin-bottom:1.8rem}
-  @media(max-width:640px){.sec-head{grid-template-columns:1fr;gap:.5rem}}
+  section{padding:4.5rem 0;border-bottom:1px solid var(--rule2)}
+  .sec-head{display:grid;grid-template-columns:auto 1fr;gap:.8rem 1.4rem;margin-bottom:1.6rem;align-items:end}
+  @media(max-width:640px){.sec-head{grid-template-columns:1fr}}
   .sec-num{
-    font-family:var(--display);font-weight:700;font-size:clamp(2.6rem,5vw,3.6rem);
-    line-height:.9;letter-spacing:-.04em;color:rgba(125,249,255,.22);
-    min-width:2.4ch;
+    font-family:var(--display);font-weight:700;
+    font-size:clamp(2.8rem,6vw,4rem);line-height:.85;letter-spacing:-.05em;
+    background:var(--holo);-webkit-background-clip:text;background-clip:text;color:transparent;
   }
   h2.sec-title{
     font-family:var(--display);font-weight:700;
-    font-size:clamp(1.55rem,3.2vw,2.25rem);
-    letter-spacing:-.02em;line-height:1.08;text-wrap:balance;
-    margin-bottom:.45rem;
+    font-size:clamp(1.55rem,3vw,2.2rem);letter-spacing:-.025em;line-height:1.05;
+    color:var(--white);
   }
-  .sec-lede{font-family:var(--body);color:var(--dim);max-width:58ch;font-size:1.02rem}
-  .mono-note{font-family:var(--mono);font-size:.74rem;color:var(--faint);letter-spacing:.01em}
+  .sec-lede{color:var(--dim);max-width:52ch;margin-top:.45rem;font-size:1.02rem}
 
-  /* ---------- masthead ---------- */
-  .mast{position:relative;min-height:88vh;display:flex;align-items:flex-end;padding:0;border-bottom:1px solid var(--rule);overflow:hidden}
-  #ascii{position:absolute;inset:0;width:100%;height:100%;display:block}
-  .mast-veil{position:absolute;inset:0;background:
-    radial-gradient(90% 70% at 72% 18%, transparent 0%, #050505 78%),
-    linear-gradient(180deg, transparent 40%, #050505 100%)}
-  .mast-inner{position:relative;z-index:2;width:100%;padding-bottom:3.4rem}
-  .glass-neutral{
-    display:inline-block;padding:1.7rem 1.9rem;border-radius:6px;
-    background:var(--glass-neutral);
-    -webkit-backdrop-filter:blur(var(--glass-blur)) saturate(120%);
-    backdrop-filter:blur(var(--glass-blur)) saturate(120%);
-    border:1px solid var(--glass-neutral-border);
-    box-shadow:0 30px 80px -30px rgba(0,0,0,.85), inset 0 1px 0 rgba(245,245,245,.06);
-    max-width:min(100%, 36rem);
+  /* ========== HERO ========== */
+  .mast{
+    position:relative;min-height:92vh;display:flex;align-items:center;
+    overflow:hidden;border-bottom:1px solid var(--rule);
   }
+  #ascii{position:absolute;inset:0;width:100%;height:100%}
+  .mast-veil{
+    position:absolute;inset:0;
+    background:
+      linear-gradient(90deg, rgba(5,5,5,.92) 0%, rgba(5,5,5,.55) 48%, rgba(5,5,5,.35) 100%),
+      linear-gradient(180deg, transparent 30%, #050505 100%);
+  }
+  .mast-grid{
+    position:relative;z-index:2;width:100%;padding:5rem 0 4rem;
+    display:grid;grid-template-columns:1.15fr .85fr;gap:2rem;align-items:center;
+  }
+  @media(max-width:900px){.mast-grid{grid-template-columns:1fr}}
+
+  /* SOLID dark plate + WHITE type — not ghost glass */
+  .plate{
+    background:var(--plate);
+    border:1px solid var(--rule);
+    border-radius:4px;
+    box-shadow:0 24px 60px -20px rgba(0,0,0,.85), inset 0 1px 0 rgba(255,255,255,.06);
+  }
+  .plate-pad{padding:1.75rem 1.85rem}
+  .plate-white{
+    background:#f2f2f0;color:#0a0a0a;border:1px solid #e4e4e0;
+  }
+  .plate-white .dim{color:rgba(10,10,10,.62)}
+  .plate-holo-edge{
+    position:relative;
+    background:var(--plate);
+    border:1px solid transparent;
+    background-clip:padding-box;
+  }
+  .plate-holo-edge::before{
+    content:"";position:absolute;inset:-1px;border-radius:5px;z-index:-1;
+    background:var(--holo);
+  }
+
   .mast-meta{
-    font-family:var(--mono);font-size:.78rem;color:var(--dim);margin-bottom:1rem;
-    display:flex;flex-wrap:wrap;gap:.55rem;align-items:center;
+    font-family:var(--mono);font-size:.78rem;color:var(--cyan);
+    display:flex;gap:.55rem;align-items:center;margin-bottom:1rem;
   }
-  .mast-meta .dot{width:6px;height:6px;border-radius:1px;background:var(--accent);box-shadow:0 0 12px rgba(125,249,255,.7)}
+  .mast-meta .dot{
+    width:7px;height:7px;background:var(--cyan);border-radius:1px;
+    box-shadow:0 0 14px var(--cyan);
+  }
   .mast h1{
     font-family:var(--display);font-weight:700;
-    font-size:clamp(2.1rem,5.2vw,3.5rem);line-height:1.0;letter-spacing:-.03em;
-    max-width:16ch;text-wrap:balance;
+    font-size:clamp(2.2rem,5vw,3.6rem);line-height:.98;letter-spacing:-.035em;
+    color:var(--white);max-width:12ch;
   }
-  .mast h1 .glow{
-    color:var(--accent);
-    text-shadow:0 0 18px rgba(125,249,255,.55), 0 0 44px rgba(125,249,255,.22);
+  .mast h1 em{
+    font-style:normal;
+    background:var(--holo);-webkit-background-clip:text;background-clip:text;color:transparent;
   }
-  .mast .sub{font-family:var(--body);font-size:1.02rem;color:var(--dim);margin-top:1.1rem;max-width:42ch;line-height:1.55}
+  .mast .sub{margin-top:1rem;color:var(--dim);font-size:1.05rem;max-width:38ch;line-height:1.55}
 
-  /* ---------- principles / dd ---------- */
-  .dd{display:grid;grid-template-columns:1fr 1fr;gap:1.2rem}
-  @media(max-width:820px){.dd{grid-template-columns:1fr}}
-  .dd .col{border:1px solid var(--rule);border-radius:6px;padding:1.35rem;background:var(--panel)}
-  .dd .col h3{font-family:var(--display);font-weight:600;font-size:1.05rem;letter-spacing:-.01em;margin-bottom:.85rem}
-  .dd .do h3{color:var(--accent)}
-  .dd .dont h3{color:#ff9ad6}
-  .dd ul{list-style:none;display:grid;gap:.55rem}
-  .dd li{font-family:var(--mono);font-size:.78rem;color:var(--dim);line-height:1.5;padding-left:1.1rem;position:relative}
-  .dd .do li::before{content:"+";position:absolute;left:0;color:var(--accent)}
-  .dd .dont li::before{content:"\00d7";position:absolute;left:0;color:#ff9ad6}
-
-  /* ---------- type ---------- */
-  .type-row{display:grid;grid-template-columns:150px 1fr;gap:1.4rem;padding:1.35rem 0;border-top:1px solid var(--rule2);align-items:baseline}
-  .type-row:first-of-type{border-top:none}
-  .type-tag{font-family:var(--mono);font-size:.72rem;color:var(--faint);line-height:1.45}
-  .type-tag b{display:block;color:var(--dim);font-weight:500;font-size:.78rem;margin-bottom:.15rem}
-  .t-display-xl{font-family:var(--display);font-weight:700;font-size:clamp(2rem,4vw,3rem);letter-spacing:-.03em;line-height:.98}
-  .t-body{font-family:var(--body);font-size:1.05rem;color:var(--dim);max-width:52ch}
-  .t-body i{color:var(--fg);font-style:italic}
-  .t-mono{font-family:var(--mono);font-size:.82rem;color:var(--dim);letter-spacing:.02em}
-  .scale-strip{display:flex;flex-wrap:wrap;gap:1.2rem;align-items:baseline;margin-top:1.6rem;font-family:var(--display);color:var(--dim)}
-
-  /* ---------- color ---------- */
-  .chips{display:grid;grid-template-columns:repeat(auto-fill,minmax(140px,1fr));gap:.85rem;margin-top:.4rem}
-  .chip{border:1px solid var(--rule);border-radius:5px;overflow:hidden;background:var(--panel)}
-  .chip .sw{height:68px}
-  .chip .cap{padding:.55rem .6rem;font-family:var(--mono);font-size:.66rem;line-height:1.45}
-  .chip .cap b{color:var(--fg);display:block;font-weight:600}
-  .chip .cap span{color:var(--faint)}
-  .holo-bar{height:12px;border-radius:999px;background:var(--holo);margin-top:1.3rem}
-  .holo-cap{font-family:var(--mono);font-size:.72rem;color:var(--faint);margin-top:.5rem}
-
-  /* glass comparison */
-  .glass-compare{display:grid;grid-template-columns:1fr 1fr;gap:1.1rem;margin-top:1.8rem}
-  @media(max-width:820px){.glass-compare{grid-template-columns:1fr}}
-  .glass-demo{
-    position:relative;min-height:220px;border:1px solid var(--rule);border-radius:8px;overflow:hidden;
-    display:flex;align-items:center;justify-content:center;padding:1.4rem;
+  /* 3D card stage */
+  .stage-3d{
+    perspective:1100px;height:340px;
+    display:flex;align-items:center;justify-content:center;
   }
-  .glass-demo.holo-field{background:var(--holo);filter:saturate(110%)}
-  .glass-demo.grey-field{
-    background:
-      radial-gradient(circle at 30% 40%, rgba(255,255,255,.08), transparent 45%),
-      radial-gradient(circle at 70% 60%, rgba(255,255,255,.05), transparent 40%),
-      linear-gradient(135deg,#1a1b1e,#0c0d10 50%,#141518);
+  .card-3d{
+    width:min(100%,280px);height:300px;
+    transform-style:preserve-3d;
+    position:relative;cursor:grab;
   }
-  .glass-card-tint{
-    padding:1.1rem 1.2rem;border-radius:6px;
-    background:var(--glass-tint);
-    -webkit-backdrop-filter:blur(var(--glass-blur));backdrop-filter:blur(var(--glass-blur));
-    border:1px solid var(--glass-tint-border);
-    font-family:var(--mono);font-size:.78rem;color:var(--fg);
-    box-shadow:inset 0 1px 0 rgba(245,245,245,.08);
-    max-width:18rem;
-  }
-  .glass-card-neutral{
-    padding:1.1rem 1.2rem;border-radius:6px;
-    background:var(--glass-neutral);
-    -webkit-backdrop-filter:blur(var(--glass-blur));backdrop-filter:blur(var(--glass-blur));
-    border:1px solid var(--glass-neutral-border);
-    font-family:var(--mono);font-size:.78rem;color:var(--fg);
-    box-shadow:inset 0 1px 0 rgba(245,245,245,.06);
-    max-width:18rem;
-  }
-  .glass-card-tint strong,.glass-card-neutral strong{
-    display:block;font-family:var(--display);font-weight:600;font-size:1.05rem;
-    letter-spacing:-.01em;margin-bottom:.35rem;color:var(--fg);
-  }
-  .glass-label{
-    position:absolute;left:.8rem;top:.7rem;
-    font-family:var(--mono);font-size:.66rem;color:var(--faint);
-    background:rgba(0,0,0,.45);padding:.2rem .45rem;border-radius:2px;border:1px solid var(--rule2);
-  }
-
-  /* ---------- effects lab ---------- */
-  .fx-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:1.1rem}
-  @media(max-width:820px){.fx-grid{grid-template-columns:1fr}}
-  .fx{border:1px solid var(--rule);border-radius:8px;background:var(--panel);overflow:hidden;display:flex;flex-direction:column;min-height:260px}
-  .fx-stage{flex:1;position:relative;overflow:hidden;display:flex;align-items:center;justify-content:center;min-height:160px}
-  .fx-meta{padding:1rem 1.05rem;border-top:1px solid var(--rule2)}
-  .fx-meta h3{font-family:var(--display);font-weight:600;font-size:1.05rem;letter-spacing:-.01em;margin-bottom:.3rem}
-  .fx-meta p{font-family:var(--body);font-size:.9rem;color:var(--dim);line-height:1.45}
-  .fx-meta .dose{font-family:var(--mono);font-size:.68rem;color:var(--faint);margin-top:.55rem}
-  .fx-meta .dose b{color:var(--accent);font-weight:500}
-  #fx-ascii{position:absolute;inset:0;width:100%;height:100%}
-  .fx-glow-dot{
-    width:72px;height:72px;border-radius:50%;background:var(--accent);
-    box-shadow:0 0 34px 4px rgba(125,249,255,.6),0 0 90px 12px rgba(125,249,255,.25);
-    animation:pulseGlow 2.4s ease-in-out infinite;
-  }
-  @keyframes pulseGlow{
-    0%,100%{box-shadow:0 0 28px 2px rgba(125,249,255,.5),0 0 70px 8px rgba(125,249,255,.18);transform:scale(1)}
-    50%{box-shadow:0 0 42px 8px rgba(125,249,255,.75),0 0 110px 18px rgba(125,249,255,.28);transform:scale(1.04)}
-  }
-  .fx-glass-stack{position:relative;width:78%;height:70%}
-  .fx-glass-stack .layer{
+  .card-3d:active{cursor:grabbing}
+  .card-face{
     position:absolute;inset:0;border-radius:8px;
-    background:var(--glass-neutral);
-    -webkit-backdrop-filter:blur(10px);backdrop-filter:blur(10px);
-    border:1px solid var(--glass-neutral-border);
+    backface-visibility:hidden;
+    overflow:hidden;
+    border:1px solid rgba(125,249,255,.35);
+    background:linear-gradient(160deg,#0e1014 0%,#08090c 100%);
+    box-shadow:0 20px 50px rgba(0,0,0,.55), 0 0 40px -10px rgba(125,249,255,.25);
+    display:flex;flex-direction:column;
   }
-  .fx-glass-stack .l1{inset:18% 8% 8% 22%;background:rgba(255,255,255,.03)}
-  .fx-glass-stack .l2{inset:8% 18% 22% 8%;background:rgba(255,255,255,.06)}
-  .fx-glass-stack .l3{inset:28% 28% 12% 28%;background:rgba(255,255,255,.09);display:flex;align-items:center;justify-content:center;font-family:var(--mono);font-size:.68rem;color:var(--dim)}
-  .fx-glass-bg{position:absolute;inset:0;background:linear-gradient(135deg,#1a1b1e,#0c0d10 50%,#141518)}
-  .fx-scramble{
-    font-family:var(--mono);font-size:clamp(.95rem,2vw,1.25rem);letter-spacing:.02em;
-    color:var(--fg);text-align:center;padding:1rem;min-height:3.2em;display:flex;align-items:center;justify-content:center;
+  .card-face.back{
+    transform:rotateY(180deg);
+    border-color:rgba(255,255,255,.2);
+    background:linear-gradient(160deg,#12141a,#0a0b0e);
   }
-  .fx-scramble .hi{color:var(--accent);text-shadow:0 0 14px rgba(125,249,255,.4)}
+  .card-face img{
+    width:100%;height:58%;object-fit:cover;display:block;
+    background:#0a0b0e;
+  }
+  .card-face .cf-body{padding:1rem 1.05rem;flex:1;display:flex;flex-direction:column;gap:.4rem}
+  .card-face .cf-k{font-family:var(--mono);font-size:.66rem;color:var(--cyan);letter-spacing:.04em}
+  .card-face .cf-t{font-family:var(--display);font-weight:700;font-size:1.15rem;color:var(--white);letter-spacing:-.02em;line-height:1.1}
+  .card-face .cf-d{font-size:.82rem;color:var(--dim);line-height:1.4}
+  .card-wire{
+    position:absolute;inset:0;pointer-events:none;opacity:.55;
+  }
+
+  /* ========== PRINCIPLES ========== */
+  .pgrid{display:grid;grid-template-columns:repeat(3,1fr);gap:1rem}
+  @media(max-width:800px){.pgrid{grid-template-columns:1fr}}
+  .pcard{padding:1.3rem;min-height:160px}
+  .pcard h3{font-family:var(--display);font-weight:700;font-size:1.15rem;color:var(--white);margin-bottom:.5rem;letter-spacing:-.02em}
+  .pcard p{color:var(--dim);font-size:.95rem;line-height:1.45}
+  .pcard .n{font-family:var(--mono);font-size:.7rem;color:var(--cyan);margin-bottom:.55rem}
+
+  /* ========== TYPE ========== */
+  .type-row{
+    display:grid;grid-template-columns:140px 1fr;gap:1.2rem;
+    padding:1.3rem 1.2rem;align-items:baseline;margin-bottom:.7rem;
+  }
+  .type-tag{font-family:var(--mono);font-size:.72rem;color:var(--cyan)}
+  .type-tag b{display:block;color:var(--white);font-weight:500;font-size:.8rem;margin-bottom:.15rem}
+  .t-xl{font-family:var(--display);font-weight:700;font-size:clamp(1.8rem,4vw,2.8rem);letter-spacing:-.03em;color:var(--white);line-height:1}
+  .t-body{font-size:1.05rem;color:var(--dim);max-width:48ch}
+  .t-mono{font-family:var(--mono);font-size:.84rem;color:var(--cyan)}
+
+  /* ========== COLOR + PLATES ========== */
+  .chips{display:grid;grid-template-columns:repeat(auto-fill,minmax(130px,1fr));gap:.7rem}
+  .chip{border:1px solid var(--rule);border-radius:4px;overflow:hidden;background:var(--plate)}
+  .chip .sw{height:64px}
+  .chip .cap{padding:.5rem .55rem;font-family:var(--mono);font-size:.66rem;line-height:1.4;color:var(--dim)}
+  .chip .cap b{display:block;color:var(--white)}
+  .holo-bar{height:10px;border-radius:999px;background:var(--holo);margin:1.2rem 0 .5rem}
+  .note{font-family:var(--mono);font-size:.72rem;color:var(--faint)}
+
+  .plate-demo{display:grid;grid-template-columns:1fr 1fr 1fr;gap:.9rem;margin-top:1.4rem}
+  @media(max-width:800px){.plate-demo{grid-template-columns:1fr}}
+  .pd{padding:1.2rem;min-height:140px}
+  .pd h4{font-family:var(--display);font-weight:700;font-size:1.05rem;margin-bottom:.4rem;letter-spacing:-.02em}
+  .pd p{font-size:.88rem;line-height:1.4}
+  .pd.dark h4{color:var(--white)}.pd.dark p{color:var(--dim)}
+  .pd.white h4{color:#0a0a0a}.pd.white p{color:rgba(10,10,10,.65)}
+  .pd.holo-text h4{
+    background:var(--holo);-webkit-background-clip:text;background-clip:text;color:transparent;
+  }
+  .pd.holo-text p{color:var(--dim)}
+
+  /* ========== EFFECTS LAB ========== */
+  .fx-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:1rem}
+  @media(max-width:820px){.fx-grid{grid-template-columns:1fr}}
+  .fx{overflow:hidden;display:flex;flex-direction:column;min-height:280px}
+  .fx-stage{
+    flex:1;min-height:170px;position:relative;
+    background:#07080a;display:flex;align-items:center;justify-content:center;overflow:hidden;
+  }
+  .fx-meta{padding:1rem 1.05rem;border-top:1px solid var(--rule2);background:var(--plate)}
+  .fx-meta h3{font-family:var(--display);font-weight:700;font-size:1.05rem;color:var(--white);letter-spacing:-.02em;margin-bottom:.25rem}
+  .fx-meta p{font-size:.88rem;color:var(--dim);line-height:1.4}
+  .fx-meta .dose{font-family:var(--mono);font-size:.66rem;color:var(--cyan);margin-top:.5rem}
+
+  #fx-ascii{position:absolute;inset:0;width:100%;height:100%}
+  .glow-orb{
+    width:64px;height:64px;border-radius:50%;background:var(--cyan);
+    box-shadow:0 0 30px 4px rgba(125,249,255,.7),0 0 90px 16px rgba(125,249,255,.28);
+  }
   .scan-overlay{
     position:absolute;inset:0;pointer-events:none;
-    background:repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(0,0,0,.18) 2px, rgba(0,0,0,.18) 3px);
-    opacity:.55;
+    background:repeating-linear-gradient(0deg,transparent,transparent 2px,rgba(0,0,0,.2) 2px,rgba(0,0,0,.2) 3px);
+    opacity:.5;
   }
   .scan-bar{
-    position:absolute;left:0;right:0;height:28%;
-    background:linear-gradient(180deg, transparent, rgba(125,249,255,.08), transparent);
-    animation:scanMove 3.2s linear infinite;
+    position:absolute;left:0;right:0;height:22%;
+    background:linear-gradient(180deg,transparent,rgba(125,249,255,.1),transparent);
+    animation:scan 2.8s linear infinite;
   }
-  @keyframes scanMove{0%{top:-30%}100%{top:100%}}
+  @keyframes scan{0%{top:-25%}100%{top:100%}}
+  .scramble{
+    font-family:var(--mono);font-size:1.15rem;color:var(--white);text-align:center;padding:1rem;z-index:2;
+  }
+  .scramble .hi{color:var(--cyan);text-shadow:0 0 12px rgba(125,249,255,.5)}
 
-  /* ---------- lab explainer ---------- */
+  /* SVG line draw */
+  #line-draw{width:100%;height:100%}
+  #line-draw path{
+    fill:none;stroke:url(#holoStroke);stroke-width:1.6;
+    stroke-linecap:round;stroke-linejoin:round;
+    stroke-dasharray:1;stroke-dashoffset:1;
+  }
+  #line-draw path.drawn{animation:drawLine 2.4s ease forwards}
+  @keyframes drawLine{to{stroke-dashoffset:0}}
+  #line-draw .node{fill:var(--cyan);filter:drop-shadow(0 0 4px var(--cyan))}
+
+  /* particles */
+  #particles{position:absolute;inset:0;width:100%;height:100%}
+
+  /* matrix rain lite */
+  #matrix{position:absolute;inset:0;width:100%;height:100%}
+
+  /* ========== EXPLAINER ========== */
   .stage{
-    margin-top:.4rem;border:1px solid var(--rule);border-radius:10px;
-    background:linear-gradient(180deg,#0a0b0d,#070708);
-    padding:clamp(1rem,2.2vw,1.35rem);position:relative;overflow:hidden;
+    border:1px solid var(--rule);border-radius:6px;background:var(--plate);
+    padding:1.15rem;position:relative;overflow:hidden;
   }
   .stage-chrome{
     display:flex;justify-content:space-between;align-items:center;gap:1rem;flex-wrap:wrap;
-    font-family:var(--mono);font-size:.7rem;color:var(--faint);margin-bottom:.95rem;
+    font-family:var(--mono);font-size:.7rem;color:var(--faint);margin-bottom:.9rem;
   }
-  .stage-chrome .title{color:var(--dim)}
+  .stage-chrome .title{color:var(--cyan)}
   .stage-chrome .dots{display:flex;gap:.35rem}
-  .stage-chrome .dots i{width:7px;height:7px;border-radius:50%;background:var(--rule);display:inline-block;transition:background .3s}
+  .stage-chrome .dots i{width:7px;height:7px;border-radius:50%;background:var(--rule);display:inline-block}
   .stage.s1 .dots i:nth-child(1),
   .stage.s2 .dots i:nth-child(2),
-  .stage.s3 .dots i:nth-child(3){background:var(--accent);box-shadow:0 0 8px rgba(125,249,255,.5)}
-  .stage-controls{display:flex;gap:.45rem}
+  .stage.s3 .dots i:nth-child(3){background:var(--cyan);box-shadow:0 0 8px var(--cyan)}
   .stage-controls button{
-    font-family:var(--mono);font-size:.68rem;color:var(--dim);
+    font-family:var(--mono);font-size:.68rem;color:var(--white);
     background:transparent;border:1px solid var(--rule);border-radius:3px;
-    padding:.28rem .55rem;cursor:pointer;
+    padding:.3rem .55rem;cursor:pointer;
   }
-  .stage-controls button:hover{border-color:var(--faint);color:var(--fg)}
-  .stage-body{position:relative;min-height:280px}
+  .stage-controls button:hover{border-color:var(--cyan);color:var(--cyan)}
+  .stage-body{position:relative;min-height:270px}
   .scene{
     position:absolute;inset:0;opacity:0;pointer-events:none;
-    transform:scale(.97);filter:blur(6px);
-    transition:opacity .7s ease,transform .8s cubic-bezier(.22,.61,.36,1),filter .7s ease;
+    transform:translateY(8px);transition:opacity .55s,transform .55s;
   }
   .stage.s1 .scene1,.stage.s2 .scene2,.stage.s3 .scene3{
-    opacity:1;pointer-events:auto;transform:none;filter:none;
+    opacity:1;pointer-events:auto;transform:none;
   }
-  .people{display:flex;gap:.55rem;flex-wrap:wrap;margin-bottom:.9rem}
+  .people{display:flex;gap:.5rem;flex-wrap:wrap;margin-bottom:.75rem}
   .avatar{
-    width:36px;height:36px;border-radius:50%;
+    width:34px;height:34px;border-radius:50%;
     display:flex;align-items:center;justify-content:center;
-    font-family:var(--mono);font-size:.68rem;font-weight:600;color:#050505;
-    border:1px solid rgba(255,255,255,.12);
+    font-family:var(--mono);font-size:.66rem;font-weight:600;color:#050505;
   }
-  .avatar.n{background:#7df9ff}
+  .avatar.n{background:var(--cyan)}
   .avatar.a{background:#c084fc;color:#1a0a28}
   .avatar.m{background:#ff9ad6;color:#2a0a18}
   .avatar.s{background:#ffe27a;color:#1a1400}
   .avatar.k{background:#a5b4fc;color:#0a0f28}
-  .ctx-chips{display:flex;gap:.4rem;flex-wrap:wrap;margin-bottom:1rem}
+  .ctx-chips{display:flex;gap:.35rem;flex-wrap:wrap;margin-bottom:.85rem}
   .ctx{
-    font-family:var(--mono);font-size:.66rem;color:var(--dim);
-    border:1px solid var(--rule);border-radius:999px;padding:.28rem .65rem;
-    background:rgba(0,0,0,.25);
+    font-family:var(--mono);font-size:.64rem;color:var(--dim);
+    border:1px solid var(--rule);border-radius:999px;padding:.25rem .6rem;background:#08090c;
   }
-  .ctx.on{border-color:rgba(125,249,255,.35);color:var(--accent);background:rgba(125,249,255,.06)}
-  .win-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:.65rem}
+  .ctx.on{border-color:rgba(125,249,255,.4);color:var(--cyan)}
+  .win-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:.55rem}
   @media(max-width:720px){.win-grid{grid-template-columns:1fr}}
-  .win{
-    border:1px solid var(--rule);border-radius:6px;padding:.75rem;
-    background:var(--glass-neutral);
-    -webkit-backdrop-filter:blur(8px);backdrop-filter:blur(8px);
-  }
-  .win .wh{font-family:var(--mono);font-size:.64rem;color:var(--faint);margin-bottom:.45rem}
-  .win .line{height:6px;border-radius:2px;background:rgba(245,245,245,.08);margin:.28rem 0}
-  .win .line.w1{width:88%}.win .line.w2{width:64%}.win .line.w3{width:72%}
-  .win .line.hot{background:rgba(125,249,255,.35)}
-  .team-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(88px,1fr));gap:.55rem}
-  .ptile{
-    border:1px solid var(--rule);border-radius:6px;padding:.65rem .5rem;text-align:center;
-    background:rgba(0,0,0,.35);
-  }
-  .ptile .nm{font-family:var(--mono);font-size:.68rem;color:var(--dim);margin-top:.4rem}
-  .ptile .mood{font-family:var(--mono);font-size:.58rem;color:var(--faint);margin-top:.2rem}
-  .retrieve{
-    display:grid;grid-template-columns:1fr auto 1fr;gap:.8rem;align-items:center;height:100%;
-  }
-  @media(max-width:720px){.retrieve{grid-template-columns:1fr;text-align:center}}
-  .ret-card{
-    border:1px solid var(--rule);border-radius:6px;padding:1rem;
-    background:var(--glass-neutral);
-    -webkit-backdrop-filter:blur(10px);backdrop-filter:blur(10px);
-  }
-  .ret-card h4{font-family:var(--display);font-weight:600;font-size:1rem;margin-bottom:.35rem}
-  .ret-card p{font-family:var(--mono);font-size:.7rem;color:var(--dim);line-height:1.45}
-  .ret-arrow{font-family:var(--mono);font-size:1.4rem;color:var(--accent);text-shadow:0 0 12px rgba(125,249,255,.4)}
-  .stage-cap{
-    margin-top:.95rem;font-family:var(--body);font-size:.95rem;color:var(--dim);line-height:1.5;
-    min-height:2.8em;
-  }
-  .stage-cap b{color:var(--fg);font-weight:500}
+  .win{border:1px solid var(--rule);border-radius:4px;padding:.7rem;background:#08090c}
+  .win .wh{font-family:var(--mono);font-size:.62rem;color:var(--faint);margin-bottom:.4rem}
+  .win .line{height:5px;border-radius:1px;background:rgba(245,245,245,.1);margin:.25rem 0}
+  .win .line.hot{background:var(--cyan);box-shadow:0 0 8px rgba(125,249,255,.4)}
+  .win .line.w1{width:88%}.win .line.w2{width:62%}.win .line.w3{width:74%}
+  .team-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(84px,1fr));gap:.5rem}
+  .ptile{border:1px solid var(--rule);border-radius:4px;padding:.55rem;text-align:center;background:#08090c}
+  .ptile .nm{font-family:var(--mono);font-size:.66rem;color:var(--white);margin-top:.35rem}
+  .ptile .mood{font-family:var(--mono);font-size:.58rem;color:var(--faint)}
+  .retrieve{display:grid;grid-template-columns:1fr auto 1fr;gap:.7rem;align-items:center;height:100%}
+  @media(max-width:720px){.retrieve{grid-template-columns:1fr}}
+  .ret-card{border:1px solid var(--rule);border-radius:4px;padding:1rem;background:#08090c}
+  .ret-card.on{border-color:rgba(125,249,255,.4)}
+  .ret-card h4{font-family:var(--display);font-weight:700;font-size:1rem;color:var(--white);margin-bottom:.3rem}
+  .ret-card p{font-family:var(--mono);font-size:.68rem;color:var(--dim);line-height:1.4}
+  .ret-arrow{font-family:var(--mono);font-size:1.5rem;color:var(--cyan)}
+  .stage-cap{margin-top:.9rem;color:var(--dim);font-size:.95rem;min-height:2.6em}
+  .stage-cap b{color:var(--white);font-weight:500}
 
-  /* ---------- illustrated components ---------- */
-  .comp-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1rem}
+  /* ========== ILLUSTRATED CARDS ========== */
+  .mood-banner{
+    width:100%;height:160px;object-fit:cover;border-radius:4px;border:1px solid var(--rule);
+    margin-bottom:1.2rem;background:var(--plate);display:block;
+  }
+  .comp-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:.9rem}
   @media(max-width:960px){.comp-grid{grid-template-columns:1fr 1fr}}
-  @media(max-width:640px){.comp-grid{grid-template-columns:1fr}}
-  .icard{
-    border:1px solid var(--rule);border-radius:8px;background:var(--panel);
-    padding:1.2rem;display:flex;flex-direction:column;gap:.75rem;
-    transition:border-color .15s;
-  }
-  .icard:hover{border-color:rgba(245,245,245,.22)}
+  @media(max-width:600px){.comp-grid{grid-template-columns:1fr}}
+  .icard{padding:0;overflow:hidden;display:flex;flex-direction:column}
   .icard-art{
-    height:88px;border-radius:6px;border:1px solid var(--rule2);
-    background:
-      radial-gradient(80% 80% at 70% 30%, rgba(125,249,255,.08), transparent 60%),
-      linear-gradient(160deg,#0c0d10,#08090b);
-    display:flex;align-items:center;justify-content:center;
-    color:var(--accent);
+    height:96px;background:#08090c;border-bottom:1px solid var(--rule2);
+    display:flex;align-items:center;justify-content:center;color:var(--cyan);
+    position:relative;
   }
-  .icard-art img,.icard-art svg{width:36px;height:36px}
-  .icard h3{font-family:var(--display);font-weight:600;font-size:1.08rem;letter-spacing:-.01em}
-  .icard p{font-family:var(--body);font-size:.9rem;color:var(--dim);line-height:1.45;flex:1}
-  .icard .rule{font-family:var(--mono);font-size:.66rem;color:var(--faint);line-height:1.4;border-top:1px solid var(--rule2);padding-top:.65rem}
-  .icard .rule b{color:var(--dim);font-weight:500}
+  .icard-art img.mood{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:.45}
+  .icard-art img.icon,.icard-art svg{width:32px;height:32px;position:relative;z-index:1;filter:drop-shadow(0 0 6px rgba(125,249,255,.35))}
+  .icard-body{padding:1rem}
+  .icard h3{font-family:var(--display);font-weight:700;font-size:1.05rem;color:var(--white);letter-spacing:-.02em;margin-bottom:.35rem}
+  .icard p{font-size:.88rem;color:var(--dim);line-height:1.4}
+  .icard .rule{font-family:var(--mono);font-size:.64rem;color:var(--faint);margin-top:.7rem;padding-top:.65rem;border-top:1px solid var(--rule2)}
+  .icard .rule b{color:var(--cyan);font-weight:500}
 
-  /* buttons sample */
-  .btn{font-family:var(--mono);font-size:.82rem;letter-spacing:.02em;color:var(--fg);text-decoration:none;padding:.66rem 1.15rem;border:1px solid var(--accent);border-radius:3px;display:inline-block;cursor:pointer;transition:background .15s,box-shadow .15s;background:transparent}
-  .btn:hover{background:rgba(125,249,255,.12);box-shadow:0 0 22px -6px rgba(125,249,255,.5)}
-  .btn.ghost{border-color:var(--rule);color:var(--dim)}
-  .btn.ghost:hover{border-color:var(--faint);background:rgba(245,245,245,.04);box-shadow:none}
-  .datachip{font-family:var(--mono);font-size:.72rem;color:var(--dim);border:1px solid var(--rule);border-radius:999px;padding:.32rem .7rem;display:inline-flex;gap:.5rem;align-items:center}
-  .datachip .n{color:var(--accent);font-weight:600}
-  .label-tag{font-family:var(--mono);font-size:.66rem;letter-spacing:.02em;color:var(--faint);border:1px solid var(--rule);border-radius:2px;padding:.22rem .45rem}
+  .btn{
+    font-family:var(--mono);font-size:.8rem;color:var(--bg);
+    background:var(--cyan);border:1px solid var(--cyan);border-radius:3px;
+    padding:.65rem 1.1rem;text-decoration:none;display:inline-block;
+    box-shadow:0 0 20px -6px rgba(125,249,255,.55);
+  }
+  .btn:hover{filter:brightness(1.08)}
+  .btn.ghost{background:transparent;color:var(--white);border-color:var(--rule);box-shadow:none}
+  .btn.ghost:hover{border-color:var(--cyan);color:var(--cyan)}
+  .datachip{
+    font-family:var(--mono);font-size:.7rem;color:var(--white);
+    border:1px solid var(--rule);border-radius:999px;padding:.3rem .65rem;
+    display:inline-flex;gap:.4rem;align-items:center;background:#08090c;
+  }
+  .datachip .n{color:var(--cyan);font-weight:600}
 
-  /* ledger */
-  table.ledger{width:100%;border-collapse:collapse;margin-top:.4rem;font-size:.84rem}
-  table.ledger th,table.ledger td{text-align:left;padding:.65rem .7rem;border-bottom:1px solid var(--rule2);vertical-align:top}
-  table.ledger th{font-family:var(--mono);font-size:.68rem;color:var(--faint);font-weight:500}
-  table.ledger td{font-family:var(--body);color:var(--dim)}
-  table.ledger td b{color:var(--fg);font-weight:600}
-  table.ledger code{font-family:var(--mono);font-size:.76rem;color:var(--accent)}
+  /* guardrails */
+  .dd{display:grid;grid-template-columns:1fr 1fr;gap:1rem}
+  @media(max-width:800px){.dd{grid-template-columns:1fr}}
+  .dd .col{padding:1.25rem}
+  .dd h3{font-family:var(--display);font-weight:700;font-size:1.1rem;margin-bottom:.7rem;color:var(--white)}
+  .dd .do h3{color:var(--cyan)}
+  .dd .dont h3{color:#ff9ad6}
+  .dd ul{list-style:none;display:grid;gap:.45rem}
+  .dd li{font-family:var(--mono);font-size:.76rem;color:var(--dim);padding-left:1rem;position:relative;line-height:1.45}
+  .dd .do li::before{content:"+";position:absolute;left:0;color:var(--cyan)}
+  .dd .dont li::before{content:"×";position:absolute;left:0;color:#ff9ad6}
 
-  footer{padding:2.5rem 0 4rem;font-family:var(--mono);font-size:.72rem;color:var(--faint);line-height:1.6}
+  table.ledger{width:100%;border-collapse:collapse;font-size:.84rem}
+  table.ledger th,table.ledger td{text-align:left;padding:.6rem .65rem;border-bottom:1px solid var(--rule2);vertical-align:top}
+  table.ledger th{font-family:var(--mono);font-size:.66rem;color:var(--cyan);font-weight:500}
+  table.ledger td{color:var(--dim)}
+  table.ledger td b{color:var(--white)}
+  table.ledger code{font-family:var(--mono);font-size:.74rem;color:var(--cyan)}
+
+  footer{padding:2.2rem 0 3.5rem;font-family:var(--mono);font-size:.7rem;color:var(--faint);line-height:1.55}
 
   @media(prefers-reduced-motion:reduce){
-    #ascii,#fx-ascii{opacity:.55}
-    .fx-glow-dot,.scan-bar{animation:none}
-    .scene{transition:opacity .25s}
+    #ascii,#fx-ascii,#matrix,#particles{opacity:.4}
+    .scan-bar,.glow-orb{animation:none}
+    #line-draw path{stroke-dashoffset:0}
+    .card-3d{transform:none !important}
   }
 </style>
 </head>
@@ -357,242 +386,269 @@
 
 <nav class="nav"><div class="wrap"><div class="nav-inner">
   <span class="mark">zbs</span>
-  <a href="#essence">Essence</a>
+  <a href="#lock">Lock</a>
   <a href="#type">Type</a>
-  <a href="#color">Color & glass</a>
-  <a href="#fx">Effects lab</a>
-  <a href="#explainer">Context explainer</a>
-  <a href="#components">Illustrated parts</a>
-  <a href="#rules">Guardrails</a>
-  <a href="#ledger">Ledger</a>
-  <a href="type-specimen.html">Type specimen →</a>
+  <a href="#plates">Plates</a>
+  <a href="#fx">Effects</a>
+  <a href="#explainer">Explainer</a>
+  <a href="#parts">Parts</a>
+  <a href="#rules">Rules</a>
+  <a href="type-specimen.html">Specimen →</a>
 </div></div></nav>
 
-<!-- 0 · MASTHEAD — neutral glass, no eyebrow kicker -->
+<!-- HERO -->
 <header class="mast">
   <canvas id="ascii" aria-hidden="true"></canvas>
   <div class="mast-veil"></div>
-  <div class="mast-inner"><div class="wrap">
-    <div class="glass-neutral">
-      <div class="mast-meta"><span class="dot" aria-hidden="true"></span> zbs.gg brandbook · v2 · illustrative specimen</div>
-      <h1>Memory that knows what <span class="glow">matters</span>.</h1>
-      <p class="sub">Not a token pamphlet — a live lab of surfaces, motion, people-in-context, and icons. Open via file://; no server required.</p>
+  <div class="wrap mast-grid">
+    <div class="plate plate-pad plate-holo-edge">
+      <div class="mast-meta"><span class="dot"></span> brandbook · v2.1</div>
+      <h1>Memory that knows what <em>matters</em>.</h1>
+      <p class="sub">Dark plate. White type. One cyan signal. Live effects — not a token sheet.</p>
     </div>
-  </div></div>
-</header>
-
-<!-- 1 · ESSENCE -->
-<section id="essence"><div class="wrap">
-  <div class="sec-head">
-    <div class="sec-num" aria-hidden="true">01</div>
-    <div>
-      <h2 class="sec-title">Show the engine thinking. Don't sell it.</h2>
-      <p class="sec-lede">zbs.gg is an independent research lab's face. Trust in the first second: hand-built by someone who knows the work — not median AI chrome.</p>
-    </div>
-  </div>
-  <div class="dd">
-    <div class="col do">
-      <h3>Three principles</h3>
-      <ul>
-        <li>show, don't sell — live explainer beats a claim</li>
-        <li>terminal-editorial — mono is the voice, grotesk is personality</li>
-        <li>one honest accent — cyan means signal, never decoration</li>
-      </ul>
-    </div>
-    <div class="col do">
-      <h3>What stays</h3>
-      <ul>
-        <li>Elle — ASCII-shader video in the site hero</li>
-        <li>interactive lab graphics — they lead the story</li>
-        <li>mono / terminal DNA — cleaned, not abandoned</li>
-      </ul>
-    </div>
-  </div>
-</div></section>
-
-<!-- 2 · TYPE -->
-<section id="type"><div class="wrap">
-  <div class="sec-head">
-    <div class="sec-num" aria-hidden="true">02</div>
-    <div>
-      <h2 class="sec-title">Three voices, three jobs.</h2>
-      <p class="sec-lede">Display carries personality, body carries reading, mono carries the machine. No font does two jobs — that's what keeps the system from averaging into a default.</p>
-    </div>
-  </div>
-  <div>
-    <div class="type-row">
-      <div class="type-tag"><b>Display</b>Bricolage Grotesque · 700</div>
-      <div class="t-display-xl">Memory that matters.</div>
-    </div>
-    <div class="type-row">
-      <div class="type-tag"><b>Body</b>Instrument Sans · 400/500</div>
-      <div><p class="t-body">Retrieval that reads state and emotion, not just text — so the moment that <i>actually</i> matters surfaces, with the reason attached.</p></div>
-    </div>
-    <div class="type-row">
-      <div class="type-tag"><b>Mono</b>IBM Plex Mono · data / stage</div>
-      <div><p class="t-mono">// state: reflecting · mode_used=empathic · confidence=0.85 · [fixture]</p></div>
-    </div>
-  </div>
-  <div class="scale-strip">
-    <span style="font-size:3.4rem">Aa</span>
-    <span style="font-size:2.4rem">Aa</span>
-    <span style="font-size:1.7rem">Aa</span>
-    <span style="font-size:1.2rem">Aa</span>
-    <span class="mono-note" style="font-family:var(--mono)">scale ≈ 1.35 · display tight · mono open</span>
-  </div>
-  <p class="mono-note" style="margin-top:1.4rem">Anti-slop: no tiny uppercase eyebrow above a display headline. Section numbers are large display figures; titles are sentence case.</p>
-</div></section>
-
-<!-- 3 · COLOR + GLASS -->
-<section id="color"><div class="wrap">
-  <div class="sec-head">
-    <div class="sec-num" aria-hidden="true">03</div>
-    <div>
-      <h2 class="sec-title">Near-black, off-white, one signal — and two glasses.</h2>
-      <p class="sec-lede">Cyan is the only interface accent. Holo spectrum is data-viz / ASCII only. Glass has two recipes: neutral grey frost for content panels, tinted glass for rare signal moments.</p>
-    </div>
-  </div>
-
-  <div class="chips">
-    <div class="chip"><div class="sw" style="background:#050505;border-bottom:1px solid var(--rule)"></div><div class="cap"><b>#050505</b><span>canvas</span></div></div>
-    <div class="chip"><div class="sw" style="background:#0a0b0d;border-bottom:1px solid var(--rule)"></div><div class="cap"><b>#0a0b0d</b><span>panel</span></div></div>
-    <div class="chip"><div class="sw" style="background:#f5f5f5"></div><div class="cap"><b>#f5f5f5</b><span>foreground</span></div></div>
-    <div class="chip"><div class="sw" style="background:rgba(245,245,245,.34)"></div><div class="cap"><b>fg / .34</b><span>faint</span></div></div>
-    <div class="chip"><div class="sw" style="background:#7df9ff"></div><div class="cap"><b>#7df9ff</b><span>signal cyan</span></div></div>
-  </div>
-  <div class="holo-bar"></div>
-  <div class="holo-cap">holo (#7df9ff → #c084fc → #ff9ad6 → #ffe27a) — data-viz &amp; ASCII only. Never on text.</div>
-
-  <div class="glass-compare">
-    <div class="glass-demo grey-field">
-      <span class="glass-label">neutral grey frost</span>
-      <div class="glass-card-neutral">
-        <strong>Content panel</strong>
-        Default for cards, explainer stages, reading surfaces. No hue cast — reads as material, not mood.
-      </div>
-    </div>
-    <div class="glass-demo holo-field">
-      <span class="glass-label">tinted signal glass</span>
-      <div class="glass-card-tint">
-        <strong>Signal moment</strong>
-        Floats over color/motion once per view. Thin cyan edge. Never stacked as wallpaper.
-      </div>
-    </div>
-  </div>
-  <p class="mono-note" style="margin-top:1rem">Tokens: --glass-neutral / --glass-tint · blur 16px · thin light border · fallback = solid near-black panel.</p>
-</div></section>
-
-<!-- 4 · EFFECTS LAB (≥4) -->
-<section id="fx"><div class="wrap">
-  <div class="sec-head">
-    <div class="sec-num" aria-hidden="true">04</div>
-    <div>
-      <h2 class="sec-title">Effects lab — four live stages, not one teaser.</h2>
-      <p class="sec-lede">Each stage is real code. Rule: one effect leads per surface; the rest support. Glass and glow read as slop only when generic and stacked.</p>
-    </div>
-  </div>
-
-  <div class="fx-grid">
-    <div class="fx">
-      <div class="fx-stage"><canvas id="fx-ascii" aria-hidden="true"></canvas></div>
-      <div class="fx-meta">
-        <h3>ASCII field</h3>
-        <p>Canvas + mono glyphs, holo hue drift. Same family as Elle's shader video.</p>
-        <div class="dose"><b>Dose:</b> hero texture or one lab stage — not every card.</div>
-      </div>
-    </div>
-    <div class="fx">
-      <div class="fx-stage"><div class="fx-glow-dot" aria-hidden="true"></div></div>
-      <div class="fx-meta">
-        <h3>Soft signal glow</h3>
-        <p>Accent-only halo. Marks the one live or active thing on a screen.</p>
-        <div class="dose"><b>Dose:</b> once per screen. Never on body text or every button.</div>
-      </div>
-    </div>
-    <div class="fx">
-      <div class="fx-stage">
-        <div class="fx-glass-bg"></div>
-        <div class="fx-glass-stack">
-          <div class="layer l1"></div>
-          <div class="layer l2"></div>
-          <div class="layer l3">matte stack</div>
+    <div class="stage-3d" id="stage3d">
+      <div class="card-3d" id="card3d">
+        <div class="card-face front">
+          <img id="mood-hero" src="assets/mood/cube.png" alt="" onerror="this.src='assets/mood/network.png'" />
+          <svg class="card-wire" viewBox="0 0 280 300" aria-hidden="true">
+            <defs>
+              <linearGradient id="w1" x1="0" y1="0" x2="1" y2="1">
+                <stop offset="0%" stop-color="#7df9ff" stop-opacity=".7"/>
+                <stop offset="100%" stop-color="#c084fc" stop-opacity=".3"/>
+              </linearGradient>
+            </defs>
+            <path d="M40 80 L140 40 L240 90 L200 200 L80 210 Z" fill="none" stroke="url(#w1)" stroke-width="1.2"/>
+            <circle cx="140" cy="40" r="3" fill="#7df9ff"/>
+            <circle cx="240" cy="90" r="3" fill="#7df9ff"/>
+            <circle cx="200" cy="200" r="3" fill="#ffe27a"/>
+            <circle cx="80" cy="210" r="3" fill="#ff9ad6"/>
+            <circle cx="40" cy="80" r="3" fill="#7df9ff"/>
+          </svg>
+          <div class="cf-body">
+            <div class="cf-k">front · signal</div>
+            <div class="cf-t">Context pack</div>
+            <div class="cf-d">Drag. GSAP 3D. Not a screenshot of Figma.</div>
+          </div>
+        </div>
+        <div class="card-face back">
+          <div class="cf-body" style="justify-content:center;padding:1.4rem">
+            <div class="cf-k">back · ledger</div>
+            <div class="cf-t">state · emotion · why</div>
+            <div class="cf-d" style="margin-top:.6rem">Retrieval returns the reason — not a cosine score alone.</div>
+            <div style="margin-top:1rem;font-family:var(--mono);font-size:.7rem;color:var(--cyan)">// mode=empathic · conf=0.85</div>
+          </div>
         </div>
       </div>
-      <div class="fx-meta">
-        <h3>Grey glass stack</h3>
-        <p>Neutral frost layers without hue. Depth via transparency, not purple blur.</p>
-        <div class="dose"><b>Dose:</b> content chrome; pair with quiet backgrounds.</div>
-      </div>
     </div>
-    <div class="fx">
-      <div class="fx-stage">
-        <div class="fx-scramble" id="fx-scramble" aria-live="polite">Memory that <span class="hi">matters</span>.</div>
-        <div class="scan-overlay" aria-hidden="true"></div>
-        <div class="scan-bar" aria-hidden="true"></div>
-      </div>
-      <div class="fx-meta">
-        <h3>Scramble + scanline</h3>
-        <p>Typewriter/scramble on a key phrase, light CRT scan. Terminal personality without Inter UI kits.</p>
-        <div class="dose"><b>Dose:</b> one headline moment or status line — not continuous body animation.</div>
-      </div>
+  </div>
+</header>
+
+<!-- LOCK -->
+<section id="lock"><div class="wrap">
+  <div class="sec-head">
+    <div class="sec-num">01</div>
+    <div>
+      <h2 class="sec-title">Three locks. Break any one — it's someone else's brand.</h2>
+      <p class="sec-lede">Show the engine. Keep the terminal voice. One accent means live.</p>
+    </div>
+  </div>
+  <div class="pgrid">
+    <div class="plate pcard">
+      <div class="n">01</div>
+      <h3>Show, don't pitch</h3>
+      <p>A working stage beats a claim. If it needs a paragraph, draw the graph.</p>
+    </div>
+    <div class="plate pcard">
+      <div class="n">02</div>
+      <h3>Terminal-editorial</h3>
+      <p>Mono is the system voice. Display is personality. Body is reading. No font does two jobs.</p>
+    </div>
+    <div class="plate pcard">
+      <div class="n">03</div>
+      <h3>One signal</h3>
+      <p>Cyan = live / active / retrieve. Holo only on data edges and ASCII — never body type.</p>
     </div>
   </div>
 </div></section>
 
-<!-- 5 · LAB EXPLAINER -->
-<section id="explainer"><div class="wrap">
+<!-- TYPE -->
+<section id="type"><div class="wrap">
   <div class="sec-head">
-    <div class="sec-num" aria-hidden="true">05</div>
+    <div class="sec-num">02</div>
     <div>
-      <h2 class="sec-title">Context explainer — people, not paragraphs.</h2>
-      <p class="sec-lede">Lab motion grammar: named people, context chips, staged scenes. Brand tokens only — not a second marketing funnel.</p>
+      <h2 class="sec-title">Type trio</h2>
+      <p class="sec-lede">Bricolage for headlines. Instrument for prose. Plex Mono for data and stage chrome.</p>
     </div>
   </div>
+  <div class="plate type-row">
+    <div class="type-tag"><b>Display</b>Bricolage 700</div>
+    <div class="t-xl">Memory that matters.</div>
+  </div>
+  <div class="plate type-row">
+    <div class="type-tag"><b>Body</b>Instrument 400</div>
+    <div class="t-body">Retrieval that reads state and emotion — so the right moment surfaces with the reason attached.</div>
+  </div>
+  <div class="plate type-row">
+    <div class="type-tag"><b>Mono</b>Plex 400/500</div>
+    <div class="t-mono">// state: reflecting · mode=empathic · conf=0.85 · [fixture]</div>
+  </div>
+  <p class="note" style="margin-top:1rem">No tiny uppercase kickers over display. Section numbers carry hierarchy. Titles stay sentence case.</p>
+</div></section>
 
+<!-- PLATES -->
+<section id="plates"><div class="wrap">
+  <div class="sec-head">
+    <div class="sec-num">03</div>
+    <div>
+      <h2 class="sec-title">Plates: dark + white + holo edge</h2>
+      <p class="sec-lede">Not frosted air. Solid surfaces. White type on dark. Dark type on white. Holo is edge or data — not a fill.</p>
+    </div>
+  </div>
+  <div class="chips">
+    <div class="chip"><div class="sw" style="background:#050505"></div><div class="cap"><b>#050505</b>canvas</div></div>
+    <div class="chip"><div class="sw" style="background:#0c0d10;border-bottom:1px solid var(--rule)"></div><div class="cap"><b>#0c0d10</b>plate</div></div>
+    <div class="chip"><div class="sw" style="background:#ffffff"></div><div class="cap"><b>#ffffff</b>type on dark</div></div>
+    <div class="chip"><div class="sw" style="background:#7df9ff"></div><div class="cap"><b>#7df9ff</b>signal</div></div>
+    <div class="chip"><div class="sw" style="background:#f2f2f0"></div><div class="cap"><b>#f2f2f0</b>white plate</div></div>
+  </div>
+  <div class="holo-bar"></div>
+  <p class="note">holo strip: cyan → violet → pink → gold — data-viz &amp; ASCII only</p>
+
+  <div class="plate-demo">
+    <div class="plate pd dark">
+      <h4>Dark plate</h4>
+      <p>Default content surface. White headline. Dim body. Cyan for live bits only.</p>
+    </div>
+    <div class="plate plate-white pd white">
+      <h4>White plate</h4>
+      <p>High-contrast interrupt. Use sparingly — proof blocks, quotes, export cards.</p>
+    </div>
+    <div class="plate pd dark holo-text plate-holo-edge">
+      <h4>Holo on dark</h4>
+      <p>Display wordmark moments. One phrase max. Never a paragraph of gradient text.</p>
+    </div>
+  </div>
+</div></section>
+
+<!-- EFFECTS — 6 stages -->
+<section id="fx"><div class="wrap">
+  <div class="sec-head">
+    <div class="sec-num">04</div>
+    <div>
+      <h2 class="sec-title">Effects lab — six live stages</h2>
+      <p class="sec-lede">Each one is code. One leads per surface. Stack them and it becomes noise.</p>
+    </div>
+  </div>
+  <div class="fx-grid">
+    <div class="plate fx">
+      <div class="fx-stage"><canvas id="fx-ascii"></canvas></div>
+      <div class="fx-meta">
+        <h3>ASCII field</h3>
+        <p>Canvas glyphs + holo hue drift. Same bloodline as Elle.</p>
+        <div class="dose">Dose: hero texture or one lab tile</div>
+      </div>
+    </div>
+    <div class="plate fx">
+      <div class="fx-stage">
+        <svg id="line-draw" viewBox="0 0 400 200" preserveAspectRatio="xMidYMid meet" aria-hidden="true">
+          <defs>
+            <linearGradient id="holoStroke" x1="0%" y1="0%" x2="100%" y2="0%">
+              <stop offset="0%" stop-color="#7df9ff"/>
+              <stop offset="45%" stop-color="#c084fc"/>
+              <stop offset="75%" stop-color="#ff9ad6"/>
+              <stop offset="100%" stop-color="#ffe27a"/>
+            </linearGradient>
+          </defs>
+          <path id="p1" pathLength="1" d="M30 140 C80 40, 120 180, 180 90 S280 30, 370 110"/>
+          <path id="p2" pathLength="1" d="M40 160 L120 100 L200 150 L280 60 L360 130"/>
+          <circle class="node" cx="30" cy="140" r="3"/><circle class="node" cx="180" cy="90" r="3"/>
+          <circle class="node" cx="370" cy="110" r="3"/><circle class="node" cx="280" cy="60" r="3"/>
+        </svg>
+      </div>
+      <div class="fx-meta">
+        <h3>Line draw</h3>
+        <p>SVG stroke reveals on a path. Memory graph energy without a chart library.</p>
+        <div class="dose">Dose: section openers, explainer transitions</div>
+      </div>
+    </div>
+    <div class="plate fx">
+      <div class="fx-stage"><div class="glow-orb" id="glow-orb"></div></div>
+      <div class="fx-meta">
+        <h3>Signal glow</h3>
+        <p>One cyan orb. Marks the live thing. Nothing else glows.</p>
+        <div class="dose">Dose: once per screen</div>
+      </div>
+    </div>
+    <div class="plate fx">
+      <div class="fx-stage">
+        <div class="scramble" id="fx-scramble">Memory that <span class="hi">matters</span>.</div>
+        <div class="scan-overlay"></div>
+        <div class="scan-bar"></div>
+      </div>
+      <div class="fx-meta">
+        <h3>Scramble + scan</h3>
+        <p>Typewriter noise into a phrase. CRT scan as garnish.</p>
+        <div class="dose">Dose: one headline beat</div>
+      </div>
+    </div>
+    <div class="plate fx">
+      <div class="fx-stage"><canvas id="particles"></canvas></div>
+      <div class="fx-meta">
+        <h3>Particle field</h3>
+        <p>Slow drift nodes + cyan links when near. Quiet density.</p>
+        <div class="dose">Dose: background only, low alpha</div>
+      </div>
+    </div>
+    <div class="plate fx">
+      <div class="fx-stage"><canvas id="matrix"></canvas></div>
+      <div class="fx-meta">
+        <h3>Matrix rain (lite)</h3>
+        <p>Mono column fall, cyan-white. Terminal DNA, not anime wallpaper.</p>
+        <div class="dose">Dose: secondary texture · never under body text</div>
+      </div>
+    </div>
+  </div>
+  <p class="note" style="margin-top:1rem">Hero 3D card above uses GSAP (drag tilt + idle spin). That's effect #7 — reserved for product objects.</p>
+</div></section>
+
+<!-- EXPLAINER -->
+<section id="explainer"><div class="wrap">
+  <div class="sec-head">
+    <div class="sec-num">05</div>
+    <div>
+      <h2 class="sec-title">Context explainer</h2>
+      <p class="sec-lede">People first. Sources second. Retrieval third. Same grammar as the lab — brand tokens only.</p>
+    </div>
+  </div>
   <div class="stage s1" id="stage">
     <div class="stage-chrome">
       <span class="title" id="stage-head">1 · one person · scattered sources</span>
       <div style="display:flex;align-items:center;gap:.8rem">
         <span class="dots" aria-hidden="true"><i></i><i></i><i></i></span>
         <div class="stage-controls">
-          <button type="button" id="prev" aria-label="Previous scene">←</button>
-          <button type="button" id="next" aria-label="Next scene">→</button>
+          <button type="button" id="prev">←</button>
+          <button type="button" id="next">→</button>
         </div>
       </div>
     </div>
-
     <div class="stage-body">
-      <!-- scene 1 -->
       <div class="scene scene1">
-        <div class="people">
-          <div class="avatar n">N</div>
-        </div>
+        <div class="people"><div class="avatar n">N</div></div>
         <div class="ctx-chips">
-          <span class="ctx on">Slack</span>
-          <span class="ctx on">AI chats</span>
-          <span class="ctx on">code</span>
-          <span class="ctx">voice</span>
+          <span class="ctx on">Slack</span><span class="ctx on">AI chats</span><span class="ctx on">code</span><span class="ctx">voice</span>
         </div>
         <div class="win-grid">
           <div class="win"><div class="wh">slack · #shipping</div><div class="line w1 hot"></div><div class="line w2"></div><div class="line w3"></div></div>
-          <div class="win"><div class="wh">chatgpt · auth thread</div><div class="line w2"></div><div class="line w1 hot"></div><div class="line w3"></div></div>
-          <div class="win"><div class="wh">vibecoding · cursor</div><div class="line w3"></div><div class="line w2 hot"></div><div class="line w1"></div></div>
+          <div class="win"><div class="wh">chatgpt · auth</div><div class="line w2"></div><div class="line w1 hot"></div><div class="line w3"></div></div>
+          <div class="win"><div class="wh">cursor · branch</div><div class="line w3"></div><div class="line w2 hot"></div><div class="line w1"></div></div>
         </div>
       </div>
-
-      <!-- scene 2 -->
       <div class="scene scene2">
         <div class="people">
-          <div class="avatar n">N</div>
-          <div class="avatar a">A</div>
-          <div class="avatar m">M</div>
-          <div class="avatar s">S</div>
-          <div class="avatar k">K</div>
+          <div class="avatar n">N</div><div class="avatar a">A</div><div class="avatar m">M</div><div class="avatar s">S</div><div class="avatar k">K</div>
         </div>
         <div class="ctx-chips">
-          <span class="ctx on">private</span>
-          <span class="ctx on">shared · consent</span>
-          <span class="ctx">team layer</span>
+          <span class="ctx on">private</span><span class="ctx on">shared · consent</span><span class="ctx">team</span>
         </div>
         <div class="team-grid">
           <div class="ptile"><div class="avatar n" style="margin:0 auto">N</div><div class="nm">Nik</div><div class="mood">shipping</div></div>
@@ -602,176 +658,175 @@
           <div class="ptile"><div class="avatar k" style="margin:0 auto">K</div><div class="nm">Kai</div><div class="mood">review</div></div>
         </div>
       </div>
-
-      <!-- scene 3 -->
       <div class="scene scene3">
-        <div class="people">
-          <div class="avatar n">N</div>
-          <div class="avatar a">A</div>
-        </div>
+        <div class="people"><div class="avatar n">N</div><div class="avatar a">A</div></div>
         <div class="ctx-chips">
-          <span class="ctx on">emotion</span>
-          <span class="ctx on">retrieval</span>
-          <span class="ctx on">in state</span>
+          <span class="ctx on">emotion</span><span class="ctx on">retrieval</span><span class="ctx on">in state</span>
         </div>
         <div class="retrieve">
-          <div class="ret-card">
-            <h4>Ask in stress</h4>
-            <p>state: deadline · need: auth decision from last week</p>
-          </div>
-          <div class="ret-arrow" aria-hidden="true">→</div>
-          <div class="ret-card" style="border-color:rgba(125,249,255,.28)">
-            <h4>Right context</h4>
-            <p>surfaces Anya's call notes · private rants stay private</p>
-          </div>
+          <div class="ret-card"><h4>Ask in stress</h4><p>state: deadline · need: last week's auth call</p></div>
+          <div class="ret-arrow">→</div>
+          <div class="ret-card on"><h4>Right context</h4><p>Anya's notes surface · private rants stay out</p></div>
         </div>
       </div>
     </div>
-
-    <div class="stage-cap" id="stage-cap">One person — Slack, AI chats, vibecoding. <b>Context everywhere, memory nowhere.</b></div>
+    <div class="stage-cap" id="stage-cap">One person. Slack, chats, code. <b>Context everywhere — memory nowhere.</b></div>
   </div>
 </div></section>
 
-<!-- 6 · ILLUSTRATED COMPONENTS -->
-<section id="components"><div class="wrap">
+<!-- PARTS -->
+<section id="parts"><div class="wrap">
   <div class="sec-head">
-    <div class="sec-num" aria-hidden="true">06</div>
+    <div class="sec-num">06</div>
     <div>
-      <h2 class="sec-title">Illustrated parts — cards with pictures, not labels.</h2>
-      <p class="sec-lede">Icon system: 24px, stroke 1.5, monochrome on dark. Each card carries a visual, a sentence-case title, and a do/don't dose.</p>
+      <h2 class="sec-title">Parts with pictures</h2>
+      <p class="sec-lede">Icons on dark plates. Mood stills from Higgsfield when available. Title is white. Rule is mono cyan.</p>
     </div>
   </div>
+  <img class="mood-banner" id="mood-banner" src="assets/mood/wave.png" alt="" onerror="this.src='assets/mood/network.png'" />
 
   <div class="comp-grid">
-    <article class="icard">
-      <div class="icard-art"><img src="assets/icons/sources.svg" alt="" width="36" height="36" /></div>
-      <h3>Scattered sources</h3>
-      <p>Slack, chats, code, voice — many windows, one person. Show the scatter before you claim the weave.</p>
-      <div class="rule"><b>Do</b> multi-window tiles · <b>Don't</b> single “AI orb” hero</div>
-    </article>
-    <article class="icard">
-      <div class="icard-art"><img src="assets/icons/privacy.svg" alt="" width="36" height="36" /></div>
-      <h3>Privacy boundary</h3>
-      <p>Personal rants stay personal. Shared layer is consent-gated — shield language, not “enterprise security” blobs.</p>
-      <div class="rule"><b>Do</b> lock + consent copy · <b>Don't</b> blue padlock clichés</div>
-    </article>
-    <article class="icard">
-      <div class="icard-art"><img src="assets/icons/retrieval.svg" alt="" width="36" height="36" /></div>
-      <h3>Retrieval in state</h3>
-      <p>Same question, different emotional state, different memory. Surface the reason, not a similarity score alone.</p>
-      <div class="rule"><b>Do</b> state + why · <b>Don't</b> raw embedding numbers</div>
-    </article>
-    <article class="icard">
-      <div class="icard-art"><img src="assets/icons/emotion.svg" alt="" width="36" height="36" /></div>
-      <h3>Emotion as signal</h3>
-      <p>Frustrated / shipping / blocked are retrieval keys and privacy flags — not HR scoring.</p>
-      <div class="rule"><b>Do</b> mono emotion chips · <b>Don't</b> emoji-as-icon kits</div>
-    </article>
-    <article class="icard">
-      <div class="icard-art"><img src="assets/icons/decay.svg" alt="" width="36" height="36" /></div>
-      <h3>Anchor-aware decay</h3>
-      <p>Structural events resist forgetting. Chart depth beats a paragraph about λ.</p>
-      <div class="rule"><b>Do</b> interactive decay graphic · <b>Don't</b> wall of theory</div>
-    </article>
-    <article class="icard">
-      <div class="icard-art"><img src="assets/icons/pulse.svg" alt="" width="36" height="36" /></div>
-      <h3>Pulse engine</h3>
-      <p>The live heartbeat of topics and affect. One accent line, not a dashboard of twelve sparklines.</p>
-      <div class="rule"><b>Do</b> one signal path · <b>Don't</b> SaaS metric soup</div>
-    </article>
-    <article class="icard">
-      <div class="icard-art"><img src="assets/icons/lab.svg" alt="" width="36" height="36" /></div>
-      <h3>Lab face</h3>
-      <p>Research lab, not growth startup. White-space and mono stage chrome over growth-hacker CTAs.</p>
-      <div class="rule"><b>Do</b> proof demos · <b>Don't</b> “book a demo” everywhere</div>
-    </article>
-    <article class="icard">
-      <div class="icard-art"><img src="assets/icons/glass.svg" alt="" width="36" height="36" /></div>
-      <h3>Grey glass panels</h3>
-      <p>Frosted content chrome over quiet fields. The missing piece when only tinted blur exists.</p>
-      <div class="rule"><b>Do</b> neutral frost · <b>Don't</b> purple glass everywhere</div>
-    </article>
-    <article class="icard">
-      <div class="icard-art" style="flex-direction:column;gap:.55rem;padding:.8rem">
-        <div style="display:flex;gap:.5rem;flex-wrap:wrap;justify-content:center">
-          <a class="btn" href="#">run local demo →</a>
-        </div>
-        <div style="display:flex;gap:.4rem;flex-wrap:wrap;justify-content:center">
-          <span class="datachip"><span class="n">68.9%</span> LongMemEval</span>
-          <span class="label-tag">fixture</span>
-        </div>
+    <article class="plate icard">
+      <div class="icard-art">
+        <img class="mood" src="assets/mood/network.png" alt="" onerror="this.remove()" />
+        <img class="icon" src="assets/icons/sources.svg" alt="" width="32" height="32" />
       </div>
-      <h3>Buttons &amp; data chips</h3>
-      <p>Primary = cyan outline + rare glow on hover. Numbers are liveness — not a “● live” badge.</p>
-      <div class="rule"><b>Do</b> outline + number · <b>Don't</b> filled blob CTAs</div>
+      <div class="icard-body">
+        <h3>Scattered sources</h3>
+        <p>Many windows, one head. Draw the scatter before the weave.</p>
+        <div class="rule"><b>Do</b> multi-window · <b>Don't</b> single AI orb</div>
+      </div>
+    </article>
+    <article class="plate icard">
+      <div class="icard-art"><img class="icon" src="assets/icons/privacy.svg" alt="" width="32" height="32" /></div>
+      <div class="icard-body">
+        <h3>Privacy boundary</h3>
+        <p>Personal stays personal. Share is consent, not a default toggle.</p>
+        <div class="rule"><b>Do</b> lock + consent · <b>Don't</b> blue padlock kits</div>
+      </div>
+    </article>
+    <article class="plate icard">
+      <div class="icard-art"><img class="icon" src="assets/icons/retrieval.svg" alt="" width="32" height="32" /></div>
+      <div class="icard-body">
+        <h3>Retrieval in state</h3>
+        <p>Same ask, different state → different memory. Show the why.</p>
+        <div class="rule"><b>Do</b> state + reason · <b>Don't</b> raw scores</div>
+      </div>
+    </article>
+    <article class="plate icard">
+      <div class="icard-art"><img class="icon" src="assets/icons/emotion.svg" alt="" width="32" height="32" /></div>
+      <div class="icard-body">
+        <h3>Emotion as signal</h3>
+        <p>Frustrated / shipping / blocked — retrieval keys, not HR scores.</p>
+        <div class="rule"><b>Do</b> mono chips · <b>Don't</b> emoji icon packs</div>
+      </div>
+    </article>
+    <article class="plate icard">
+      <div class="icard-art"><img class="icon" src="assets/icons/decay.svg" alt="" width="32" height="32" /></div>
+      <div class="icard-body">
+        <h3>Anchor-aware decay</h3>
+        <p>Structural events resist forgetting. Chart beats theory dump.</p>
+        <div class="rule"><b>Do</b> interactive decay · <b>Don't</b> λ essays</div>
+      </div>
+    </article>
+    <article class="plate icard">
+      <div class="icard-art"><img class="icon" src="assets/icons/pulse.svg" alt="" width="32" height="32" /></div>
+      <div class="icard-body">
+        <h3>Pulse line</h3>
+        <p>One heartbeat path for topics and affect. Not twelve sparklines.</p>
+        <div class="rule"><b>Do</b> one signal path · <b>Don't</b> metric soup</div>
+      </div>
+    </article>
+    <article class="plate icard">
+      <div class="icard-art"><img class="icon" src="assets/icons/lab.svg" alt="" width="32" height="32" /></div>
+      <div class="icard-body">
+        <h3>Lab face</h3>
+        <p>Research lab, not growth startup. Proof demos over “book a call”.</p>
+        <div class="rule"><b>Do</b> live stages · <b>Don't</b> CTA wallpaper</div>
+      </div>
+    </article>
+    <article class="plate icard">
+      <div class="icard-art"><img class="icon" src="assets/icons/glass.svg" alt="" width="32" height="32" /></div>
+      <div class="icard-body">
+        <h3>Solid plates</h3>
+        <p>Dark plate default. White plate interrupt. Holo as edge only.</p>
+        <div class="rule"><b>Do</b> solid fill · <b>Don't</b> 5% frosted air</div>
+      </div>
+    </article>
+    <article class="plate icard">
+      <div class="icard-art" style="flex-direction:column;gap:.5rem;padding:.8rem">
+        <a class="btn" href="#">run local demo →</a>
+        <span class="datachip"><span class="n">68.9%</span> LongMemEval</span>
+      </div>
+      <div class="icard-body">
+        <h3>Buttons &amp; numbers</h3>
+        <p>Filled cyan primary. Numbers are liveness — no “● live” badge.</p>
+        <div class="rule"><b>Do</b> cyan fill / number · <b>Don't</b> purple blob CTA</div>
+      </div>
     </article>
   </div>
 </div></section>
 
-<!-- 7 · GUARDRAILS -->
+<!-- RULES -->
 <section id="rules"><div class="wrap">
   <div class="sec-head">
-    <div class="sec-num" aria-hidden="true">07</div>
+    <div class="sec-num">07</div>
     <div>
-      <h2 class="sec-title">The anti-slop line — visual proof, not only prose.</h2>
-      <p class="sec-lede">If the page is only text rows and caps micro-labels, it failed this book. Imagery, multi-demo motion, and grey glass are part of the brand contract.</p>
+      <h2 class="sec-title">Rules</h2>
+      <p class="sec-lede">If the page is only grey labels and one ASCII gif — rewrite it.</p>
     </div>
   </div>
   <div class="dd">
-    <div class="col do">
+    <div class="plate col do">
       <h3>Do</h3>
       <ul>
-        <li>lead with interactive explainer scenes (people + contexts)</li>
-        <li>≥4 effect specimens when teaching motion</li>
-        <li>sentence-case titles; large display section numbers</li>
-        <li>grey frost for content; tinted glass only for signal</li>
-        <li>icons / illustrations on component cards</li>
-        <li>mono for stage chrome &amp; data only</li>
-        <li>one cyan accent = live/signal</li>
+        <li>white (or holo) type on solid dark plates</li>
+        <li>≥4 live effect stages when teaching motion</li>
+        <li>people + context scenes for product story</li>
+        <li>icons / mood stills on every component card</li>
+        <li>cyan = signal only · holo = data edges</li>
+        <li>GSAP / canvas / SVG — authored motion</li>
       </ul>
     </div>
-    <div class="col dont">
+    <div class="plate col dont">
       <h3>Don't</h3>
       <ul>
-        <li>tiny uppercase eyebrow above a big headline (AI default)</li>
-        <li>ALL CAPS micro labels as card titles</li>
-        <li>single ASCII teaser standing in for a system</li>
-        <li>text-only component grids with no imagery</li>
-        <li>gradient on text · Inter-only · purple glass wallpaper</li>
-        <li>sparkles ✦, “● live” badges, emoji-as-icon</li>
-        <li>a second accent “for variety”</li>
+        <li>5% frosted glass that disappears on black</li>
+        <li>tiny uppercase eyebrows over display</li>
+        <li>ALL CAPS micro card titles</li>
+        <li>gradient paragraphs · Inter-only · purple soup</li>
+        <li>text-only grids with no imagery</li>
+        <li>slop copy: “seamlessly”, “elevate”, “unlock”, “supercharge”</li>
       </ul>
     </div>
   </div>
 </div></section>
 
-<!-- 8 · LEDGER -->
+<!-- LEDGER -->
 <section id="ledger"><div class="wrap">
   <div class="sec-head">
-    <div class="sec-num" aria-hidden="true">08</div>
+    <div class="sec-num">08</div>
     <div>
-      <h2 class="sec-title">Decision ledger — every choice has a source.</h2>
-      <p class="sec-lede">v2 extends the ledger with glass split, multi-demo rule, and explainer grammar from the lab.</p>
+      <h2 class="sec-title">Ledger</h2>
+      <p class="sec-lede">Choices with sources. v2.1: solid plates, more motion, Higgsfield mood.</p>
     </div>
   </div>
-  <table class="ledger">
+  <table class="ledger plate" style="overflow:hidden">
     <thead><tr><th>decision</th><th>source</th><th>why</th></tr></thead>
     <tbody>
-      <tr><td><b>Bricolage + Instrument + Plex Mono</b></td><td>direction B lock · v1 brandbook</td><td>personality without Fraunces/Inter defaults</td></tr>
-      <tr><td><b>Kill eyebrow / caps card labels</b></td><td>Nik UX review v1 · anti-AI analysis</td><td>loudest remaining slop tells on an otherwise tokened page</td></tr>
-      <tr><td><b>≥4 live effect stages</b></td><td>Nik: “ASCII is cool but one example”</td><td>specimen lab, not a single teaser</td></tr>
-      <tr><td><b>Grey frosted glass token</b></td><td>Nik: colored blur exists, grey missing</td><td>content material vs signal material</td></tr>
-      <tr><td><b>Multi-person context explainer</b></td><td><code>public/lab.html</code> stage machine</td><td>brand motion grammar without marketing funnel</td></tr>
-      <tr><td><b>SVG icon system on cards</b></td><td>Nik: need imagery / icons / illustrations</td><td>offline-first; Higgsfield optional for mood only</td></tr>
-      <tr><td><b>Cyan once, holo data-only</b></td><td>globals + refero anti-slop P1</td><td>kills gradient-on-text median</td></tr>
+      <tr><td><b>White / holo on dark plates</b></td><td>Nik eye-pass v2.0</td><td>ghost glass was unreadable</td></tr>
+      <tr><td><b>GSAP 3D card</b></td><td>Nik: “ещё эффектов”</td><td>product object, not flat teaser</td></tr>
+      <tr><td><b>SVG line draw + particles + matrix</b></td><td>same</td><td>effects lab ≥6 live stages</td></tr>
+      <tr><td><b>Higgsfield mood stills</b></td><td>Nik: use MCP</td><td>real imagery under icons</td></tr>
+      <tr><td><b>Kill page slop copy</b></td><td>Nik + anti-AI notes</td><td>short, concrete, no AI brochure</td></tr>
+      <tr><td><b>Type trio B</b></td><td>v1 direction lock</td><td>Bricolage / Instrument / Plex</td></tr>
     </tbody>
   </table>
 </div></section>
 
 <footer><div class="wrap">
-  zbs.gg brandbook v2 · artifacts/brandbook/ · open this file in a browser (file://) ·
-  fonts: Bricolage Grotesque / Instrument Sans / IBM Plex Mono ·
-  freeze of v1: brandbook.v1-freeze.html · type specimen: type-specimen.html
+  zbs.gg brandbook v2.1 · <code style="color:var(--cyan)">artifacts/brandbook/</code> · open via file:// ·
+  GSAP 3.12 (cdn) · fonts Google · mood: assets/mood/ · freeze: brandbook.v1-freeze.html
 </div></footer>
 
 <script>
@@ -783,45 +838,62 @@
     opts = opts || {};
     var ctx = canvas.getContext('2d');
     if(!ctx) return;
-    var cell = opts.cell || 12, t = 0, raf = 0, dpr = Math.min(window.devicePixelRatio||1, 2);
+    var cell = opts.cell || 12, t = 0, dpr = Math.min(window.devicePixelRatio||1, 2);
     var cols=0, rows=0, W=0, H=0;
     function resize(){
       W = canvas.clientWidth; H = canvas.clientHeight;
-      if(!W || !H) return;
+      if(!W||!H) return;
       canvas.width = W*dpr; canvas.height = H*dpr;
       ctx.setTransform(dpr,0,0,dpr,0,0);
       cols = Math.ceil(W/cell); rows = Math.ceil(H/cell);
-      ctx.font = (cell-1) + "px 'IBM Plex Mono', monospace";
+      ctx.font = (cell-1)+"px 'IBM Plex Mono',monospace";
       ctx.textBaseline = "top";
     }
     function frame(){
-      ctx.clearRect(0,0,W,H);
       ctx.fillStyle = "#050505"; ctx.fillRect(0,0,W,H);
       for(var y=0;y<rows;y++){
         for(var x=0;x<cols;x++){
-          var v = Math.sin(x*0.28 + t) * Math.cos(y*0.32 - t*0.7)
-                + Math.sin((x+y)*0.16 + t*1.3);
+          var v = Math.sin(x*0.28+t)*Math.cos(y*0.32-t*0.7)+Math.sin((x+y)*0.16+t*1.3);
           var n = (v+2)/4;
-          var idx = Math.max(0, Math.min(CH.length-1, Math.floor(n*(CH.length-1))));
+          var idx = Math.max(0,Math.min(CH.length-1,Math.floor(n*(CH.length-1))));
           var ch = CH[idx];
-          if(ch === ' ') continue;
-          var a = 0.06 + n*(opts.maxA||0.30);
-          ctx.fillStyle = "hsla(" + (170 + Math.sin(t + x*0.1)*40) + ",90%,72%," + a + ")";
+          if(ch===' ') continue;
+          var a = 0.08 + n*(opts.maxA||0.32);
+          ctx.fillStyle = "hsla("+(170+Math.sin(t+x*0.1)*40)+",90%,72%,"+a+")";
           ctx.fillText(ch, x*cell, y*cell);
         }
       }
       t += (opts.speed||0.02);
-      if(!reduce) raf = requestAnimationFrame(frame);
+      if(!reduce) requestAnimationFrame(frame);
     }
-    function start(){ resize(); frame(); if(reduce) return; }
-    window.addEventListener('resize', function(){ resize(); if(reduce) frame(); });
+    function start(){ resize(); frame(); }
+    window.addEventListener('resize', resize);
     start();
   }
-
   var big = document.getElementById('ascii');
-  if(big) makeField(big, {cell:14, speed:0.018, maxA:0.34});
+  if(big) makeField(big, {cell:14, speed:0.018, maxA:0.36});
   var small = document.getElementById('fx-ascii');
-  if(small) makeField(small, {cell:10, speed:0.03, maxA:0.5});
+  if(small) makeField(small, {cell:10, speed:0.03, maxA:0.52});
+
+  /* line draw loop */
+  (function(){
+    var paths = document.querySelectorAll('#line-draw path');
+    if(!paths.length) return;
+    function run(){
+      paths.forEach(function(p){
+        p.classList.remove('drawn');
+        void p.offsetWidth;
+        p.classList.add('drawn');
+      });
+      if(!reduce) setTimeout(run, 3600);
+    }
+    run();
+  })();
+
+  /* glow pulse via GSAP if present */
+  if(window.gsap && !reduce){
+    gsap.to('#glow-orb', {scale:1.08, duration:1.2, yoyo:true, repeat:-1, ease:'sine.inOut'});
+  }
 
   /* scramble */
   (function(){
@@ -833,64 +905,179 @@
       'Show the engine <span class="hi">thinking</span>.',
       'One signal — <span class="hi">cyan</span>.'
     ];
-    var pi = 0, scrambleChars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789#%@*+=';
+    var pi=0, chars='ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz0123456789#%@*+';
     function strip(html){ var d=document.createElement('div'); d.innerHTML=html; return d.textContent||''; }
     function run(){
-      if(reduce){ el.innerHTML = phrases[pi%phrases.length]; return; }
-      var target = phrases[pi % phrases.length];
+      if(reduce){ el.innerHTML=phrases[pi%phrases.length]; return; }
+      var target = phrases[pi%phrases.length];
       var plain = strip(target);
-      var frame = 0, max = 14;
+      var frame=0, max=12;
       function tick(){
-        if(frame >= max){ el.innerHTML = target; pi++; setTimeout(run, 2200); return; }
-        var out = '';
+        if(frame>=max){ el.innerHTML=target; pi++; setTimeout(run, 2000); return; }
+        var out='';
         for(var i=0;i<plain.length;i++){
-          if(plain[i]===' ') out += ' ';
-          else if(frame/max > i/plain.length) out += plain[i];
-          else out += scrambleChars[Math.floor(Math.random()*scrambleChars.length)];
+          if(plain[i]===' ') out+=' ';
+          else if(frame/max > i/plain.length) out+=plain[i];
+          else out+=chars[Math.floor(Math.random()*chars.length)];
         }
-        el.textContent = out;
+        el.textContent=out;
         frame++;
-        requestAnimationFrame(function(){ setTimeout(tick, 40); });
+        setTimeout(tick, 36);
       }
       tick();
     }
     run();
   })();
 
-  /* explainer stage machine */
+  /* particles */
   (function(){
-    var stage = document.getElementById('stage');
-    var cap = document.getElementById('stage-cap');
-    var head = document.getElementById('stage-head');
+    var canvas = document.getElementById('particles');
+    if(!canvas) return;
+    var ctx = canvas.getContext('2d');
+    var dpr = Math.min(devicePixelRatio||1,2);
+    var pts=[], W, H;
+    function resize(){
+      W=canvas.clientWidth; H=canvas.clientHeight;
+      canvas.width=W*dpr; canvas.height=H*dpr;
+      ctx.setTransform(dpr,0,0,dpr,0,0);
+      pts=[];
+      for(var i=0;i<42;i++) pts.push({x:Math.random()*W,y:Math.random()*H,vx:(Math.random()-.5)*.25,vy:(Math.random()-.5)*.25});
+    }
+    function frame(){
+      ctx.fillStyle='#07080a'; ctx.fillRect(0,0,W,H);
+      for(var i=0;i<pts.length;i++){
+        var p=pts[i];
+        p.x+=p.vx; p.y+=p.vy;
+        if(p.x<0||p.x>W) p.vx*=-1;
+        if(p.y<0||p.y>H) p.vy*=-1;
+        ctx.fillStyle='rgba(125,249,255,.85)';
+        ctx.beginPath(); ctx.arc(p.x,p.y,1.4,0,Math.PI*2); ctx.fill();
+        for(var j=i+1;j<pts.length;j++){
+          var q=pts[j], dx=p.x-q.x, dy=p.y-q.y, d=Math.sqrt(dx*dx+dy*dy);
+          if(d<70){
+            ctx.strokeStyle='rgba(125,249,255,'+(0.18*(1-d/70))+')';
+            ctx.beginPath(); ctx.moveTo(p.x,p.y); ctx.lineTo(q.x,q.y); ctx.stroke();
+          }
+        }
+      }
+      if(!reduce) requestAnimationFrame(frame);
+    }
+    window.addEventListener('resize', resize);
+    resize(); frame();
+  })();
+
+  /* matrix lite */
+  (function(){
+    var canvas=document.getElementById('matrix');
+    if(!canvas) return;
+    var ctx=canvas.getContext('2d');
+    var dpr=Math.min(devicePixelRatio||1,2);
+    var cols=[], W, H, fs=12;
+    var glyphs='01アイウエオカキクケコ consig'.split('');
+    function resize(){
+      W=canvas.clientWidth; H=canvas.clientHeight;
+      canvas.width=W*dpr; canvas.height=H*dpr;
+      ctx.setTransform(dpr,0,0,dpr,0,0);
+      var n=Math.floor(W/fs);
+      cols=[];
+      for(var i=0;i<n;i++) cols.push(Math.random()*H/fs);
+    }
+    function frame(){
+      ctx.fillStyle='rgba(7,8,10,.18)';
+      ctx.fillRect(0,0,W,H);
+      ctx.font=fs+"px 'IBM Plex Mono',monospace";
+      for(var i=0;i<cols.length;i++){
+        var ch=glyphs[Math.floor(Math.random()*glyphs.length)];
+        var x=i*fs, y=cols[i]*fs;
+        ctx.fillStyle= i%5===0 ? '#7df9ff' : 'rgba(245,245,245,.35)';
+        ctx.fillText(ch,x,y);
+        if(y>H && Math.random()>0.975) cols[i]=0;
+        else cols[i]+=0.35+Math.random()*0.4;
+      }
+      if(!reduce) requestAnimationFrame(frame);
+    }
+    window.addEventListener('resize', resize);
+    resize(); frame();
+  })();
+
+  /* GSAP 3D card */
+  (function(){
+    var card=document.getElementById('card3d');
+    var stage=document.getElementById('stage3d');
+    if(!card||!window.gsap) return;
+    if(reduce) return;
+    var rx=0, ry=0, trx=8, tryy=-14;
+    gsap.set(card, {transformPerspective:1100, transformStyle:'preserve-3d'});
+    // idle spin
+    var idle = gsap.to(card, {
+      rotationY: '+=360', duration: 18, ease:'none', repeat:-1,
+      onUpdate: function(){ /* keep */ }
+    });
+    // also gentle rock
+    gsap.to(card, {rotationX: 10, duration: 3.2, yoyo:true, repeat:-1, ease:'sine.inOut'});
+
+    var dragging=false, lx=0, ly=0;
+    function onMove(e){
+      if(!dragging) return;
+      var x = e.clientX || (e.touches&&e.touches[0].clientX);
+      var y = e.clientY || (e.touches&&e.touches[0].clientY);
+      var dx = x-lx, dy=y-ly;
+      lx=x; ly=y;
+      idle.pause();
+      ry += dx*0.4;
+      rx -= dy*0.35;
+      rx = Math.max(-28, Math.min(28, rx));
+      gsap.to(card, {rotationY: ry, rotationX: rx, duration:0.15, overwrite:true});
+    }
+    function onUp(){
+      dragging=false;
+      gsap.to(card, {rotationX:8, rotationY:ry, duration:0.6, ease:'power2.out'});
+      idle.play();
+    }
+    stage.addEventListener('pointerdown', function(e){
+      dragging=true; idle.pause();
+      lx=e.clientX; ly=e.clientY;
+      stage.setPointerCapture && stage.setPointerCapture(e.pointerId);
+    });
+    stage.addEventListener('pointermove', onMove);
+    stage.addEventListener('pointerup', onUp);
+    stage.addEventListener('pointerleave', onUp);
+  })();
+
+  /* explainer */
+  (function(){
+    var stage=document.getElementById('stage');
+    var cap=document.getElementById('stage-cap');
+    var head=document.getElementById('stage-head');
     if(!stage) return;
-    var n = 1, timer = null, paused = false;
-    var heads = {
-      1: '1 · one person · scattered sources',
-      2: '2 · many people · private vs shared',
-      3: '3 · retrieval · right context in state'
+    var n=1, timer=null, paused=false;
+    var heads={
+      1:'1 · one person · scattered sources',
+      2:'2 · many people · private vs shared',
+      3:'3 · retrieval · right context in state'
     };
-    var caps = {
-      1: 'One person — Slack, AI chats, vibecoding. <b>Context everywhere, memory nowhere.</b>',
-      2: 'Zoom out: each person carries their own scatter. <b>Private stays private; share is consent-gated.</b>',
-      3: 'Ask while stressed — surface the call notes that matter. <b>Same question, different state, different memory.</b>'
+    var caps={
+      1:'One person. Slack, chats, code. <b>Context everywhere — memory nowhere.</b>',
+      2:'Five heads, five scatters. <b>Private stays private. Share is consent.</b>',
+      3:'Ask while stressed. <b>Same question, different state, different memory.</b>'
     };
     function setScene(i){
-      n = ((i-1+3)%3)+1;
-      stage.className = 'stage s'+n;
-      if(head) head.textContent = heads[n];
-      if(cap) cap.innerHTML = caps[n];
+      n=((i-1+3)%3)+1;
+      stage.className='stage s'+n;
+      if(head) head.textContent=heads[n];
+      if(cap) cap.innerHTML=caps[n];
     }
     function next(){ setScene(n+1); }
     function prev(){ setScene(n-1); }
     function arm(){
       clearInterval(timer);
-      if(reduce || paused) return;
-      timer = setInterval(next, 5200);
+      if(reduce||paused) return;
+      timer=setInterval(next, 5000);
     }
-    document.getElementById('next') && document.getElementById('next').addEventListener('click', function(){ next(); arm(); });
-    document.getElementById('prev') && document.getElementById('prev').addEventListener('click', function(){ prev(); arm(); });
-    stage.addEventListener('mouseenter', function(){ paused=true; clearInterval(timer); });
-    stage.addEventListener('mouseleave', function(){ paused=false; arm(); });
+    document.getElementById('next')&&document.getElementById('next').addEventListener('click',function(){next();arm();});
+    document.getElementById('prev')&&document.getElementById('prev').addEventListener('click',function(){prev();arm();});
+    stage.addEventListener('mouseenter',function(){paused=true;clearInterval(timer);});
+    stage.addEventListener('mouseleave',function(){paused=false;arm();});
     setScene(1); arm();
   })();
 })();

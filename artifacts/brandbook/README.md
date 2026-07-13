@@ -1,41 +1,32 @@
-# zbs.gg brandbook v2
+# zbs.gg brandbook v2.1
 
-Illustrative micro-brandbook: live effects, grey glass, lab-style multi-person explainer, icon cards. Not a token pamphlet.
+Solid dark plates. White / holo type. Live effects lab. Higgsfield mood stills.
 
-## Open (no server)
+## Open
 
 ```bash
 open artifacts/brandbook/brandbook.html
-# or double-click in Finder
 ```
 
-Also: `type-specimen.html` (three type directions; B chosen).
+`file://` works. Local GSAP in `assets/gsap.min.js` (no CDN required). Google Fonts need network once.
 
-`file://` works. Google Fonts need network once; system fallbacks still read.
+## What’s new in 2.1
 
-## What’s in here
+- **Plates, not ghost glass** — solid `#0c0d10` + white type; white plate interrupt; holo edge/wordmark
+- **Effects ≥6** — ASCII, SVG line-draw, signal glow, scramble+scan, particles, matrix rain + GSAP 3D card (drag)
+- **Higgsfield mood** — `assets/mood/{network,cube,wave}.png`
+- **Copy** — short, concrete; no brochure AI verbs
 
-| file | role |
+## Layout
+
+| path | role |
 |------|------|
-| `brandbook.html` | canonical specimen (v2) |
-| `type-specimen.html` | A/B/C type directions |
-| `brandbook.v1-freeze.html` | pre-v2 snapshot |
-| `type-specimen.v1-freeze.html` | pre-v2 type specimen |
-| `assets/icons/*.svg` | stroke mono icons (24px, 1.5) |
-
-## v2 answers Nik’s review
-
-1. **≥4 effect demos** — ASCII, soft glow, grey glass stack, scramble+scanline  
-2. **Lab explainer** — 3 scenes, people avatars, context chips, autoplay + controls  
-3. **Grey frosted glass** — next to tinted signal glass  
-4. **No eyebrow / caps card titles** — large section numbers + sentence-case titles  
-5. **Illustrated cards** — icons + use + do/don’t  
-
-## Out of scope (this folder)
-
-- Port into live `app/page.tsx`  
-- Redeploy production lab  
-- Higgsfield mood stills (optional later under `assets/mood/`)
+| `brandbook.html` | specimen |
+| `type-specimen.html` | type A/B/C |
+| `assets/icons/*.svg` | mono stroke icons |
+| `assets/mood/*.png` | Higgsfield stills |
+| `assets/gsap.min.js` | 3D card |
+| `*.v1-freeze.html` | pre-v2 snapshot |
 
 ## Plan
 
