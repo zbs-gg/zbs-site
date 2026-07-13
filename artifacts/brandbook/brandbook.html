@@ -46,13 +46,29 @@
   .nav a:hover{opacity:1;color:var(--cyan)}
 
   section{padding:4.5rem 0;border-bottom:1px solid var(--rule2)}
-  .sec-head{display:grid;grid-template-columns:auto 1fr;gap:.8rem 1.4rem;margin-bottom:1.6rem;align-items:end}
-  @media(max-width:640px){.sec-head{grid-template-columns:1fr}}
-  .sec-num{
-    font-family:var(--display);font-weight:700;
-    font-size:clamp(2.8rem,6vw,4rem);line-height:.85;letter-spacing:-.05em;
-    background:var(--holo);-webkit-background-clip:text;background-clip:text;color:transparent;
+  /* Section index = giant thin watermark, half behind the title — not holo rainbow digits */
+  .sec-head{
+    position:relative;
+    margin-bottom:1.8rem;
+    min-height:5.5rem;
+    display:block;
   }
+  .sec-num{
+    position:absolute;
+    left:-.06em;top:-.42em;
+    font-family:var(--display);
+    font-weight:200;
+    font-size:clamp(5.5rem,12vw,8.5rem);
+    line-height:.78;
+    letter-spacing:-.07em;
+    color:transparent;
+    -webkit-text-stroke:1px rgba(245,245,245,.14);
+    text-stroke:1px rgba(245,245,245,.14);
+    pointer-events:none;
+    user-select:none;
+    z-index:0;
+  }
+  .sec-copy{position:relative;z-index:1;padding-top:2.4rem;max-width:40rem}
   h2.sec-title{
     font-family:var(--display);font-weight:700;
     font-size:clamp(1.55rem,3vw,2.2rem);letter-spacing:-.025em;line-height:1.05;
@@ -120,42 +136,92 @@
   }
   .mast .sub{margin-top:1rem;color:var(--dim);font-size:1.05rem;max-width:38ch;line-height:1.55}
 
-  /* 3D card stage */
+  /* 3D card — thickness + holo edge + live specular */
   .stage-3d{
-    perspective:1100px;height:340px;
+    perspective:1200px;height:380px;
     display:flex;align-items:center;justify-content:center;
   }
   .card-3d{
-    width:min(100%,280px);height:300px;
+    --cw:260px; --ch:320px; --cd:16px;
+    width:var(--cw);height:var(--ch);
     transform-style:preserve-3d;
     position:relative;cursor:grab;
   }
   .card-3d:active{cursor:grabbing}
   .card-face{
-    position:absolute;inset:0;border-radius:8px;
+    position:absolute;width:var(--cw);height:var(--ch);
+    left:0;top:0;
+    border-radius:6px;
     backface-visibility:hidden;
     overflow:hidden;
-    border:1px solid rgba(125,249,255,.35);
-    background:linear-gradient(160deg,#0e1014 0%,#08090c 100%);
-    box-shadow:0 20px 50px rgba(0,0,0,.55), 0 0 40px -10px rgba(125,249,255,.25);
+    background:#0a0c10; /* slate-black face */
+    border:1px solid rgba(255,255,255,.08);
     display:flex;flex-direction:column;
   }
+  .card-face.front{
+    transform:translateZ(calc(var(--cd) / 2));
+  }
   .card-face.back{
-    transform:rotateY(180deg);
-    border-color:rgba(255,255,255,.2);
-    background:linear-gradient(160deg,#12141a,#0a0b0e);
+    transform:rotateY(180deg) translateZ(calc(var(--cd) / 2));
+    background:#0c0e14;
+  }
+  /* thickness — holo pours along the edge */
+  .card-edge{
+    position:absolute;
+    background:var(--holo);
+    background-size:200% 200%;
+    left:50%;top:50%;
+  }
+  .card-edge.right{
+    width:var(--cd);height:var(--ch);
+    transform:translate(-50%,-50%) rotateY(90deg) translateZ(calc(var(--cw) / 2));
+  }
+  .card-edge.left{
+    width:var(--cd);height:var(--ch);
+    transform:translate(-50%,-50%) rotateY(-90deg) translateZ(calc(var(--cw) / 2));
+  }
+  .card-edge.top{
+    width:var(--cw);height:var(--cd);
+    transform:translate(-50%,-50%) rotateX(90deg) translateZ(calc(var(--ch) / 2));
+  }
+  .card-edge.bottom{
+    width:var(--cw);height:var(--cd);
+    transform:translate(-50%,-50%) rotateX(-90deg) translateZ(calc(var(--ch) / 2));
+  }
+  /* specular + ambient occlusion on faces — driven by --lx/--ly from JS */
+  .card-shine{
+    position:absolute;inset:0;pointer-events:none;border-radius:6px;z-index:5;
+    background:
+      radial-gradient(
+        120% 90% at var(--lx, 30%) var(--ly, 22%),
+        rgba(255,255,255,.22) 0%,
+        rgba(255,255,255,.06) 28%,
+        transparent 55%
+      ),
+      linear-gradient(
+        145deg,
+        rgba(255,255,255,.08) 0%,
+        transparent 40%,
+        rgba(0,0,0,.45) 100%
+      );
+    mix-blend-mode:soft-light;
+  }
+  .card-shadow-floor{
+    position:absolute;
+    width:70%;height:24px;left:15%;bottom:-28px;
+    background:radial-gradient(ellipse at center, rgba(0,0,0,.55), transparent 70%);
+    filter:blur(6px);
+    transform:translateZ(-40px);
+    pointer-events:none;
   }
   .card-face img{
     width:100%;height:58%;object-fit:cover;display:block;
-    background:#0a0b0e;
+    background:#08090c;
   }
-  .card-face .cf-body{padding:1rem 1.05rem;flex:1;display:flex;flex-direction:column;gap:.4rem}
+  .card-face .cf-body{padding:1rem 1.05rem;flex:1;display:flex;flex-direction:column;gap:.4rem;position:relative;z-index:2}
   .card-face .cf-k{font-family:var(--mono);font-size:.66rem;color:var(--cyan);letter-spacing:.04em}
   .card-face .cf-t{font-family:var(--display);font-weight:700;font-size:1.15rem;color:var(--white);letter-spacing:-.02em;line-height:1.1}
   .card-face .cf-d{font-size:.82rem;color:var(--dim);line-height:1.4}
-  .card-wire{
-    position:absolute;inset:0;pointer-events:none;opacity:.55;
-  }
 
   /* ========== PRINCIPLES ========== */
   .pgrid{display:grid;grid-template-columns:repeat(3,1fr);gap:1rem}
@@ -163,7 +229,7 @@
   .pcard{padding:1.3rem;min-height:160px}
   .pcard h3{font-family:var(--display);font-weight:700;font-size:1.15rem;color:var(--white);margin-bottom:.5rem;letter-spacing:-.02em}
   .pcard p{color:var(--dim);font-size:.95rem;line-height:1.45}
-  .pcard .n{font-family:var(--mono);font-size:.7rem;color:var(--cyan);margin-bottom:.55rem}
+  .pcard .n{font-family:var(--mono);font-size:.68rem;color:var(--faint);margin-bottom:.55rem;letter-spacing:.06em}
 
   /* ========== TYPE ========== */
   .type-row{
@@ -242,11 +308,26 @@
   @keyframes drawLine{to{stroke-dashoffset:0}}
   #line-draw .node{fill:var(--cyan);filter:drop-shadow(0 0 4px var(--cyan))}
 
-  /* particles */
-  #particles{position:absolute;inset:0;width:100%;height:100%}
-
-  /* matrix rain lite */
-  #matrix{position:absolute;inset:0;width:100%;height:100%}
+  /* holo-edge plate specimen (static, not blockchain soup) */
+  .edge-demo{
+    width:min(78%, 200px);height:130px;position:relative;
+    transform:rotateY(-18deg) rotateX(8deg);transform-style:preserve-3d;
+  }
+  .edge-demo .ed-face{
+    position:absolute;inset:0;background:#0a0c10;border:1px solid rgba(255,255,255,.1);
+    border-radius:4px;
+    box-shadow:inset 0 1px 0 rgba(255,255,255,.08), inset -30px -40px 60px rgba(0,0,0,.45);
+  }
+  .edge-demo .ed-edge{
+    position:absolute;right:-10px;top:0;width:10px;height:100%;
+    background:var(--holo);border-radius:0 3px 3px 0;
+    transform:skewY(-8deg);transform-origin:left center;
+    box-shadow:0 0 18px rgba(125,249,255,.25);
+  }
+  .edge-demo .ed-label{
+    position:absolute;inset:0;display:flex;align-items:center;justify-content:center;
+    font-family:var(--mono);font-size:.7rem;color:var(--dim);z-index:2;
+  }
 
   /* ========== EXPLAINER ========== */
   .stage{
@@ -375,7 +456,7 @@
   footer{padding:2.2rem 0 3.5rem;font-family:var(--mono);font-size:.7rem;color:var(--faint);line-height:1.55}
 
   @media(prefers-reduced-motion:reduce){
-    #ascii,#fx-ascii,#matrix,#particles{opacity:.4}
+    #ascii,#fx-ascii{opacity:.4}
     .scan-bar,.glow-orb{animation:none}
     #line-draw path{stroke-dashoffset:0}
     .card-3d{transform:none !important}
@@ -402,35 +483,27 @@
   <div class="mast-veil"></div>
   <div class="wrap mast-grid">
     <div class="plate plate-pad plate-holo-edge">
-      <div class="mast-meta"><span class="dot"></span> brandbook · v2.1</div>
+      <div class="mast-meta"><span class="dot"></span> brandbook · v2.2</div>
       <h1>Memory that knows what <em>matters</em>.</h1>
       <p class="sub">Dark plate. White type. One cyan signal. Live effects — not a token sheet.</p>
     </div>
     <div class="stage-3d" id="stage3d">
-      <div class="card-3d" id="card3d">
+      <div class="card-3d" id="card3d" style="--lx:32%;--ly:20%">
+        <div class="card-edge left" aria-hidden="true"></div>
+        <div class="card-edge right" aria-hidden="true"></div>
+        <div class="card-edge top" aria-hidden="true"></div>
+        <div class="card-edge bottom" aria-hidden="true"></div>
         <div class="card-face front">
+          <div class="card-shine" id="card-shine-front"></div>
           <img id="mood-hero" src="assets/mood/cube.png" alt="" onerror="this.src='assets/mood/network.png'" />
-          <svg class="card-wire" viewBox="0 0 280 300" aria-hidden="true">
-            <defs>
-              <linearGradient id="w1" x1="0" y1="0" x2="1" y2="1">
-                <stop offset="0%" stop-color="#7df9ff" stop-opacity=".7"/>
-                <stop offset="100%" stop-color="#c084fc" stop-opacity=".3"/>
-              </linearGradient>
-            </defs>
-            <path d="M40 80 L140 40 L240 90 L200 200 L80 210 Z" fill="none" stroke="url(#w1)" stroke-width="1.2"/>
-            <circle cx="140" cy="40" r="3" fill="#7df9ff"/>
-            <circle cx="240" cy="90" r="3" fill="#7df9ff"/>
-            <circle cx="200" cy="200" r="3" fill="#ffe27a"/>
-            <circle cx="80" cy="210" r="3" fill="#ff9ad6"/>
-            <circle cx="40" cy="80" r="3" fill="#7df9ff"/>
-          </svg>
           <div class="cf-body">
-            <div class="cf-k">front · signal</div>
+            <div class="cf-k">slate face · holo edge</div>
             <div class="cf-t">Context pack</div>
-            <div class="cf-d">Drag. GSAP 3D. Not a screenshot of Figma.</div>
+            <div class="cf-d">Drag — light moves on the face. Thickness is real.</div>
           </div>
         </div>
         <div class="card-face back">
+          <div class="card-shine" id="card-shine-back"></div>
           <div class="cf-body" style="justify-content:center;padding:1.4rem">
             <div class="cf-k">back · ledger</div>
             <div class="cf-t">state · emotion · why</div>
@@ -438,6 +511,7 @@
             <div style="margin-top:1rem;font-family:var(--mono);font-size:.7rem;color:var(--cyan)">// mode=empathic · conf=0.85</div>
           </div>
         </div>
+        <div class="card-shadow-floor" aria-hidden="true"></div>
       </div>
     </div>
   </div>
@@ -446,8 +520,8 @@
 <!-- LOCK -->
 <section id="lock"><div class="wrap">
   <div class="sec-head">
-    <div class="sec-num">01</div>
-    <div>
+    <div class="sec-num" aria-hidden="true">01</div>
+    <div class="sec-copy">
       <h2 class="sec-title">Three locks. Break any one — it's someone else's brand.</h2>
       <p class="sec-lede">Show the engine. Keep the terminal voice. One accent means live.</p>
     </div>
@@ -474,8 +548,8 @@
 <!-- TYPE -->
 <section id="type"><div class="wrap">
   <div class="sec-head">
-    <div class="sec-num">02</div>
-    <div>
+    <div class="sec-num" aria-hidden="true">02</div>
+    <div class="sec-copy">
       <h2 class="sec-title">Type trio</h2>
       <p class="sec-lede">Bricolage for headlines. Instrument for prose. Plex Mono for data and stage chrome.</p>
     </div>
@@ -498,8 +572,8 @@
 <!-- PLATES -->
 <section id="plates"><div class="wrap">
   <div class="sec-head">
-    <div class="sec-num">03</div>
-    <div>
+    <div class="sec-num" aria-hidden="true">03</div>
+    <div class="sec-copy">
       <h2 class="sec-title">Plates: dark + white + holo edge</h2>
       <p class="sec-lede">Not frosted air. Solid surfaces. White type on dark. Dark type on white. Holo is edge or data — not a fill.</p>
     </div>
@@ -530,13 +604,13 @@
   </div>
 </div></section>
 
-<!-- EFFECTS — 6 stages -->
+<!-- EFFECTS -->
 <section id="fx"><div class="wrap">
   <div class="sec-head">
-    <div class="sec-num">04</div>
-    <div>
-      <h2 class="sec-title">Effects lab — six live stages</h2>
-      <p class="sec-lede">Each one is code. One leads per surface. Stack them and it becomes noise.</p>
+    <div class="sec-num" aria-hidden="true">04</div>
+    <div class="sec-copy">
+      <h2 class="sec-title">Effects lab</h2>
+      <p class="sec-lede">Authored motion only. No particle networks. No matrix rain. No 2015 blockchain soup.</p>
     </div>
   </div>
   <div class="fx-grid">
@@ -567,7 +641,7 @@
       </div>
       <div class="fx-meta">
         <h3>Line draw</h3>
-        <p>SVG stroke reveals on a path. Memory graph energy without a chart library.</p>
+        <p>SVG stroke reveals on a path. Graph energy without a chart library.</p>
         <div class="dose">Dose: section openers, explainer transitions</div>
       </div>
     </div>
@@ -592,30 +666,28 @@
       </div>
     </div>
     <div class="plate fx">
-      <div class="fx-stage"><canvas id="particles"></canvas></div>
-      <div class="fx-meta">
-        <h3>Particle field</h3>
-        <p>Slow drift nodes + cyan links when near. Quiet density.</p>
-        <div class="dose">Dose: background only, low alpha</div>
+      <div class="fx-stage">
+        <div class="edge-demo" aria-hidden="true">
+          <div class="ed-face"></div>
+          <div class="ed-edge"></div>
+          <div class="ed-label">16px thickness</div>
+        </div>
       </div>
-    </div>
-    <div class="plate fx">
-      <div class="fx-stage"><canvas id="matrix"></canvas></div>
       <div class="fx-meta">
-        <h3>Matrix rain (lite)</h3>
-        <p>Mono column fall, cyan-white. Terminal DNA, not anime wallpaper.</p>
-        <div class="dose">Dose: secondary texture · never under body text</div>
+        <h3>Holo edge</h3>
+        <p>Slate-black face. Holo only on the thickness. Material, not a flat tilt.</p>
+        <div class="dose">Dose: product objects · cards with real depth</div>
       </div>
     </div>
   </div>
-  <p class="note" style="margin-top:1rem">Hero 3D card above uses GSAP (drag tilt + idle spin). That's effect #7 — reserved for product objects.</p>
+  <p class="note" style="margin-top:1rem">Hero card: GSAP tilt + specular that tracks light + holo rim. Drag it.</p>
 </div></section>
 
 <!-- EXPLAINER -->
 <section id="explainer"><div class="wrap">
   <div class="sec-head">
-    <div class="sec-num">05</div>
-    <div>
+    <div class="sec-num" aria-hidden="true">05</div>
+    <div class="sec-copy">
       <h2 class="sec-title">Context explainer</h2>
       <p class="sec-lede">People first. Sources second. Retrieval third. Same grammar as the lab — brand tokens only.</p>
     </div>
@@ -677,8 +749,8 @@
 <!-- PARTS -->
 <section id="parts"><div class="wrap">
   <div class="sec-head">
-    <div class="sec-num">06</div>
-    <div>
+    <div class="sec-num" aria-hidden="true">06</div>
+    <div class="sec-copy">
       <h2 class="sec-title">Parts with pictures</h2>
       <p class="sec-lede">Icons on dark plates. Mood stills from Higgsfield when available. Title is white. Rule is mono cyan.</p>
     </div>
@@ -770,8 +842,8 @@
 <!-- RULES -->
 <section id="rules"><div class="wrap">
   <div class="sec-head">
-    <div class="sec-num">07</div>
-    <div>
+    <div class="sec-num" aria-hidden="true">07</div>
+    <div class="sec-copy">
       <h2 class="sec-title">Rules</h2>
       <p class="sec-lede">If the page is only grey labels and one ASCII gif — rewrite it.</p>
     </div>
@@ -785,18 +857,19 @@
         <li>people + context scenes for product story</li>
         <li>icons / mood stills on every component card</li>
         <li>cyan = signal only · holo = data edges</li>
-        <li>GSAP / canvas / SVG — authored motion</li>
+        <li>GSAP / canvas / SVG — authored motion with light + thickness</li>
+        <li>section indices as thin outline watermarks, not rainbow digits</li>
       </ul>
     </div>
     <div class="plate col dont">
       <h3>Don't</h3>
       <ul>
         <li>5% frosted glass that disappears on black</li>
-        <li>tiny uppercase eyebrows over display</li>
-        <li>ALL CAPS micro card titles</li>
-        <li>gradient paragraphs · Inter-only · purple soup</li>
-        <li>text-only grids with no imagery</li>
-        <li>slop copy: “seamlessly”, “elevate”, “unlock”, “supercharge”</li>
+        <li>particle networks / matrix rain / blockchain 2015</li>
+        <li>flat “3D” that only bends with no edge or light</li>
+        <li>holo rainbow section numbers as decoration</li>
+        <li>tiny uppercase eyebrows · ALL CAPS micro titles</li>
+        <li>slop copy: “seamlessly”, “elevate”, “unlock”</li>
       </ul>
     </div>
   </div>
@@ -805,10 +878,10 @@
 <!-- LEDGER -->
 <section id="ledger"><div class="wrap">
   <div class="sec-head">
-    <div class="sec-num">08</div>
-    <div>
+    <div class="sec-num" aria-hidden="true">08</div>
+    <div class="sec-copy">
       <h2 class="sec-title">Ledger</h2>
-      <p class="sec-lede">Choices with sources. v2.1: solid plates, more motion, Higgsfield mood.</p>
+      <p class="sec-lede">Choices with sources. v2.2: thick card, no particles, thin section indices.</p>
     </div>
   </div>
   <table class="ledger plate" style="overflow:hidden">
@@ -816,7 +889,9 @@
     <tbody>
       <tr><td><b>White / holo on dark plates</b></td><td>Nik eye-pass v2.0</td><td>ghost glass was unreadable</td></tr>
       <tr><td><b>GSAP 3D card</b></td><td>Nik: “ещё эффектов”</td><td>product object, not flat teaser</td></tr>
-      <tr><td><b>SVG line draw + particles + matrix</b></td><td>same</td><td>effects lab ≥6 live stages</td></tr>
+      <tr><td><b>No particles / matrix</b></td><td>Nik eye-pass</td><td>reads as 2015 crypto UI</td></tr>
+      <tr><td><b>3D card: thickness + specular + holo rim</b></td><td>Nik eye-pass</td><td>material object, not flat tilt</td></tr>
+      <tr><td><b>Thin outline section indices</b></td><td>Nik eye-pass</td><td>holo digits felt like AI chrome</td></tr>
       <tr><td><b>Higgsfield mood stills</b></td><td>Nik: use MCP</td><td>real imagery under icons</td></tr>
       <tr><td><b>Kill page slop copy</b></td><td>Nik + anti-AI notes</td><td>short, concrete, no AI brochure</td></tr>
       <tr><td><b>Type trio B</b></td><td>v1 direction lock</td><td>Bricolage / Instrument / Plex</td></tr>
@@ -929,119 +1004,95 @@
     run();
   })();
 
-  /* particles */
-  (function(){
-    var canvas = document.getElementById('particles');
-    if(!canvas) return;
-    var ctx = canvas.getContext('2d');
-    var dpr = Math.min(devicePixelRatio||1,2);
-    var pts=[], W, H;
-    function resize(){
-      W=canvas.clientWidth; H=canvas.clientHeight;
-      canvas.width=W*dpr; canvas.height=H*dpr;
-      ctx.setTransform(dpr,0,0,dpr,0,0);
-      pts=[];
-      for(var i=0;i<42;i++) pts.push({x:Math.random()*W,y:Math.random()*H,vx:(Math.random()-.5)*.25,vy:(Math.random()-.5)*.25});
-    }
-    function frame(){
-      ctx.fillStyle='#07080a'; ctx.fillRect(0,0,W,H);
-      for(var i=0;i<pts.length;i++){
-        var p=pts[i];
-        p.x+=p.vx; p.y+=p.vy;
-        if(p.x<0||p.x>W) p.vx*=-1;
-        if(p.y<0||p.y>H) p.vy*=-1;
-        ctx.fillStyle='rgba(125,249,255,.85)';
-        ctx.beginPath(); ctx.arc(p.x,p.y,1.4,0,Math.PI*2); ctx.fill();
-        for(var j=i+1;j<pts.length;j++){
-          var q=pts[j], dx=p.x-q.x, dy=p.y-q.y, d=Math.sqrt(dx*dx+dy*dy);
-          if(d<70){
-            ctx.strokeStyle='rgba(125,249,255,'+(0.18*(1-d/70))+')';
-            ctx.beginPath(); ctx.moveTo(p.x,p.y); ctx.lineTo(q.x,q.y); ctx.stroke();
-          }
-        }
-      }
-      if(!reduce) requestAnimationFrame(frame);
-    }
-    window.addEventListener('resize', resize);
-    resize(); frame();
-  })();
-
-  /* matrix lite */
-  (function(){
-    var canvas=document.getElementById('matrix');
-    if(!canvas) return;
-    var ctx=canvas.getContext('2d');
-    var dpr=Math.min(devicePixelRatio||1,2);
-    var cols=[], W, H, fs=12;
-    var glyphs='01アイウエオカキクケコ consig'.split('');
-    function resize(){
-      W=canvas.clientWidth; H=canvas.clientHeight;
-      canvas.width=W*dpr; canvas.height=H*dpr;
-      ctx.setTransform(dpr,0,0,dpr,0,0);
-      var n=Math.floor(W/fs);
-      cols=[];
-      for(var i=0;i<n;i++) cols.push(Math.random()*H/fs);
-    }
-    function frame(){
-      ctx.fillStyle='rgba(7,8,10,.18)';
-      ctx.fillRect(0,0,W,H);
-      ctx.font=fs+"px 'IBM Plex Mono',monospace";
-      for(var i=0;i<cols.length;i++){
-        var ch=glyphs[Math.floor(Math.random()*glyphs.length)];
-        var x=i*fs, y=cols[i]*fs;
-        ctx.fillStyle= i%5===0 ? '#7df9ff' : 'rgba(245,245,245,.35)';
-        ctx.fillText(ch,x,y);
-        if(y>H && Math.random()>0.975) cols[i]=0;
-        else cols[i]+=0.35+Math.random()*0.4;
-      }
-      if(!reduce) requestAnimationFrame(frame);
-    }
-    window.addEventListener('resize', resize);
-    resize(); frame();
-  })();
-
-  /* GSAP 3D card */
+  /* GSAP 3D card — thickness + specular tracks light */
   (function(){
     var card=document.getElementById('card3d');
     var stage=document.getElementById('stage3d');
     if(!card||!window.gsap) return;
+    var rx=-12, ry=-22;
+    gsap.set(card, {transformPerspective:1200, transformStyle:'preserve-3d', rotationX:rx, rotationY:ry});
+
+    function lightFromAngles(rxDeg, ryDeg){
+      // map rotation to highlight position on face (opposite to light)
+      var lx = 50 + (ryDeg / 40) * 28;
+      var ly = 50 - (rxDeg / 30) * 22;
+      lx = Math.max(8, Math.min(92, lx));
+      ly = Math.max(8, Math.min(92, ly));
+      card.style.setProperty('--lx', lx + '%');
+      card.style.setProperty('--ly', ly + '%');
+      // soft ambient shadow under card scales with tilt
+      var floor = card.querySelector('.card-shadow-floor');
+      if(floor){
+        var s = 0.85 + Math.abs(ryDeg)/80;
+        floor.style.transform = 'translateZ(-40px) scaleX('+s+')';
+        floor.style.opacity = String(0.55 + Math.abs(rxDeg)/80);
+      }
+    }
+    lightFromAngles(rx, ry);
+
     if(reduce) return;
-    var rx=0, ry=0, trx=8, tryy=-14;
-    gsap.set(card, {transformPerspective:1100, transformStyle:'preserve-3d'});
-    // idle spin
+
+    function readAngles(){
+      return {
+        x: Number(gsap.getProperty(card, 'rotationX')) || 0,
+        y: Number(gsap.getProperty(card, 'rotationY')) || 0
+      };
+    }
+    // slow idle: gentle rock, not full 360 spin (object, not toy)
     var idle = gsap.to(card, {
-      rotationY: '+=360', duration: 18, ease:'none', repeat:-1,
-      onUpdate: function(){ /* keep */ }
+      rotationY: ry + 28,
+      rotationX: rx + 6,
+      duration: 4.5,
+      yoyo: true,
+      repeat: -1,
+      ease: 'sine.inOut',
+      onUpdate: function(){
+        var a = readAngles();
+        lightFromAngles(a.x, a.y);
+      }
     });
-    // also gentle rock
-    gsap.to(card, {rotationX: 10, duration: 3.2, yoyo:true, repeat:-1, ease:'sine.inOut'});
 
     var dragging=false, lx=0, ly=0;
     function onMove(e){
       if(!dragging) return;
-      var x = e.clientX || (e.touches&&e.touches[0].clientX);
-      var y = e.clientY || (e.touches&&e.touches[0].clientY);
+      var x = e.clientX;
+      var y = e.clientY;
       var dx = x-lx, dy=y-ly;
       lx=x; ly=y;
       idle.pause();
-      ry += dx*0.4;
-      rx -= dy*0.35;
-      rx = Math.max(-28, Math.min(28, rx));
-      gsap.to(card, {rotationY: ry, rotationX: rx, duration:0.15, overwrite:true});
+      ry += dx*0.45;
+      rx -= dy*0.4;
+      rx = Math.max(-32, Math.min(32, rx));
+      ry = Math.max(-50, Math.min(50, ry));
+      gsap.to(card, {
+        rotationY: ry, rotationX: rx, duration:0.12, overwrite:true,
+        onUpdate: function(){
+          var a = readAngles();
+          lightFromAngles(a.x, a.y);
+        }
+      });
+      lightFromAngles(rx, ry);
     }
     function onUp(){
+      if(!dragging) return;
       dragging=false;
-      gsap.to(card, {rotationX:8, rotationY:ry, duration:0.6, ease:'power2.out'});
-      idle.play();
+      gsap.to(card, {
+        rotationX: -12, rotationY: -18, duration:0.7, ease:'power2.out',
+        onUpdate: function(){
+          var a = readAngles();
+          lightFromAngles(a.x, a.y);
+        },
+        onComplete: function(){ rx=-12; ry=-18; idle.restart(); }
+      });
     }
     stage.addEventListener('pointerdown', function(e){
       dragging=true; idle.pause();
       lx=e.clientX; ly=e.clientY;
-      stage.setPointerCapture && stage.setPointerCapture(e.pointerId);
+      try{ stage.setPointerCapture(e.pointerId); }catch(_){}
     });
     stage.addEventListener('pointermove', onMove);
     stage.addEventListener('pointerup', onUp);
-    stage.addEventListener('pointerleave', onUp);
+    stage.addEventListener('pointercancel', onUp);
   })();
 
   /* explainer */
