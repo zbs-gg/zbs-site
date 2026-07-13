@@ -405,27 +405,176 @@
   .stage-cap{margin-top:.9rem;color:var(--dim);font-size:.95rem;min-height:2.6em}
   .stage-cap b{color:var(--white);font-weight:500}
 
-  /* ========== ILLUSTRATED CARDS ========== */
-  .mood-banner{
-    width:100%;height:160px;object-fit:cover;border-radius:4px;border:1px solid var(--rule);
-    margin-bottom:1.2rem;background:var(--plate);display:block;
+  /* ========== BENTO PARTS (Tailwind-style grammar, zbs skin) ========== */
+  .bento{
+    display:grid;
+    gap:.75rem;
+    grid-template-columns:1fr;
   }
-  .comp-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:.9rem}
-  @media(max-width:960px){.comp-grid{grid-template-columns:1fr 1fr}}
-  @media(max-width:600px){.comp-grid{grid-template-columns:1fr}}
-  .icard{padding:0;overflow:hidden;display:flex;flex-direction:column}
-  .icard-art{
-    height:96px;background:#08090c;border-bottom:1px solid var(--rule2);
-    display:flex;align-items:center;justify-content:center;color:var(--cyan);
+  @media(min-width:960px){
+    .bento{
+      grid-template-columns:1.15fr 1fr 1.15fr;
+      grid-template-rows:minmax(240px,1fr) minmax(240px,1fr);
+      min-height:560px;
+    }
+    .bento .tall-left{grid-column:1;grid-row:1 / span 2}
+    .bento .mid-top{grid-column:2;grid-row:1}
+    .bento .mid-bot{grid-column:2;grid-row:2}
+    .bento .tall-right{grid-column:3;grid-row:1 / span 2}
+  }
+  .bento-card{
     position:relative;
+    display:flex;flex-direction:column;
+    overflow:hidden;
+    background:var(--plate);
+    border:1px solid var(--rule);
+    border-radius:6px;
+    min-height:220px;
   }
-  .icard-art img.mood{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:.45}
-  .icard-art img.icon,.icard-art svg{width:32px;height:32px;position:relative;z-index:1;filter:drop-shadow(0 0 6px rgba(125,249,255,.35))}
-  .icard-body{padding:1rem}
-  .icard h3{font-family:var(--display);font-weight:700;font-size:1.05rem;color:var(--white);letter-spacing:-.02em;margin-bottom:.35rem}
-  .icard p{font-size:.88rem;color:var(--dim);line-height:1.4}
-  .icard .rule{font-family:var(--mono);font-size:.64rem;color:var(--faint);margin-top:.7rem;padding-top:.65rem;border-top:1px solid var(--rule2)}
-  .icard .rule b{color:var(--cyan);font-weight:500}
+  @media(min-width:960px){
+    .bento-card.tall-left{border-radius:14px 6px 6px 14px}
+    .bento-card.tall-right{border-radius:6px 14px 14px 6px}
+  }
+  .bento-card::after{
+    content:"";pointer-events:none;position:absolute;inset:0;border-radius:inherit;
+    box-shadow:inset 0 1px 0 rgba(255,255,255,.05);
+  }
+  .bento-head{padding:1.25rem 1.3rem .7rem;flex:none}
+  .bento-head h3{
+    font-family:var(--display);font-weight:700;font-size:1.12rem;
+    color:var(--white);letter-spacing:-.02em;line-height:1.15;
+  }
+  .bento-head p{
+    margin-top:.4rem;font-size:.9rem;color:var(--dim);line-height:1.45;max-width:36ch;
+  }
+  .bento-stage{
+    flex:1;position:relative;
+    margin:0 .9rem .9rem;
+    min-height:160px;
+    border-radius:4px;
+    border:1px solid rgba(245,245,245,.1);
+    background:#08090c;
+    overflow:hidden;
+  }
+  /* phone / list mock */
+  .phone-mock{
+    position:absolute;left:50%;top:1.2rem;bottom:0;
+    width:min(88%, 260px);transform:translateX(-50%);
+    border:1px solid rgba(245,245,245,.14);
+    border-bottom:none;border-radius:16px 16px 0 0;
+    background:#0a0b0e;
+    padding:.7rem .75rem 0;
+    box-shadow:0 -8px 40px rgba(0,0,0,.45);
+  }
+  .phone-mock .ph-bar{
+    display:flex;justify-content:space-between;align-items:center;
+    font-family:var(--mono);font-size:.6rem;color:var(--faint);margin-bottom:.55rem;
+  }
+  .phone-mock .ph-search{
+    font-family:var(--mono);font-size:.62rem;color:var(--faint);
+    border:1px solid var(--rule);border-radius:999px;padding:.35rem .65rem;margin-bottom:.65rem;
+    background:rgba(0,0,0,.35);
+  }
+  .phone-row{
+    display:flex;gap:.55rem;align-items:flex-start;
+    padding:.5rem 0;border-top:1px solid var(--rule2);
+  }
+  .phone-row .dot{width:7px;height:7px;border-radius:50%;margin-top:.25rem;flex:none;background:var(--faint)}
+  .phone-row .dot.on{background:var(--cyan);box-shadow:0 0 8px rgba(125,249,255,.5)}
+  .phone-row .pr-t{font-family:var(--mono);font-size:.68rem;color:var(--white)}
+  .phone-row .pr-t span{color:var(--faint)}
+  .phone-row .pr-m{font-family:var(--mono);font-size:.58rem;color:var(--faint);margin-top:.15rem}
+
+  /* performance metric */
+  .perf-stage{display:flex;flex-direction:column;justify-content:flex-end;padding:1rem 1.1rem;height:100%;box-sizing:border-box}
+  .perf-top{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:.7rem}
+  .perf-num{font-family:var(--display);font-weight:700;font-size:2.4rem;letter-spacing:-.04em;color:var(--cyan);line-height:1}
+  .perf-num small{font-family:var(--mono);font-size:.7rem;color:var(--faint);font-weight:400;margin-left:.15rem}
+  .perf-badge{
+    font-family:var(--mono);font-size:.62rem;color:var(--cyan);
+    border:1px solid rgba(125,249,255,.3);border-radius:999px;padding:.2rem .5rem;
+  }
+  .perf-bars{display:flex;align-items:flex-end;gap:4px;height:72px}
+  .perf-bars i{
+    flex:1;border-radius:2px 2px 0 0;
+    background:rgba(125,249,255,.18);
+    height:var(--h,40%);
+  }
+  .perf-bars i.hot{background:var(--cyan);box-shadow:0 0 10px rgba(125,249,255,.35)}
+
+  /* privacy row */
+  .priv-stage{
+    display:flex;align-items:center;justify-content:center;gap:1rem;
+    height:100%;padding:1rem;position:relative;
+  }
+  .priv-stage::before{
+    content:"";position:absolute;left:12%;right:12%;top:50%;height:1px;
+    background:linear-gradient(90deg,transparent,rgba(125,249,255,.35),transparent);
+  }
+  .priv-orb{
+    width:52px;height:52px;border-radius:50%;
+    border:1px solid var(--rule);background:#0c0d10;
+    display:flex;align-items:center;justify-content:center;
+    position:relative;z-index:1;
+    color:var(--dim);
+  }
+  .priv-orb.main{
+    width:68px;height:68px;
+    border-color:rgba(125,249,255,.4);
+    box-shadow:0 0 28px -6px rgba(125,249,255,.35);
+    color:var(--cyan);
+  }
+  .priv-orb svg{width:22px;height:22px}
+
+  /* code panel */
+  .code-panel{position:absolute;inset:1.1rem 0 0 1.1rem;display:flex;flex-direction:column;
+    border:1px solid rgba(245,245,245,.12);border-radius:6px 0 0 0;background:#07080a;
+    box-shadow:-8px -8px 40px rgba(0,0,0,.4);
+  }
+  .code-tabs{display:flex;border-bottom:1px solid rgba(245,245,245,.1);font-family:var(--mono);font-size:.68rem}
+  .code-tabs span{
+    padding:.55rem .85rem;color:var(--faint);border-right:1px solid rgba(245,245,245,.08);
+  }
+  .code-tabs span.on{color:var(--white);background:rgba(255,255,255,.04);border-bottom:1px solid var(--cyan)}
+  .code-body{
+    flex:1;padding:.9rem 1rem;font-family:var(--mono);font-size:.72rem;line-height:1.65;
+    color:var(--dim);overflow:hidden;
+  }
+  .code-body .kw{color:var(--cyan)}
+  .code-body .str{color:#ffe27a}
+  .code-body .cm{color:var(--faint)}
+
+  /* grain + spotlight extras for fx lab */
+  .grain-stage{
+    position:absolute;inset:0;
+    background:
+      radial-gradient(ellipse 80% 60% at 50% 40%, rgba(125,249,255,.08), transparent 60%),
+      #07080a;
+  }
+  .grain-stage::after{
+    content:"";position:absolute;inset:0;opacity:.35;pointer-events:none;
+    background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.55'/%3E%3C/svg%3E");
+    mix-blend-mode:overlay;
+  }
+  .spotlight-stage{
+    position:absolute;inset:0;background:#07080a;
+    background-image:radial-gradient(420px 280px at var(--sx,50%) var(--sy,40%), rgba(125,249,255,.14), transparent 55%);
+  }
+  .spotlight-stage .sp-label{
+    position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);
+    font-family:var(--mono);font-size:.72rem;color:var(--dim);
+  }
+  .marquee-stage{
+    position:absolute;inset:0;overflow:hidden;background:#07080a;
+    display:flex;align-items:center;
+  }
+  .marquee-track{
+    display:flex;gap:2.5rem;white-space:nowrap;
+    font-family:var(--mono);font-size:.78rem;color:var(--faint);
+    animation:marq 18s linear infinite;
+  }
+  .marquee-track b{color:var(--cyan);font-weight:500}
+  @keyframes marq{from{transform:translateX(0)}to{transform:translateX(-50%)}}
 
   .btn{
     font-family:var(--mono);font-size:.8rem;color:var(--bg);
@@ -492,7 +641,7 @@
   <div class="mast-veil"></div>
   <div class="wrap mast-grid">
     <div class="plate plate-pad plate-holo-edge">
-      <div class="mast-meta"><span class="dot"></span> brandbook · v2.2</div>
+      <div class="mast-meta"><span class="dot"></span> brandbook · v2.3</div>
       <h1>Memory that knows what <em>matters</em>.</h1>
       <p class="sub">Dark plate. White type. One cyan signal. Live effects — not a token sheet.</p>
     </div>
@@ -688,8 +837,51 @@
         <div class="dose">Dose: product objects · cards with real depth</div>
       </div>
     </div>
+    <div class="plate fx">
+      <div class="fx-stage">
+        <div class="grain-stage"></div>
+      </div>
+      <div class="fx-meta">
+        <h3>Film grain</h3>
+        <p>SVG noise overlay on a quiet radial. Texture without particles.</p>
+        <div class="dose">Dose: full-bleed backgrounds · keep opacity low</div>
+      </div>
+    </div>
+    <div class="plate fx">
+      <div class="fx-stage" id="spotlight-host">
+        <div class="spotlight-stage" id="spotlight"><span class="sp-label">move pointer</span></div>
+      </div>
+      <div class="fx-meta">
+        <h3>Cursor spotlight</h3>
+        <p>Single cyan radial follows the pointer. Editorial light, not a blob glow spam.</p>
+        <div class="dose">Dose: one plate or hero · never every card</div>
+      </div>
+    </div>
+    <div class="plate fx">
+      <div class="fx-stage">
+        <div class="marquee-stage">
+          <div class="marquee-track" aria-hidden="true">
+            <span><b>state</b> · reflecting</span>
+            <span><b>mode</b> · empathic</span>
+            <span><b>conf</b> · 0.85</span>
+            <span><b>scope</b> · shared</span>
+            <span><b>why</b> · call notes</span>
+            <span><b>state</b> · reflecting</span>
+            <span><b>mode</b> · empathic</span>
+            <span><b>conf</b> · 0.85</span>
+            <span><b>scope</b> · shared</span>
+            <span><b>why</b> · call notes</span>
+          </div>
+        </div>
+      </div>
+      <div class="fx-meta">
+        <h3>Mono marquee</h3>
+        <p>Data tape. Terminal ticker — not a marketing carousel.</p>
+        <div class="dose">Dose: status strip · pause on reduced-motion</div>
+      </div>
+    </div>
   </div>
-  <p class="note" style="margin-top:1rem">Hero card: GSAP tilt + specular that tracks light + holo rim. Drag it.</p>
+  <p class="note" style="margin-top:1rem">Hero card: GSAP tilt + specular + 4px holo rim. Parts below use bento nested demos.</p>
 </div></section>
 
 <!-- EXPLAINER -->
@@ -755,94 +947,134 @@
   </div>
 </div></section>
 
-<!-- PARTS -->
+<!-- PARTS — bento -->
 <section id="parts"><div class="wrap">
   <div class="sec-head">
     <div class="sec-num" aria-hidden="true">06</div>
     <div class="sec-copy">
-      <h2 class="sec-title">Parts with pictures</h2>
-      <p class="sec-lede">Icons on dark plates. Mood stills from Higgsfield when available. Title is white. Rule is mono cyan.</p>
+      <h2 class="sec-title">Parts — proof inside the plate</h2>
+      <p class="sec-lede">Bento grammar: title + short lede, then a nested demo. Not icon tiles.</p>
     </div>
   </div>
-  <img class="mood-banner" id="mood-banner" src="assets/mood/wave.png" alt="" onerror="this.src='assets/mood/network.png'" />
 
-  <div class="comp-grid">
-    <article class="plate icard">
-      <div class="icard-art">
-        <img class="mood" src="assets/mood/network.png" alt="" onerror="this.remove()" />
-        <img class="icon" src="assets/icons/sources.svg" alt="" width="32" height="32" />
-      </div>
-      <div class="icard-body">
+  <div class="bento">
+    <!-- tall left: sources phone -->
+    <article class="bento-card tall-left">
+      <div class="bento-head">
         <h3>Scattered sources</h3>
         <p>Many windows, one head. Draw the scatter before the weave.</p>
-        <div class="rule"><b>Do</b> multi-window · <b>Don't</b> single AI orb</div>
+      </div>
+      <div class="bento-stage">
+        <div class="phone-mock">
+          <div class="ph-bar"><span>sources</span><span>sort ▾</span></div>
+          <div class="ph-search">search context…</div>
+          <div class="phone-row">
+            <span class="dot on"></span>
+            <div>
+              <div class="pr-t">slack <span>/ #shipping</span></div>
+              <div class="pr-m">Deploy notes · 2m ago</div>
+            </div>
+          </div>
+          <div class="phone-row">
+            <span class="dot on"></span>
+            <div>
+              <div class="pr-t">chatgpt <span>/ auth thread</span></div>
+              <div class="pr-m">Decision · 18m ago</div>
+            </div>
+          </div>
+          <div class="phone-row">
+            <span class="dot"></span>
+            <div>
+              <div class="pr-t">cursor <span>/ branch</span></div>
+              <div class="pr-m">WIP · 1h ago</div>
+            </div>
+          </div>
+          <div class="phone-row">
+            <span class="dot on"></span>
+            <div>
+              <div class="pr-t">voice <span>/ call notes</span></div>
+              <div class="pr-m">Anya · yesterday</div>
+            </div>
+          </div>
+          <div class="phone-row">
+            <span class="dot"></span>
+            <div>
+              <div class="pr-t">private <span>/ vent</span></div>
+              <div class="pr-m">locked · never shared</div>
+            </div>
+          </div>
+        </div>
       </div>
     </article>
-    <article class="plate icard">
-      <div class="icard-art"><img class="icon" src="assets/icons/privacy.svg" alt="" width="32" height="32" /></div>
-      <div class="icard-body">
-        <h3>Privacy boundary</h3>
-        <p>Personal stays personal. Share is consent, not a default toggle.</p>
-        <div class="rule"><b>Do</b> lock + consent · <b>Don't</b> blue padlock kits</div>
-      </div>
-    </article>
-    <article class="plate icard">
-      <div class="icard-art"><img class="icon" src="assets/icons/retrieval.svg" alt="" width="32" height="32" /></div>
-      <div class="icard-body">
+
+    <!-- mid top: retrieval metric -->
+    <article class="bento-card mid-top">
+      <div class="bento-head">
         <h3>Retrieval in state</h3>
-        <p>Same ask, different state → different memory. Show the why.</p>
-        <div class="rule"><b>Do</b> state + reason · <b>Don't</b> raw scores</div>
+        <p>Same ask, different state — different memory. Show the why.</p>
+      </div>
+      <div class="bento-stage">
+        <div class="perf-stage">
+          <div class="perf-top">
+            <div class="perf-num">0.85<small>conf</small></div>
+            <span class="perf-badge">mode=empathic</span>
+          </div>
+          <div class="perf-bars" aria-hidden="true">
+            <i style="--h:35%"></i><i style="--h:48%"></i><i style="--h:42%"></i>
+            <i class="hot" style="--h:88%"></i><i class="hot" style="--h:72%"></i>
+            <i style="--h:55%"></i><i style="--h:40%"></i><i style="--h:62%"></i>
+            <i class="hot" style="--h:95%"></i><i style="--h:50%"></i>
+            <i style="--h:38%"></i><i style="--h:44%"></i>
+          </div>
+        </div>
       </div>
     </article>
-    <article class="plate icard">
-      <div class="icard-art"><img class="icon" src="assets/icons/emotion.svg" alt="" width="32" height="32" /></div>
-      <div class="icard-body">
-        <h3>Emotion as signal</h3>
-        <p>Frustrated / shipping / blocked — retrieval keys, not HR scores.</p>
-        <div class="rule"><b>Do</b> mono chips · <b>Don't</b> emoji icon packs</div>
+
+    <!-- mid bot: privacy -->
+    <article class="bento-card mid-bot">
+      <div class="bento-head">
+        <h3>Privacy boundary</h3>
+        <p>Personal stays personal. Share is consent, not a default.</p>
+      </div>
+      <div class="bento-stage">
+        <div class="priv-stage">
+          <div class="priv-orb" title="cloud">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M7 18h10a4 4 0 0 0 .5-8 5.5 5.5 0 0 0-10.7-1.5A3.5 3.5 0 0 0 7 18z"/></svg>
+          </div>
+          <div class="priv-orb main" title="shield">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 3l7 3v5c0 4.5-2.8 7.8-7 10-4.2-2.2-7-5.5-7-10V6l7-3z"/><path d="M9.5 12l1.8 1.8L15 10"/></svg>
+          </div>
+          <div class="priv-orb" title="store">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="4" y="6" width="16" height="12" rx="1"/><path d="M4 10h16M9 6v12M15 6v12"/></svg>
+          </div>
+        </div>
       </div>
     </article>
-    <article class="plate icard">
-      <div class="icard-art"><img class="icon" src="assets/icons/decay.svg" alt="" width="32" height="32" /></div>
-      <div class="icard-body">
-        <h3>Anchor-aware decay</h3>
-        <p>Structural events resist forgetting. Chart beats theory dump.</p>
-        <div class="rule"><b>Do</b> interactive decay · <b>Don't</b> λ essays</div>
+
+    <!-- tall right: code -->
+    <article class="bento-card tall-right">
+      <div class="bento-head">
+        <h3>Surface the reason</h3>
+        <p>Mono stage chrome. State, emotion, why — not a cosine dump.</p>
       </div>
-    </article>
-    <article class="plate icard">
-      <div class="icard-art"><img class="icon" src="assets/icons/pulse.svg" alt="" width="32" height="32" /></div>
-      <div class="icard-body">
-        <h3>Pulse line</h3>
-        <p>One heartbeat path for topics and affect. Not twelve sparklines.</p>
-        <div class="rule"><b>Do</b> one signal path · <b>Don't</b> metric soup</div>
-      </div>
-    </article>
-    <article class="plate icard">
-      <div class="icard-art"><img class="icon" src="assets/icons/lab.svg" alt="" width="32" height="32" /></div>
-      <div class="icard-body">
-        <h3>Lab face</h3>
-        <p>Research lab, not growth startup. Proof demos over “book a call”.</p>
-        <div class="rule"><b>Do</b> live stages · <b>Don't</b> CTA wallpaper</div>
-      </div>
-    </article>
-    <article class="plate icard">
-      <div class="icard-art"><img class="icon" src="assets/icons/glass.svg" alt="" width="32" height="32" /></div>
-      <div class="icard-body">
-        <h3>Solid plates</h3>
-        <p>Dark plate default. White plate interrupt. Holo as edge only.</p>
-        <div class="rule"><b>Do</b> solid fill · <b>Don't</b> 5% frosted air</div>
-      </div>
-    </article>
-    <article class="plate icard">
-      <div class="icard-art" style="flex-direction:column;gap:.5rem;padding:.8rem">
-        <a class="btn" href="#">run local demo →</a>
-        <span class="datachip"><span class="n">68.9%</span> LongMemEval</span>
-      </div>
-      <div class="icard-body">
-        <h3>Buttons &amp; numbers</h3>
-        <p>Filled cyan primary. Numbers are liveness — no “● live” badge.</p>
-        <div class="rule"><b>Do</b> cyan fill / number · <b>Don't</b> purple blob CTA</div>
+      <div class="bento-stage">
+        <div class="code-panel">
+          <div class="code-tabs">
+            <span class="on">retrieval.js</span>
+            <span>state.json</span>
+          </div>
+          <div class="code-body">
+            <div><span class="cm">// ask under deadline stress</span></div>
+            <div><span class="kw">const</span> hit = <span class="kw">await</span> pulse.recall({</div>
+            <div>&nbsp;&nbsp;q: <span class="str">'auth decision last week'</span>,</div>
+            <div>&nbsp;&nbsp;state: <span class="str">'stressed'</span>,</div>
+            <div>&nbsp;&nbsp;scope: <span class="str">'shared'</span></div>
+            <div>})</div>
+            <div>&nbsp;</div>
+            <div>hit.why  <span class="cm">// "Anya call notes · consent ok"</span></div>
+            <div>hit.conf <span class="cm">// 0.85</span></div>
+          </div>
+        </div>
       </div>
     </article>
   </div>
@@ -1011,6 +1243,20 @@
       tick();
     }
     run();
+  })();
+
+  /* cursor spotlight */
+  (function(){
+    var host = document.getElementById('spotlight-host');
+    var spot = document.getElementById('spotlight');
+    if(!host || !spot) return;
+    host.addEventListener('pointermove', function(e){
+      var r = host.getBoundingClientRect();
+      var x = ((e.clientX - r.left) / r.width) * 100;
+      var y = ((e.clientY - r.top) / r.height) * 100;
+      spot.style.setProperty('--sx', x + '%');
+      spot.style.setProperty('--sy', y + '%');
+    });
   })();
 
   /* GSAP 3D card — thickness + specular tracks light */
