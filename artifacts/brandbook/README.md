@@ -1,6 +1,6 @@
-# zbs.gg brandbook v2.6
+# zbs.gg brandbook v2.7
 
-Bayside nav · cursor ASCII · scroll theme wipe · **story lab (Alex zoom-out)** · **5 new FX** · GSAP depth field · bg video/canvas · Pulse metrics fixtures.
+**Rule:** port what the site already ships. Do not invent parallel explainers.
 
 ## Open
 
@@ -8,40 +8,30 @@ Bayside nav · cursor ASCII · scroll theme wipe · **story lab (Alex zoom-out)*
 open artifacts/brandbook/brandbook.html
 ```
 
-`file://` works. GSAP: `assets/gsap.min.js`. Fonts: Google once.
+`?theme=light` · `?theme=dark`
 
-```text
-?theme=light
-?theme=dark
-```
+## Site canon ports
 
-## Sections (v2.6)
+| Brandbook | Source on site |
+|-----------|----------------|
+| B&W scramble nav | `app/page.tsx` + `components/scramble-text.tsx` + `.ascii-nav` |
+| Memory timeline (line + segments) | `components/memory-timeline.tsx` + `.mt-*` in `globals.css` |
+| Hero ASCII thrash | `components/ascii-bg.tsx` mouse glow grammar |
+| Lab product story | `public/lab.html` — open that file; do not re-sketch in brandbook |
 
-| Section | What |
-|---------|------|
-| Nav | B&W scramble (landing lock) |
-| Hero | ASCII thrash under cursor + 3D card |
-| Effects lab | Prior stages + constellation, mask reveal, plotter, floor, glyph bloom |
-| Depth field | GSAP 3D planes + 2 bg loops (video if present, else canvas) |
-| Story lab | Alex → graph → life → codex → themes → harnesses → team exchange + metrics HUD `[fixture]` |
-| Theme gate | Circle wipe dark↔light |
+## Removed on purpose
 
-## Story beats (lab grammar)
+- Story lab (Alex zoom absolute cards) — wrong grammar  
+- Brandbook “context explainer” — poor lab clone  
+- Constellation / plotter / floor / bloom / glitch-nav  
+- Depth video showcase / hypercube  
 
-0 feature window → 1 graph extract → 2 life state → 3 codex research → 4 multi-theme → 5 multi-harness → 6 multi-person exchange.
+## Effects lab (kept)
 
-Metrics (illustrative only): person/team Pulse, tokens reduced %, insights compounded, fewer iterations.
+ASCII field · line draw (grey→holo) · signal glow rings · scramble · holo edge · spotlight · ASCII mask+glitch  
 
-## Regenerate bg video (optional)
-
-```bash
-# Higgsfield Seedance from mood stills → download to assets/bg/
-# Then set in browser console before load, or drop files as:
-# assets/bg/lattice.mp4  assets/bg/wireframe.mp4
-```
-
-If no mp4: canvas stand-ins auto-run.
+Ambient GSAP planes (no video section).
 
 ## Plans
 
-- `docs/plans/2026-07-14-004-feat-brandbook-story-fx-lab-plan.md`
+`docs/plans/2026-07-14-00{1,2,3,4}-*.md`

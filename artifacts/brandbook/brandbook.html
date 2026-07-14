@@ -783,10 +783,51 @@
 
   footer{padding:2.2rem 0 3.5rem;font-family:var(--mono);font-size:.7rem;color:var(--faint);line-height:1.55}
 
-  /* ===== v2.6 story lab + new FX + 3D bg + metrics ===== */
+  /* effects chrome */
   .fx-stage{cursor:crosshair}
   .interact{font-family:var(--mono);font-size:.62rem;color:var(--faint);margin-top:.35rem}
   .interact b{color:var(--cyan);font-weight:500}
+
+  /* MemoryTimeline — port of app/globals.css .mt-* + memory-timeline.tsx */
+  .mt-wrap{
+    position:relative;margin-top:.4rem;
+    border:1px solid var(--rule);border-radius:4px;
+    background:rgba(0,0,0,.55);padding:1rem 1.25rem .85rem;
+    font-family:var(--mono);overflow:hidden;
+  }
+  [data-theme="light"] .mt-wrap{background:rgba(255,255,255,.9)}
+  .mt-head{
+    display:flex;flex-wrap:wrap;gap:.75rem 1rem;
+    justify-content:space-between;align-items:baseline;margin-bottom:.4rem;
+  }
+  .mt-title{display:flex;flex-direction:column;font-size:.78rem;letter-spacing:.04em;line-height:1.4}
+  .mt-title-key{color:var(--fg)}
+  .mt-title-sub{color:var(--dim);font-size:.72rem}
+  .mt-toggle{
+    font-family:var(--mono);font-size:.72rem;letter-spacing:.04em;color:var(--fg);
+    background:transparent;border:1px solid var(--rule);padding:.4rem .75rem;border-radius:3px;cursor:pointer;
+  }
+  .mt-toggle:hover{border-color:var(--faint);background:rgba(255,255,255,.04)}
+  .mt-toggle.is-off{color:var(--dim)}
+  .mt-tip{
+    position:absolute;top:0;left:0;pointer-events:none;
+    background:rgba(0,0,0,.92);border:1px solid rgba(245,245,245,.25);
+    border-radius:3px;padding:.5rem .65rem;font-size:.72rem;line-height:1.4;
+    max-width:240px;z-index:5;box-shadow:0 4px 18px rgba(0,0,0,.4);
+  }
+  [data-theme="light"] .mt-tip{background:rgba(255,255,255,.96);border-color:var(--rule);color:var(--fg)}
+  .mt-tip-text{color:var(--fg);margin-bottom:.2rem}
+  .mt-tip-meta{display:flex;flex-wrap:wrap;gap:.5rem;color:var(--faint);font-size:.68rem}
+  .mt-tip-meta .mt-tip-s{color:var(--dim)}
+  .mt-tip-note{
+    margin-top:.35rem;padding-top:.35rem;border-top:1px dashed var(--rule);
+    color:var(--dim);font-size:.68rem;font-style:italic;
+  }
+  .mt-legend{
+    display:flex;flex-wrap:wrap;gap:.5rem 1.5rem;margin-top:.5rem;
+    font-size:.68rem;color:var(--faint);line-height:1.45;
+  }
+  .mt-legend code{color:var(--dim);font-size:.64rem}
 
   /* Ambient depth field — whole page under content, no video showcase */
   .g3d-field{
@@ -811,92 +852,6 @@
   .scroll-spine{z-index:30 !important}
   .theme-wipe{z-index:100 !important}
 
-  /* story lab */
-  .story-lab{position:relative}
-  .story-shell{
-    display:grid;grid-template-columns:1fr 200px;gap:1rem;align-items:stretch;
-  }
-  @media(max-width:900px){.story-shell{grid-template-columns:1fr}}
-  .story-stage{
-    border:1px solid var(--rule);border-radius:8px;background:var(--plate);
-    min-height:420px;position:relative;overflow:hidden;
-  }
-  .story-chrome{
-    display:flex;justify-content:space-between;align-items:center;gap:.8rem;flex-wrap:wrap;
-    padding:.75rem 1rem;border-bottom:1px solid var(--rule2);
-    font-family:var(--mono);font-size:.7rem;color:var(--faint);
-  }
-  .story-chrome .st{color:var(--cyan)}
-  .story-field{
-    position:absolute;left:0;right:0;top:42px;bottom:72px;
-    transform-origin:center center;
-    transition:transform .85s cubic-bezier(.22,.61,.36,1);
-  }
-  .story-stage.b0 .story-field{transform:scale(1.05)}
-  .story-stage.b1 .story-field{transform:scale(1)}
-  .story-stage.b2 .story-field{transform:scale(.92)}
-  .story-stage.b3 .story-field{transform:scale(.84)}
-  .story-stage.b4 .story-field{transform:scale(.76)}
-  .story-stage.b5 .story-field{transform:scale(.68)}
-  .story-stage.b6 .story-field{transform:scale(.6)}
-  .story-layer{
-    position:absolute;inset:0;opacity:0;pointer-events:none;
-    transition:opacity .55s ease,filter .55s ease;
-    filter:blur(4px);
-    padding:1rem;
-  }
-  .story-stage.b0 .L0,
-  .story-stage.b1 .L0,.story-stage.b1 .L1,
-  .story-stage.b2 .L0,.story-stage.b2 .L1,.story-stage.b2 .L2,
-  .story-stage.b3 .L0,.story-stage.b3 .L1,.story-stage.b3 .L2,.story-stage.b3 .L3,
-  .story-stage.b4 .L0,.story-stage.b4 .L1,.story-stage.b4 .L2,.story-stage.b4 .L3,.story-stage.b4 .L4,
-  .story-stage.b5 .L0,.story-stage.b5 .L1,.story-stage.b5 .L2,.story-stage.b5 .L3,.story-stage.b5 .L4,.story-stage.b5 .L5,
-  .story-stage.b6 .L0,.story-stage.b6 .L1,.story-stage.b6 .L2,.story-stage.b6 .L3,.story-stage.b6 .L4,.story-stage.b6 .L5,.story-stage.b6 .L6{
-    opacity:1;filter:none;pointer-events:auto;
-  }
-  .swin{
-    border:1px solid var(--rule);border-radius:5px;background:#08090c;
-    padding:.65rem .75rem;max-width:240px;box-shadow:0 12px 30px rgba(0,0,0,.35);
-  }
-  [data-theme="light"] .swin{background:#f8f8f6}
-  .swin .wh{font-family:var(--mono);font-size:.62rem;color:var(--faint);margin-bottom:.35rem}
-  .swin .wt{font-family:var(--display);font-weight:600;font-size:.95rem;color:var(--white);letter-spacing:-.02em}
-  .swin .wm{font-size:.78rem;color:var(--dim);margin-top:.3rem;line-height:1.4}
-  .snode{
-    position:absolute;font-family:var(--mono);font-size:.62rem;
-    border:1px solid rgba(125,249,255,.35);color:var(--cyan);
-    background:rgba(5,5,5,.75);padding:.35rem .5rem;border-radius:4px;
-  }
-  .schip{
-    display:inline-flex;font-family:var(--mono);font-size:.62rem;
-    border:1px solid var(--rule);border-radius:999px;padding:.25rem .55rem;
-    color:var(--dim);margin:.15rem;background:rgba(0,0,0,.25);
-  }
-  .schip.on{border-color:rgba(125,249,255,.4);color:var(--cyan)}
-  .sexchange{position:absolute;inset:0;pointer-events:none}
-  .sexchange line{stroke:rgba(125,249,255,.35);stroke-width:1.2;stroke-dasharray:3 4}
-  .story-cap{
-    position:absolute;left:0;right:0;bottom:0;
-    padding:.85rem 1rem;border-top:1px solid var(--rule2);
-    font-size:.92rem;color:var(--dim);background:color-mix(in srgb,var(--plate) 92%, transparent);
-    min-height:72px;
-  }
-  .story-cap b{color:var(--white);font-weight:500}
-  .metrics{
-    border:1px solid var(--rule);border-radius:8px;background:var(--plate);
-    padding:.9rem .85rem;display:flex;flex-direction:column;gap:.65rem;
-  }
-  .metrics .m-lab{
-    font-family:var(--mono);font-size:.62rem;color:var(--faint);letter-spacing:.04em;
-  }
-  .metrics .m-lab b{color:var(--cyan);font-weight:500}
-  .m-row{display:flex;justify-content:space-between;align-items:baseline;gap:.5rem}
-  .m-row .k{font-family:var(--mono);font-size:.68rem;color:var(--dim)}
-  .m-row .v{font-family:var(--display);font-weight:700;font-size:1.15rem;color:var(--white);letter-spacing:-.02em}
-  .m-row .v small{font-family:var(--mono);font-size:.62rem;color:var(--faint);font-weight:400;margin-left:.15rem}
-  .m-bar{height:4px;border-radius:2px;background:var(--rule2);overflow:hidden;margin-top:.2rem}
-  .m-bar i{display:block;height:100%;width:40%;background:var(--cyan);border-radius:2px;transition:width .5s ease}
-
   /* new fx stages */
   #fx-mask{position:absolute;inset:0;width:100%;height:100%}
 
@@ -905,7 +860,6 @@
     .scan-bar,.glow-orb{animation:none}
     #line-draw path{stroke-dashoffset:0}
     .card-3d{transform:none !important}
-    .story-field{transition:none}
   }
 </style>
 </head>
@@ -918,9 +872,7 @@
   <a href="#type"><span class="scramble-slot" data-scramble="type"><span class="sr-measure">type</span><span class="sr-paint">type</span></span></a>
   <a href="#plates"><span class="scramble-slot" data-scramble="plates"><span class="sr-measure">plates</span><span class="sr-paint">plates</span></span></a>
   <a href="#fx"><span class="scramble-slot" data-scramble="effects"><span class="sr-measure">effects</span><span class="sr-paint">effects</span></span></a>
-  <a href="#explainer"><span class="scramble-slot" data-scramble="explainer"><span class="sr-measure">explainer</span><span class="sr-paint">explainer</span></span></a>
   <a href="#parts"><span class="scramble-slot" data-scramble="parts"><span class="sr-measure">parts</span><span class="sr-paint">parts</span></span></a>
-  <a href="#story-lab"><span class="scramble-slot" data-scramble="story"><span class="sr-measure">story</span><span class="sr-paint">story</span></span></a>
   <a href="#theme-gate"><span class="scramble-slot" data-scramble="theme"><span class="sr-measure">theme</span><span class="sr-paint">theme</span></span></a>
   <a href="#rules"><span class="scramble-slot" data-scramble="rules"><span class="sr-measure">rules</span><span class="sr-paint">rules</span></span></a>
   <a href="type-specimen.html"><span class="scramble-slot" data-scramble="specimen"><span class="sr-measure">specimen</span><span class="sr-paint">specimen</span></span></a>
@@ -950,7 +902,7 @@
   <div class="mast-veil"></div>
   <div class="wrap mast-grid">
     <div class="plate plate-pad plate-holo-edge">
-      <div class="mast-meta"><span class="dot"></span> brandbook · v2.6 · story lab · 5 new FX</div>
+      <div class="mast-meta"><span class="dot"></span> brandbook · v2.7 · site canon ports</div>
       <h1>Memory that knows what <em>matters</em>.</h1>
       <p class="sub">Bayside nav. Cursor-reactive field. Scroll the spine — grey to holo — then the circle flips theme.</p>
     </div>
@@ -1187,161 +1139,32 @@
   <p class="note" style="margin-top:1rem">Effects lab: only specimens that earn keep. No constellation / plotter / floor / bloom / glitch-nav.</p>
 </div></section>
 
-<!-- STORY LAB · Alex zoom-out -->
-<section id="story-lab" class="story-lab"><div class="wrap" style="padding-top:4.5rem;padding-bottom:4.5rem">
-  <div class="sec-head">
-    <div class="sec-num" aria-hidden="true">05a</div>
-    <div class="sec-copy">
-      <h2 class="sec-title">Story lab — zoom out a thought</h2>
-      <p class="sec-lede">Objects appear to support the statement. One person → graph → themes → harnesses → team exchange. Metrics are fixtures.</p>
-    </div>
-  </div>
-  <div class="story-shell">
-    <div class="story-stage b0" id="story-stage">
-      <div class="story-chrome">
-        <span class="st" id="story-head">0 · Alex · shipping a feature</span>
-        <div style="display:flex;gap:.5rem;align-items:center">
-          <span class="dots" id="story-dots" aria-hidden="true"></span>
-          <div class="stage-controls">
-            <button type="button" id="story-prev">←</button>
-            <button type="button" id="story-next">→</button>
-          </div>
-        </div>
-      </div>
-      <div class="story-field" id="story-field">
-        <div class="story-layer L0">
-          <div class="swin" style="position:absolute;left:12%;top:18%">
-            <div class="wh">alex · cursor · feature branch</div>
-            <div class="wt">Ship auth split</div>
-            <div class="wm">Writing the module. JWT, no sessions — from last week’s thread.</div>
-          </div>
-        </div>
-        <div class="story-layer L1">
-          <div class="snode" style="left:58%;top:28%">auth → JWT decided</div>
-          <div class="snode" style="left:62%;top:48%">reason: #team + ADR</div>
-          <svg style="position:absolute;inset:0;width:100%;height:100%;pointer-events:none" aria-hidden="true">
-            <line x1="38%" y1="32%" x2="58%" y2="32%" stroke="rgba(125,249,255,.4)" stroke-width="1.2" stroke-dasharray="3 3"/>
-            <line x1="58%" y1="34%" x2="62%" y2="48%" stroke="rgba(125,249,255,.35)" stroke-width="1.2" stroke-dasharray="3 3"/>
-          </svg>
-        </div>
-        <div class="story-layer L2">
-          <div class="swin" style="position:absolute;right:10%;top:12%">
-            <div class="wh">alex · private · state</div>
-            <div class="wt">Life, not only code</div>
-            <div class="wm">Deadline stress. Same person — different retrieval state.</div>
-          </div>
-        </div>
-        <div class="story-layer L3">
-          <div class="swin" style="position:absolute;left:18%;bottom:8%">
-            <div class="wh">codex · research</div>
-            <div class="wt">Interfaces survey</div>
-            <div class="wm">How other tools surface state. Notes compound into the graph.</div>
-          </div>
-        </div>
-        <div class="story-layer L4" style="padding-top:3.5rem">
-          <span class="schip on">auth</span><span class="schip on">GTM</span><span class="schip on">interfaces</span>
-          <span class="schip">life · private</span><span class="schip on">launch posts</span><span class="schip">arch</span>
-        </div>
-        <div class="story-layer L5" style="padding-top:5.5rem">
-          <span class="schip on">Claude Code</span><span class="schip on">Codex</span>
-          <span class="schip on">Cursor</span><span class="schip on">Slack</span>
-          <span class="schip">ChatGPT</span>
-        </div>
-        <div class="story-layer L6">
-          <div class="avatar n" style="position:absolute;left:22%;top:40%">A</div>
-          <div class="avatar a" style="position:absolute;left:48%;top:28%">M</div>
-          <div class="avatar m" style="position:absolute;left:70%;top:45%">L</div>
-          <div class="avatar s" style="position:absolute;left:40%;top:58%">K</div>
-          <svg class="sexchange" viewBox="0 0 100 100" preserveAspectRatio="none">
-            <line x1="25" y1="45" x2="48" y2="35"/>
-            <line x1="52" y1="35" x2="70" y2="48"/>
-            <line x1="45" y1="55" x2="68" y2="50"/>
-            <line x1="28" y1="48" x2="42" y2="58"/>
-          </svg>
-          <div class="snode" style="left:30%;top:72%">skills ↔ workflows</div>
-          <div class="snode" style="left:55%;top:18%">practice exchange</div>
-        </div>
-      </div>
-      <div class="story-cap" id="story-cap">Alex ships a feature. One thread — context still trapped in the window.</div>
-    </div>
-    <aside class="metrics" id="metrics" aria-label="Pulse metrics fixtures">
-      <div class="m-lab"><b>[fixture]</b> pulse metrics · illustrative</div>
-      <div>
-        <div class="m-row"><span class="k">person pulse</span><span class="v" id="m-person">0.62</span></div>
-        <div class="m-bar"><i id="m-person-bar" style="width:62%"></i></div>
-      </div>
-      <div>
-        <div class="m-row"><span class="k">team pulse</span><span class="v" id="m-team">0.41</span></div>
-        <div class="m-bar"><i id="m-team-bar" style="width:41%"></i></div>
-      </div>
-      <div class="m-row"><span class="k">tokens reduced</span><span class="v" id="m-tokens">12<small>%</small></span></div>
-      <div class="m-row"><span class="k">insights compounded</span><span class="v" id="m-compound">3</span></div>
-      <div class="m-row"><span class="k">fewer iterations</span><span class="v" id="m-iter">−1<small> cycle</small></span></div>
-    </aside>
-  </div>
-</div></section>
 
-<!-- EXPLAINER -->
-<section id="explainer"><div class="wrap">
+<!-- SITE CANON: MemoryTimeline port from components/memory-timeline.tsx -->
+<section id="timeline"><div class="wrap">
   <div class="sec-head">
     <div class="sec-num" aria-hidden="true">05</div>
     <div class="sec-copy">
-      <h2 class="sec-title">Context explainer</h2>
-      <p class="sec-lede">People first. Sources second. Retrieval third. Same grammar as the lab — brand tokens only.</p>
+      <h2 class="sec-title">Memory timeline</h2>
+      <p class="sec-lede">Same interactive explainer as the homepage — not a re-invention. Context as a line: events over 365 days, anchors vs regular decay.</p>
     </div>
   </div>
-  <div class="stage s1" id="stage">
-    <div class="stage-chrome">
-      <span class="title" id="stage-head">1 · one person · scattered sources</span>
-      <div style="display:flex;align-items:center;gap:.8rem">
-        <span class="dots" aria-hidden="true"><i></i><i></i><i></i></span>
-        <div class="stage-controls">
-          <button type="button" id="prev">←</button>
-          <button type="button" id="next">→</button>
-        </div>
+  <div class="mt-wrap" id="mt-wrap">
+    <div class="mt-head">
+      <div class="mt-title">
+        <span class="mt-title-key">salience over 365 days</span>
+        <span class="mt-title-sub">(◆ = structural anchors · ● = regular events)</span>
       </div>
+      <button type="button" class="mt-toggle is-on" id="mt-toggle">anchor-aware decay: ON</button>
     </div>
-    <div class="stage-body">
-      <div class="scene scene1">
-        <div class="people"><div class="avatar n">N</div></div>
-        <div class="ctx-chips">
-          <span class="ctx on">Slack</span><span class="ctx on">AI chats</span><span class="ctx on">code</span><span class="ctx">voice</span>
-        </div>
-        <div class="win-grid">
-          <div class="win"><div class="wh">slack · #shipping</div><div class="line w1 hot"></div><div class="line w2"></div><div class="line w3"></div></div>
-          <div class="win"><div class="wh">chatgpt · auth</div><div class="line w2"></div><div class="line w1 hot"></div><div class="line w3"></div></div>
-          <div class="win"><div class="wh">cursor · branch</div><div class="line w3"></div><div class="line w2 hot"></div><div class="line w1"></div></div>
-        </div>
-      </div>
-      <div class="scene scene2">
-        <div class="people">
-          <div class="avatar n">N</div><div class="avatar a">A</div><div class="avatar m">M</div><div class="avatar s">S</div><div class="avatar k">K</div>
-        </div>
-        <div class="ctx-chips">
-          <span class="ctx on">private</span><span class="ctx on">shared · consent</span><span class="ctx">team</span>
-        </div>
-        <div class="team-grid">
-          <div class="ptile"><div class="avatar n" style="margin:0 auto">N</div><div class="nm">Nik</div><div class="mood">shipping</div></div>
-          <div class="ptile"><div class="avatar a" style="margin:0 auto">A</div><div class="nm">Anya</div><div class="mood">blocked</div></div>
-          <div class="ptile"><div class="avatar m" style="margin:0 auto">M</div><div class="nm">Mira</div><div class="mood">focus</div></div>
-          <div class="ptile"><div class="avatar s" style="margin:0 auto">S</div><div class="nm">Sam</div><div class="mood">vent</div></div>
-          <div class="ptile"><div class="avatar k" style="margin:0 auto">K</div><div class="nm">Kai</div><div class="mood">review</div></div>
-        </div>
-      </div>
-      <div class="scene scene3">
-        <div class="people"><div class="avatar n">N</div><div class="avatar a">A</div></div>
-        <div class="ctx-chips">
-          <span class="ctx on">emotion</span><span class="ctx on">retrieval</span><span class="ctx on">in state</span>
-        </div>
-        <div class="retrieve">
-          <div class="ret-card"><h4>Ask in stress</h4><p>state: deadline · need: last week's auth call</p></div>
-          <div class="ret-arrow">→</div>
-          <div class="ret-card on"><h4>Right context</h4><p>Anya's notes surface · private rants stay out</p></div>
-        </div>
-      </div>
+    <canvas id="mt-canvas" style="display:block;width:100%;height:280px"></canvas>
+    <div class="mt-tip" id="mt-tip" hidden></div>
+    <div class="mt-legend">
+      <span>regular: <code>s = base · exp(−0.005 · days)</code> → half-life ≈ 139d</span>
+      <span>anchor: <code>s = max(base · exp(−0.0005 · days), base · 0.85)</code> → preserved</span>
     </div>
-    <div class="stage-cap" id="stage-cap">One person. Slack, chats, code. <b>Context everywhere — memory nowhere.</b></div>
   </div>
+  <p class="mono-note" style="margin-top:1rem">Port of <code>components/memory-timeline.tsx</code> · fixture corpus · same math as site.</p>
 </div></section>
 
 <!-- PARTS — bento -->
@@ -1499,24 +1322,21 @@
     <div class="plate col do">
       <h3>Do</h3>
       <ul>
-        <li>Bayside B&amp;W mono nav · scramble on hover (landing lock)</li>
-        <li>ASCII field reacts to cursor — glyphs change in radius</li>
-        <li>scroll spine grey → holo · circle wipe for theme flip</li>
-        <li>dual theme first-class (not invert-only)</li>
-        <li>solid plates · cyan = signal · holo = data edges</li>
-        <li>bento: title + nested proof demo</li>
-        <li>section indices as thin outline watermarks behind title</li>
+        <li>copy site canon first — MemoryTimeline, scramble nav, lab grammar</li>
+        <li>Bayside B&amp;W mono nav · scramble on hover</li>
+        <li>context as timeline line + segments (anchors ◆ / events ●)</li>
+        <li>ASCII / line / glow that earn their keep</li>
+        <li>lens theme wipe · dual tokens</li>
       </ul>
     </div>
     <div class="plate col dont">
       <h3>Don't</h3>
       <ul>
-        <li>liquid glass pill as primary chrome</li>
-        <li>particle networks / matrix rain / mono marquee</li>
-        <li>5% frosted air on near-black</li>
-        <li>tiny uppercase eyebrows · ALL CAPS micro titles</li>
-        <li>single dark-only brandbook when light is required</li>
-        <li>slop copy: “seamlessly”, “elevate”, “unlock”</li>
+        <li>reinvent lab/story with absolute card piles</li>
+        <li>blockchain constellation / plotter / floor / glyph bloom</li>
+        <li>fake metrics dashboards without site source</li>
+        <li>solid white circle then delayed theme snap</li>
+        <li>particle nets · matrix rain · mono marquee</li>
       </ul>
     </div>
   </div>
@@ -1528,18 +1348,17 @@
     <div class="sec-num" aria-hidden="true">08</div>
     <div class="sec-copy">
       <h2 class="sec-title">Ledger</h2>
-      <p class="sec-lede">v2.5: Bayside nav, cursor ASCII, scroll theme wipe.</p>
+      <p class="sec-lede">v2.7: site ports only — no invented story lab.</p>
     </div>
   </div>
   <table class="ledger plate" style="overflow:hidden">
     <thead><tr><th>decision</th><th>source</th><th>why</th></tr></thead>
     <tbody>
-      <tr><td><b>B&amp;W scramble nav</b></td><td><code>app/page.tsx</code> + <code>scramble-text.tsx</code></td><td>Bayside/home face Nik loves</td></tr>
-      <tr><td><b>Cursor glyph thrash on ASCII</b></td><td><code>ascii-bg.tsx</code> + Nik request</td><td>symbols change, not only glow</td></tr>
-      <tr><td><b>Scroll spine + circle wipe theme</b></td><td>Nik choreography</td><td>dark + light as designed moment</td></tr>
-      <tr><td><b>data-theme dual tokens</b></td><td>plan U1</td><td>light is not CSS invert</td></tr>
-      <tr><td><b>Liquid/glitch demoted</b></td><td>Nik eye-pass</td><td>material demos ≠ primary chrome</td></tr>
-      <tr><td><b>Type trio B</b></td><td>v1 direction lock</td><td>Bricolage / Instrument / Plex</td></tr>
+      <tr><td><b>MemoryTimeline in brandbook</b></td><td><code>components/memory-timeline.tsx</code></td><td>same line+segments as homepage</td></tr>
+      <tr><td><b>Kill story lab / fake explainer</b></td><td>Nik 2026-07-14</td><td>re-invention failed; copy site</td></tr>
+      <tr><td><b>B&amp;W scramble nav</b></td><td><code>scramble-text.tsx</code> + <code>.ascii-nav</code></td><td>landing face</td></tr>
+      <tr><td><b>Lens theme wipe</b></td><td>Nik</td><td>hole reveals themed content, no snap delay</td></tr>
+      <tr><td><b>Type trio B</b></td><td>v1 lock</td><td>Bricolage / Instrument / Plex</td></tr>
     </tbody>
   </table>
 </div></section>
@@ -2097,7 +1916,216 @@
     stage.addEventListener('pointercancel', onUp);
   })();
 
-  /* ===== v2.6: 5 new FX + GSAP 3D bg + story lab + metrics + video/canvas bg ===== */
+  /* ===== site canon: MemoryTimeline port (memory-timeline.tsx) ===== */
+  (function(){
+    var EVENTS = [
+      { text:"started a new job", daysAgo:332, base:0.95, anchor:true },
+      { text:"moved across the world", daysAgo:268, base:0.95, anchor:true },
+      { text:"lost a parent", daysAgo:187, base:0.97, anchor:true },
+      { text:"decided to quit drinking", daysAgo:109, base:0.92, anchor:true },
+      { text:"released first paper", daysAgo:41, base:0.91, anchor:true },
+      { text:"found a great cafe", daysAgo:358, base:0.55, anchor:false },
+      { text:"long meeting", daysAgo:348, base:0.40, anchor:false },
+      { text:"shipped retrieval refactor", daysAgo:339, base:0.65, anchor:false },
+      { text:"gym session", daysAgo:326, base:0.30, anchor:false },
+      { text:"lunch with K.", daysAgo:318, base:0.50, anchor:false },
+      { text:"fixed extractor bug", daysAgo:305, base:0.55, anchor:false },
+      { text:"sleepless night", daysAgo:295, base:0.78, anchor:false },
+      { text:"weekend trip", daysAgo:281, base:0.62, anchor:false },
+      { text:"argument with partner", daysAgo:263, base:0.81, anchor:false },
+      { text:"shipped v2 of bench", daysAgo:251, base:0.72, anchor:false },
+      { text:"ran out of coffee", daysAgo:240, base:0.20, anchor:false },
+      { text:"ran a marathon", daysAgo:224, base:0.86, anchor:false },
+      { text:"broke laptop", daysAgo:213, base:0.55, anchor:false },
+      { text:"doctor appointment", daysAgo:200, base:0.75, anchor:false },
+      { text:"first 1k stars on github", daysAgo:178, base:0.83, anchor:false },
+      { text:"gym session", daysAgo:165, base:0.30, anchor:false },
+      { text:"good chat with old friend", daysAgo:154, base:0.68, anchor:false },
+      { text:"found a leak in pulse", daysAgo:142, base:0.74, anchor:false },
+      { text:"argument resolved", daysAgo:131, base:0.55, anchor:false },
+      { text:"first pulse paying user", daysAgo:122, base:0.80, anchor:false },
+      { text:"small panic attack", daysAgo:113, base:0.86, anchor:false },
+      { text:"got an interview", daysAgo:99, base:0.78, anchor:false },
+      { text:"shipped hearth alpha", daysAgo:87, base:0.84, anchor:false },
+      { text:"weekend away", daysAgo:78, base:0.66, anchor:false },
+      { text:"gym session", daysAgo:70, base:0.30, anchor:false },
+      { text:"investor said no", daysAgo:64, base:0.78, anchor:false },
+      { text:"fixed slow query", daysAgo:55, base:0.50, anchor:false },
+      { text:"good morning swim", daysAgo:47, base:0.42, anchor:false },
+      { text:"long writing session", daysAgo:38, base:0.62, anchor:false },
+      { text:"anxiety spike", daysAgo:32, base:0.80, anchor:false },
+      { text:"bench rerun came back clean", daysAgo:24, base:0.88, anchor:false },
+      { text:"great evening with E.", daysAgo:17, base:0.79, anchor:false },
+      { text:"lunch by myself", daysAgo:12, base:0.30, anchor:false },
+      { text:"shipped multi-provider layer", daysAgo:6, base:0.74, anchor:false },
+      { text:"morning coffee", daysAgo:1, base:0.40, anchor:false }
+    ];
+    var LAMBDA_REG=0.005, LAMBDA_ANCHOR=0.0005, ANCHOR_FLOOR=0.85, MAX_DAYS=365;
+    var PADDING={left:56,right:24,top:28,bottom:36}, POINTER_RADIUS_PX=22;
+    var HOLO=[[125,249,255],[192,132,252],[255,154,214],[255,226,122],[125,249,255]];
+    function salience(e, anchorAware){
+      var lambda = anchorAware && e.anchor ? LAMBDA_ANCHOR : LAMBDA_REG;
+      var s = e.base * Math.exp(-lambda * e.daysAgo);
+      if(anchorAware && e.anchor) s = Math.max(s, e.base * ANCHOR_FLOOR);
+      return Math.max(0, Math.min(1, s));
+    }
+    function sampleHolo(u){
+      var seg=HOLO.length-1, f=(((u%1)+1)%1)*seg, i=Math.floor(f), k=f-i;
+      var a=HOLO[i], b=HOLO[i+1];
+      return [Math.round(a[0]+(b[0]-a[0])*k), Math.round(a[1]+(b[1]-a[1])*k), Math.round(a[2]+(b[2]-a[2])*k)];
+    }
+
+    var wrap=document.getElementById('mt-wrap');
+    var canvas=document.getElementById('mt-canvas');
+    var tip=document.getElementById('mt-tip');
+    var toggle=document.getElementById('mt-toggle');
+    if(!wrap||!canvas) return;
+
+    var size={w:800,h:280}, anchorAware=true, hoverIdx=null, hoverPos={x:0,y:0}, shimT=0;
+    var computed=EVENTS.map(function(e,i){return {i:i,e:e,sOn:salience(e,true),sOff:salience(e,false)};});
+
+    function xy(daysAgo, s){
+      var x=PADDING.left+(1-daysAgo/MAX_DAYS)*(size.w-PADDING.left-PADDING.right);
+      var y=PADDING.top+(1-s)*(size.h-PADDING.top-PADDING.bottom);
+      return {x:x,y:y};
+    }
+
+    function render(){
+      var dpr=Math.min(window.devicePixelRatio||1,2);
+      canvas.width=size.w*dpr; canvas.height=size.h*dpr;
+      canvas.style.width=size.w+'px'; canvas.style.height=size.h+'px';
+      var ctx=canvas.getContext('2d'); if(!ctx) return;
+      ctx.setTransform(dpr,0,0,dpr,0,0);
+      var bg = getComputedStyle(document.documentElement).getPropertyValue('--ascii-bg').trim() || '#000';
+      // match site: near-black plot field
+      ctx.fillStyle = document.documentElement.getAttribute('data-theme')==='light' ? '#111114' : '#000';
+      ctx.fillRect(0,0,size.w,size.h);
+      ctx.strokeStyle='rgba(245,245,245,0.18)'; ctx.lineWidth=1;
+      ctx.beginPath();
+      ctx.moveTo(PADDING.left, PADDING.top);
+      ctx.lineTo(PADDING.left, size.h-PADDING.bottom);
+      ctx.lineTo(size.w-PADDING.right, size.h-PADDING.bottom);
+      ctx.stroke();
+      ctx.fillStyle='rgba(245,245,245,0.45)';
+      ctx.font='10px ui-monospace,"SF Mono",monospace';
+      ctx.textAlign='right'; ctx.textBaseline='middle';
+      [0,0.5,1.0].forEach(function(s){
+        var p=xy(0,s);
+        ctx.fillText(s.toFixed(1), PADDING.left-8, p.y);
+        ctx.strokeStyle='rgba(245,245,245,0.06)';
+        ctx.beginPath(); ctx.moveTo(PADDING.left,p.y); ctx.lineTo(size.w-PADDING.right,p.y); ctx.stroke();
+      });
+      ctx.save();
+      ctx.translate(14,(size.h-PADDING.bottom+PADDING.top)/2);
+      ctx.rotate(-Math.PI/2);
+      ctx.textAlign='center'; ctx.fillStyle='rgba(245,245,245,0.55)';
+      ctx.fillText('salience',0,0);
+      ctx.restore();
+      ctx.textAlign='center'; ctx.textBaseline='top'; ctx.fillStyle='rgba(245,245,245,0.45)';
+      [{d:0,l:'today'},{d:90,l:'−90d'},{d:180,l:'−180d'},{d:365,l:'−365d'}].forEach(function(t){
+        var p=xy(t.d,0); ctx.fillText(t.l, p.x, size.h-PADDING.bottom+6);
+      });
+      var ordered=computed.slice().sort(function(a,b){return Number(a.e.anchor)-Number(b.e.anchor);});
+      for(var k=0;k<ordered.length;k++){
+        var item=ordered[k];
+        var s=anchorAware?item.sOn:item.sOff;
+        var p=xy(item.e.daysAgo,s);
+        var alpha=Math.min(1,0.25+s*0.85);
+        var isAnchor=item.e.anchor;
+        var r=isAnchor?5:2.6;
+        if(isAnchor){
+          var h=sampleHolo(p.x/size.w+shimT);
+          var grad=ctx.createRadialGradient(p.x,p.y,0,p.x,p.y,18);
+          grad.addColorStop(0,'rgba('+h[0]+','+h[1]+','+h[2]+',0.55)');
+          grad.addColorStop(1,'rgba('+h[0]+','+h[1]+','+h[2]+',0)');
+          ctx.fillStyle=grad; ctx.beginPath(); ctx.arc(p.x,p.y,18,0,Math.PI*2); ctx.fill();
+          ctx.fillStyle='rgb('+h[0]+','+h[1]+','+h[2]+')';
+          ctx.strokeStyle='rgba(255,255,255,0.92)'; ctx.lineWidth=1;
+          ctx.beginPath();
+          ctx.moveTo(p.x,p.y-r); ctx.lineTo(p.x+r,p.y); ctx.lineTo(p.x,p.y+r); ctx.lineTo(p.x-r,p.y);
+          ctx.closePath(); ctx.fill(); ctx.stroke();
+        } else {
+          ctx.fillStyle='rgba(245,245,245,'+(alpha*0.85)+')';
+          ctx.beginPath(); ctx.arc(p.x,p.y,r,0,Math.PI*2); ctx.fill();
+        }
+        if(hoverIdx===item.i){
+          if(isAnchor){ var h2=sampleHolo(p.x/size.w+shimT); ctx.strokeStyle='rgba('+h2[0]+','+h2[1]+','+h2[2]+',0.95)'; }
+          else ctx.strokeStyle='rgba(255,255,255,0.9)';
+          ctx.lineWidth=1.5; ctx.beginPath(); ctx.arc(p.x,p.y,r+5,0,Math.PI*2); ctx.stroke();
+        }
+      }
+    }
+
+    function updateTip(){
+      if(!tip) return;
+      if(hoverIdx==null){ tip.hidden=true; return; }
+      var hovered=computed[hoverIdx];
+      var hs=anchorAware?hovered.sOn:hovered.sOff;
+      tip.hidden=false;
+      tip.innerHTML='<div class="mt-tip-text">'+hovered.e.text+'</div>'+
+        '<div class="mt-tip-meta"><span>'+hovered.e.daysAgo+'d ago</span>'+
+        '<span>'+(hovered.e.anchor?'anchor':'event')+'</span>'+
+        '<span class="mt-tip-s">salience '+hs.toFixed(2)+'</span></div>'+
+        (hovered.e.anchor?'<div class="mt-tip-note">'+(anchorAware
+          ?'preserved by anchor-aware decay (λ=0.0005, floor 0.85)'
+          :'lost in noise without anchor-aware decay')+'</div>':'');
+      var tx=Math.min(hoverPos.x+14, size.w-220);
+      var ty=hoverPos.y+14;
+      tip.style.transform='translate('+tx+'px,'+ty+'px)';
+    }
+
+    canvas.addEventListener('pointermove', function(e){
+      var rect=canvas.getBoundingClientRect();
+      var px=e.clientX-rect.left, py=e.clientY-rect.top;
+      var best=null;
+      for(var i=0;i<computed.length;i++){
+        var item=computed[i];
+        var s=anchorAware?item.sOn:item.sOff;
+        var p=xy(item.e.daysAgo,s);
+        var d=Math.hypot(p.x-px,p.y-py);
+        if(!best||d<best.d) best={i:item.i,d:d};
+      }
+      if(best&&best.d<=POINTER_RADIUS_PX){ hoverIdx=best.i; hoverPos={x:px,y:py}; }
+      else hoverIdx=null;
+      render(); updateTip();
+    });
+    canvas.addEventListener('pointerleave', function(){ hoverIdx=null; render(); updateTip(); });
+
+    if(toggle){
+      toggle.addEventListener('click', function(){
+        anchorAware=!anchorAware;
+        toggle.textContent='anchor-aware decay: '+(anchorAware?'ON':'OFF');
+        toggle.classList.toggle('is-on', anchorAware);
+        toggle.classList.toggle('is-off', !anchorAware);
+        render(); updateTip();
+      });
+    }
+
+    function resize(){
+      var rect=wrap.getBoundingClientRect();
+      size={w:Math.max(320, Math.floor(rect.width - 40)), h:280};
+      render();
+    }
+    window.addEventListener('resize', resize);
+    // observe theme changes
+    var mo=new MutationObserver(function(){ render(); });
+    mo.observe(document.documentElement, {attributes:true, attributeFilter:['data-theme']});
+
+    if(!reduce){
+      var start=performance.now();
+      (function tick(now){
+        shimT=((now-start)/7000)%1;
+        render();
+        requestAnimationFrame(tick);
+      })(start);
+    } else {
+      resize();
+    }
+    // initial size after layout
+    requestAnimationFrame(resize);
+  })();
+
+  /* effects helpers */
   function bindPointer(el, handlers){
     if(!el) return;
     handlers = handlers || {};
@@ -2190,105 +2218,6 @@
     });
   })();
 
-  /* story lab + metrics */
-  (function(){
-    var stage=document.getElementById('story-stage');
-    var cap=document.getElementById('story-cap');
-    var head=document.getElementById('story-head');
-    var dotsEl=document.getElementById('story-dots');
-    if(!stage) return;
-    var beats=[
-      {h:'0 · Alex · shipping a feature', c:'Alex ships a feature. <b>One thread — context still trapped in the window.</b>', m:{person:0.62,team:0.41,tokens:12,compound:3,iter:-1}},
-      {h:'1 · extract → graph', c:'Pulse pulls the decision into a node. <b>Meaning leaves the chat — enters the graph.</b>', m:{person:0.71,team:0.44,tokens:18,compound:5,iter:-1}},
-      {h:'2 · life / state', c:'Same person, private state. <b>Retrieval shifts with emotion — rants stay locked.</b>', m:{person:0.74,team:0.45,tokens:22,compound:6,iter:-2}},
-      {h:'3 · codex · interfaces', c:'Research on interfaces in Codex. <b>Notes compound — not a dead PDF pile.</b>', m:{person:0.78,team:0.48,tokens:28,compound:9,iter:-2}},
-      {h:'4 · many themes', c:'Auth, GTM, interfaces, launch. <b>Several of Alex’s themes, one memory layer.</b>', m:{person:0.81,team:0.52,tokens:34,compound:12,iter:-3}},
-      {h:'5 · many harnesses', c:'Claude Code, Codex, Cursor, Slack. <b>Continue the same memory in any harness.</b>', m:{person:0.84,team:0.58,tokens:41,compound:14,iter:-3}},
-      {h:'6 · team exchange', c:'Practices, skills, workflows between people. <b>Team Pulse rises — fewer iteration cycles.</b>', m:{person:0.86,team:0.72,tokens:48,compound:19,iter:-4}}
-    ];
-    var n=0, timer=null, paused=false;
-    if(dotsEl){
-      for(var i=0;i<beats.length;i++){ var d=document.createElement('i'); dotsEl.appendChild(d); }
-    }
-    function setMetrics(m){
-      function set(id, val){ var el=document.getElementById(id); if(el) el.textContent=val; }
-      set('m-person', m.person.toFixed(2));
-      set('m-team', m.team.toFixed(2));
-      set('m-tokens', String(m.tokens));
-      set('m-compound', String(m.compound));
-      set('m-iter', (m.iter>=0?'+':'')+m.iter);
-      var pb=document.getElementById('m-person-bar'), tb=document.getElementById('m-team-bar');
-      if(pb) pb.style.width=(m.person*100)+'%';
-      if(tb) tb.style.width=(m.team*100)+'%';
-    }
-    function setBeat(i){
-      n=((i%beats.length)+beats.length)%beats.length;
-      stage.className='story-stage b'+n;
-      var b=beats[n];
-      if(head) head.textContent=b.h;
-      if(cap) cap.innerHTML=b.c;
-      setMetrics(b.m);
-      if(dotsEl){
-        [].forEach.call(dotsEl.children, function(dot, idx){
-          dot.style.background = idx===n ? 'var(--cyan)' : 'var(--rule)';
-          dot.style.boxShadow = idx===n ? '0 0 8px rgba(125,249,255,.5)' : 'none';
-          dot.style.width=dot.style.height='7px';
-          dot.style.borderRadius='50%';
-          dot.style.display='inline-block';
-          dot.style.marginRight='4px';
-        });
-      }
-    }
-    function next(){ setBeat(n+1); }
-    function prev(){ setBeat(n-1); }
-    function arm(){
-      clearInterval(timer);
-      if(reduce||paused) return;
-      timer=setInterval(next, 4200);
-    }
-    document.getElementById('story-next')&&document.getElementById('story-next').addEventListener('click',function(){next();arm();});
-    document.getElementById('story-prev')&&document.getElementById('story-prev').addEventListener('click',function(){prev();arm();});
-    stage.addEventListener('mouseenter',function(){paused=true;clearInterval(timer);});
-    stage.addEventListener('mouseleave',function(){paused=false;arm();});
-    setBeat(0); arm();
-  })();
-
-  /* explainer */
-  (function(){
-    var stage=document.getElementById('stage');
-    var cap=document.getElementById('stage-cap');
-    var head=document.getElementById('stage-head');
-    if(!stage) return;
-    var n=1, timer=null, paused=false;
-    var heads={
-      1:'1 · one person · scattered sources',
-      2:'2 · many people · private vs shared',
-      3:'3 · retrieval · right context in state'
-    };
-    var caps={
-      1:'One person. Slack, chats, code. <b>Context everywhere — memory nowhere.</b>',
-      2:'Five heads, five scatters. <b>Private stays private. Share is consent.</b>',
-      3:'Ask while stressed. <b>Same question, different state, different memory.</b>'
-    };
-    function setScene(i){
-      n=((i-1+3)%3)+1;
-      stage.className='stage s'+n;
-      if(head) head.textContent=heads[n];
-      if(cap) cap.innerHTML=caps[n];
-    }
-    function next(){ setScene(n+1); }
-    function prev(){ setScene(n-1); }
-    function arm(){
-      clearInterval(timer);
-      if(reduce||paused) return;
-      timer=setInterval(next, 5000);
-    }
-    document.getElementById('next')&&document.getElementById('next').addEventListener('click',function(){next();arm();});
-    document.getElementById('prev')&&document.getElementById('prev').addEventListener('click',function(){prev();arm();});
-    stage.addEventListener('mouseenter',function(){paused=true;clearInterval(timer);});
-    stage.addEventListener('mouseleave',function(){paused=false;arm();});
-    setScene(1); arm();
-  })();
 })();
 </script>
 </body>
