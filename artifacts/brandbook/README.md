@@ -1,6 +1,6 @@
-# zbs.gg brandbook v2.5
+# zbs.gg brandbook v2.6
 
-Bayside nav · cursor-reactive ASCII · scroll theme wipe · dual theme · bento parts.
+Bayside nav · cursor ASCII · scroll theme wipe · **story lab (Alex zoom-out)** · **5 new FX** · GSAP depth field · bg video/canvas · Pulse metrics fixtures.
 
 ## Open
 
@@ -8,44 +8,40 @@ Bayside nav · cursor-reactive ASCII · scroll theme wipe · dual theme · bento
 open artifacts/brandbook/brandbook.html
 ```
 
-`file://` works. Local GSAP: `assets/gsap.min.js`. Google Fonts need network once.
-
-Force theme:
+`file://` works. GSAP: `assets/gsap.min.js`. Fonts: Google once.
 
 ```text
-brandbook.html?theme=light
-brandbook.html?theme=dark
+?theme=light
+?theme=dark
 ```
 
-Theme also stores in `sessionStorage` key `bb-theme` after a wipe.
+## Sections (v2.6)
 
-## Motion grammar (v2.5)
+| Section | What |
+|---------|------|
+| Nav | B&W scramble (landing lock) |
+| Hero | ASCII thrash under cursor + 3D card |
+| Effects lab | Prior stages + constellation, mask reveal, plotter, floor, glyph bloom |
+| Depth field | GSAP 3D planes + 2 bg loops (video if present, else canvas) |
+| Story lab | Alex → graph → life → codex → themes → harnesses → team exchange + metrics HUD `[fixture]` |
+| Theme gate | Circle wipe dark↔light |
 
-| Feature | Behavior |
-|---------|----------|
-| **Nav** | B&W mono + `// ` prefix · scramble on hover (landing lock) |
-| **Hero ASCII** | Pointer thrash: glyphs densify / reseed in radius |
-| **Scroll spine** | Fixed left line: grey track + holo progress |
-| **Theme gate** | Mid-page beat · circle expand · dark ↔ light |
-| **Dual theme** | `data-theme="dark\|light"` token maps (not invert-only) |
+## Story beats (lab grammar)
 
-## Layout
+0 feature window → 1 graph extract → 2 life state → 3 codex research → 4 multi-theme → 5 multi-harness → 6 multi-person exchange.
 
-| path | role |
-|------|------|
-| `brandbook.html` | specimen |
-| `type-specimen.html` | type A/B/C |
-| `assets/icons/*.svg` | mono stroke icons |
-| `assets/mood/*.png` | Higgsfield stills |
-| `assets/gsap.min.js` | 3D card |
-| `*.v1-freeze.html` | pre-v2 snapshot |
+Metrics (illustrative only): person/team Pulse, tokens reduced %, insights compounded, fewer iterations.
+
+## Regenerate bg video (optional)
+
+```bash
+# Higgsfield Seedance from mood stills → download to assets/bg/
+# Then set in browser console before load, or drop files as:
+# assets/bg/lattice.mp4  assets/bg/wireframe.mp4
+```
+
+If no mp4: canvas stand-ins auto-run.
 
 ## Plans
 
-- `docs/plans/2026-07-14-001-feat-brandbook-v2-illustrative-plan.md`
-- `docs/plans/2026-07-14-002-feat-brandbook-motion-theme-plan.md`
-
-## Out of scope
-
-- Port to live `app/page.tsx` (follow-up)
-- Particle / matrix / mono marquee
+- `docs/plans/2026-07-14-004-feat-brandbook-story-fx-lab-plan.md`

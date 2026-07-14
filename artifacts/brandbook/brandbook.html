@@ -759,11 +759,135 @@
 
   footer{padding:2.2rem 0 3.5rem;font-family:var(--mono);font-size:.7rem;color:var(--faint);line-height:1.55}
 
+  /* ===== v2.6 story lab + new FX + 3D bg + metrics ===== */
+  .fx-stage{cursor:crosshair}
+  .interact{font-family:var(--mono);font-size:.62rem;color:var(--faint);margin-top:.35rem}
+  .interact b{color:var(--cyan);font-weight:500}
+
+  .g3d-section{position:relative;overflow:hidden;border-bottom:1px solid var(--rule2)}
+  .g3d-field{
+    position:absolute;inset:0;perspective:900px;pointer-events:none;z-index:0;
+    transform-style:preserve-3d;
+  }
+  .g3d-field .plane{
+    position:absolute;border:1px solid rgba(125,249,255,.18);
+    background:linear-gradient(145deg,rgba(125,249,255,.06),rgba(0,0,0,.2));
+    border-radius:4px;
+    transform-style:preserve-3d;
+  }
+  .g3d-inner{position:relative;z-index:1}
+
+  .bg-video-wrap{
+    position:relative;min-height:280px;border:1px solid var(--rule);border-radius:8px;
+    overflow:hidden;background:var(--plate);margin-top:1rem;
+  }
+  .bg-video-wrap video,.bg-video-wrap canvas{
+    position:absolute;inset:0;width:100%;height:100%;object-fit:cover;
+  }
+  .bg-video-wrap .cap{
+    position:absolute;left:.8rem;bottom:.7rem;z-index:2;
+    font-family:var(--mono);font-size:.68rem;color:var(--fg);
+    background:rgba(0,0,0,.45);border:1px solid var(--rule);padding:.3rem .55rem;border-radius:3px;
+  }
+  [data-theme="light"] .bg-video-wrap .cap{background:rgba(255,255,255,.75)}
+
+  /* story lab */
+  .story-lab{position:relative}
+  .story-shell{
+    display:grid;grid-template-columns:1fr 200px;gap:1rem;align-items:stretch;
+  }
+  @media(max-width:900px){.story-shell{grid-template-columns:1fr}}
+  .story-stage{
+    border:1px solid var(--rule);border-radius:8px;background:var(--plate);
+    min-height:420px;position:relative;overflow:hidden;
+  }
+  .story-chrome{
+    display:flex;justify-content:space-between;align-items:center;gap:.8rem;flex-wrap:wrap;
+    padding:.75rem 1rem;border-bottom:1px solid var(--rule2);
+    font-family:var(--mono);font-size:.7rem;color:var(--faint);
+  }
+  .story-chrome .st{color:var(--cyan)}
+  .story-field{
+    position:absolute;left:0;right:0;top:42px;bottom:72px;
+    transform-origin:center center;
+    transition:transform .85s cubic-bezier(.22,.61,.36,1);
+  }
+  .story-stage.b0 .story-field{transform:scale(1.05)}
+  .story-stage.b1 .story-field{transform:scale(1)}
+  .story-stage.b2 .story-field{transform:scale(.92)}
+  .story-stage.b3 .story-field{transform:scale(.84)}
+  .story-stage.b4 .story-field{transform:scale(.76)}
+  .story-stage.b5 .story-field{transform:scale(.68)}
+  .story-stage.b6 .story-field{transform:scale(.6)}
+  .story-layer{
+    position:absolute;inset:0;opacity:0;pointer-events:none;
+    transition:opacity .55s ease,filter .55s ease;
+    filter:blur(4px);
+    padding:1rem;
+  }
+  .story-stage.b0 .L0,
+  .story-stage.b1 .L0,.story-stage.b1 .L1,
+  .story-stage.b2 .L0,.story-stage.b2 .L1,.story-stage.b2 .L2,
+  .story-stage.b3 .L0,.story-stage.b3 .L1,.story-stage.b3 .L2,.story-stage.b3 .L3,
+  .story-stage.b4 .L0,.story-stage.b4 .L1,.story-stage.b4 .L2,.story-stage.b4 .L3,.story-stage.b4 .L4,
+  .story-stage.b5 .L0,.story-stage.b5 .L1,.story-stage.b5 .L2,.story-stage.b5 .L3,.story-stage.b5 .L4,.story-stage.b5 .L5,
+  .story-stage.b6 .L0,.story-stage.b6 .L1,.story-stage.b6 .L2,.story-stage.b6 .L3,.story-stage.b6 .L4,.story-stage.b6 .L5,.story-stage.b6 .L6{
+    opacity:1;filter:none;pointer-events:auto;
+  }
+  .swin{
+    border:1px solid var(--rule);border-radius:5px;background:#08090c;
+    padding:.65rem .75rem;max-width:240px;box-shadow:0 12px 30px rgba(0,0,0,.35);
+  }
+  [data-theme="light"] .swin{background:#f8f8f6}
+  .swin .wh{font-family:var(--mono);font-size:.62rem;color:var(--faint);margin-bottom:.35rem}
+  .swin .wt{font-family:var(--display);font-weight:600;font-size:.95rem;color:var(--white);letter-spacing:-.02em}
+  .swin .wm{font-size:.78rem;color:var(--dim);margin-top:.3rem;line-height:1.4}
+  .snode{
+    position:absolute;font-family:var(--mono);font-size:.62rem;
+    border:1px solid rgba(125,249,255,.35);color:var(--cyan);
+    background:rgba(5,5,5,.75);padding:.35rem .5rem;border-radius:4px;
+  }
+  .schip{
+    display:inline-flex;font-family:var(--mono);font-size:.62rem;
+    border:1px solid var(--rule);border-radius:999px;padding:.25rem .55rem;
+    color:var(--dim);margin:.15rem;background:rgba(0,0,0,.25);
+  }
+  .schip.on{border-color:rgba(125,249,255,.4);color:var(--cyan)}
+  .sexchange{position:absolute;inset:0;pointer-events:none}
+  .sexchange line{stroke:rgba(125,249,255,.35);stroke-width:1.2;stroke-dasharray:3 4}
+  .story-cap{
+    position:absolute;left:0;right:0;bottom:0;
+    padding:.85rem 1rem;border-top:1px solid var(--rule2);
+    font-size:.92rem;color:var(--dim);background:color-mix(in srgb,var(--plate) 92%, transparent);
+    min-height:72px;
+  }
+  .story-cap b{color:var(--white);font-weight:500}
+  .metrics{
+    border:1px solid var(--rule);border-radius:8px;background:var(--plate);
+    padding:.9rem .85rem;display:flex;flex-direction:column;gap:.65rem;
+  }
+  .metrics .m-lab{
+    font-family:var(--mono);font-size:.62rem;color:var(--faint);letter-spacing:.04em;
+  }
+  .metrics .m-lab b{color:var(--cyan);font-weight:500}
+  .m-row{display:flex;justify-content:space-between;align-items:baseline;gap:.5rem}
+  .m-row .k{font-family:var(--mono);font-size:.68rem;color:var(--dim)}
+  .m-row .v{font-family:var(--display);font-weight:700;font-size:1.15rem;color:var(--white);letter-spacing:-.02em}
+  .m-row .v small{font-family:var(--mono);font-size:.62rem;color:var(--faint);font-weight:400;margin-left:.15rem}
+  .m-bar{height:4px;border-radius:2px;background:var(--rule2);overflow:hidden;margin-top:.2rem}
+  .m-bar i{display:block;height:100%;width:40%;background:var(--cyan);border-radius:2px;transition:width .5s ease}
+
+  /* new fx stages */
+  #fx-constellation,#fx-mask,#fx-plotter,#fx-floor,#fx-bloom{position:absolute;inset:0;width:100%;height:100%}
+  .plotter-svg{width:100%;height:100%}
+  .plotter-svg path{fill:none;stroke:var(--cyan);stroke-width:1.4;stroke-linecap:round;opacity:.85}
+
   @media(prefers-reduced-motion:reduce){
     #ascii,#fx-ascii{opacity:.4}
     .scan-bar,.glow-orb{animation:none}
     #line-draw path{stroke-dashoffset:0}
     .card-3d{transform:none !important}
+    .story-field{transition:none}
   }
 </style>
 </head>
@@ -777,6 +901,7 @@
   <a href="#fx"><span class="scramble-slot" data-scramble="effects"><span class="sr-measure">effects</span><span class="sr-paint">effects</span></span></a>
   <a href="#explainer"><span class="scramble-slot" data-scramble="explainer"><span class="sr-measure">explainer</span><span class="sr-paint">explainer</span></span></a>
   <a href="#parts"><span class="scramble-slot" data-scramble="parts"><span class="sr-measure">parts</span><span class="sr-paint">parts</span></span></a>
+  <a href="#story-lab"><span class="scramble-slot" data-scramble="story"><span class="sr-measure">story</span><span class="sr-paint">story</span></span></a>
   <a href="#theme-gate"><span class="scramble-slot" data-scramble="theme"><span class="sr-measure">theme</span><span class="sr-paint">theme</span></span></a>
   <a href="#rules"><span class="scramble-slot" data-scramble="rules"><span class="sr-measure">rules</span><span class="sr-paint">rules</span></span></a>
   <a href="type-specimen.html"><span class="scramble-slot" data-scramble="specimen"><span class="sr-measure">specimen</span><span class="sr-paint">specimen</span></span></a>
@@ -806,7 +931,7 @@
   <div class="mast-veil"></div>
   <div class="wrap mast-grid">
     <div class="plate plate-pad plate-holo-edge">
-      <div class="mast-meta"><span class="dot"></span> brandbook · v2.5 · move cursor on ASCII</div>
+      <div class="mast-meta"><span class="dot"></span> brandbook · v2.6 · story lab · 5 new FX</div>
       <h1>Memory that knows what <em>matters</em>.</h1>
       <p class="sub">Bayside nav. Cursor-reactive field. Scroll the spine — grey to holo — then the circle flips theme.</p>
     </div>
@@ -1048,10 +1173,177 @@
         <h3>Cursor spotlight</h3>
         <p>Single cyan radial follows the pointer. Editorial light, not glow spam.</p>
         <div class="dose">Dose: one plate or hero · never every card</div>
+        <div class="interact"><b>Interact:</b> move</div>
+      </div>
+    </div>
+    <!-- 5 new FX -->
+    <div class="plate fx">
+      <div class="fx-stage"><canvas id="fx-constellation"></canvas></div>
+      <div class="fx-meta">
+        <h3>Constellation grow</h3>
+        <p>SVG-like nodes on canvas; near cursor links densify. Graph energy without particle soup.</p>
+        <div class="dose">Dose: graph / memory map moments</div>
+        <div class="interact"><b>Interact:</b> move · leave thins links</div>
+      </div>
+    </div>
+    <div class="plate fx">
+      <div class="fx-stage"><canvas id="fx-mask"></canvas></div>
+      <div class="fx-meta">
+        <h3>ASCII mask reveal</h3>
+        <p>Field hidden until cursor burns a reveal hole — not matrix rain.</p>
+        <div class="dose">Dose: reveal / discovery</div>
+        <div class="interact"><b>Interact:</b> move to reveal</div>
+      </div>
+    </div>
+    <div class="plate fx">
+      <div class="fx-stage">
+        <svg class="plotter-svg" id="fx-plotter" viewBox="0 0 400 220" preserveAspectRatio="xMidYMid meet"></svg>
+      </div>
+      <div class="fx-meta">
+        <h3>Plotter paths</h3>
+        <p>Multi-stroke SVG draws toward pointer. Architecture lines, not flourishes.</p>
+        <div class="dose">Dose: system maps</div>
+        <div class="interact"><b>Interact:</b> move · redraws</div>
+      </div>
+    </div>
+    <div class="plate fx">
+      <div class="fx-stage"><canvas id="fx-floor"></canvas></div>
+      <div class="fx-meta">
+        <h3>Perspective floor</h3>
+        <p>Grid floor warps under pointer. Depth without WebGL.</p>
+        <div class="dose">Dose: stage underlay</div>
+        <div class="interact"><b>Interact:</b> move to warp</div>
+      </div>
+    </div>
+    <div class="plate fx">
+      <div class="fx-stage"><canvas id="fx-bloom"></canvas></div>
+      <div class="fx-meta">
+        <h3>Glyph bloom</h3>
+        <p>Ring of mono glyphs expands from cursor. Terminal signal bloom.</p>
+        <div class="dose">Dose: focus pulse · once</div>
+        <div class="interact"><b>Interact:</b> move · click pulse</div>
       </div>
     </div>
   </div>
-  <p class="note" style="margin-top:1rem">Refs: scramble timeline · glitch nav GSAP · liquid glass pill — restyled to zbs. No marquee.</p>
+  <p class="note" style="margin-top:1rem">Effects lab: interactive specimens. Liquid/glitch are material demos — not primary chrome.</p>
+</div></section>
+
+<!-- 3D BG + video pack -->
+<section class="g3d-section" id="depth-bg"><div class="g3d-field" id="g3d-field" aria-hidden="true"></div>
+<div class="wrap g3d-inner" style="padding:4.5rem 1.5rem">
+  <div class="sec-head">
+    <div class="sec-num" aria-hidden="true">04b</div>
+    <div class="sec-copy">
+      <h2 class="sec-title">Depth field + motion backgrounds</h2>
+      <p class="sec-lede">GSAP planes in perspective. Video loops (or canvas stand-ins) for full-bleed texture.</p>
+    </div>
+  </div>
+  <div style="display:grid;grid-template-columns:1fr 1fr;gap:1rem">
+    <div class="bg-video-wrap">
+      <video id="bg-vid-1" muted loop playsinline poster="assets/mood/network.png"></video>
+      <canvas id="bg-canvas-1" style="display:none"></canvas>
+      <span class="cap">bg · lattice drift · video or canvas</span>
+    </div>
+    <div class="bg-video-wrap">
+      <video id="bg-vid-2" muted loop playsinline poster="assets/mood/cube.png"></video>
+      <canvas id="bg-canvas-2" style="display:none"></canvas>
+      <span class="cap">bg · wireframe float · video or canvas</span>
+    </div>
+  </div>
+</div></section>
+
+<!-- STORY LAB · Alex zoom-out -->
+<section id="story-lab" class="story-lab"><div class="wrap" style="padding-top:4.5rem;padding-bottom:4.5rem">
+  <div class="sec-head">
+    <div class="sec-num" aria-hidden="true">05a</div>
+    <div class="sec-copy">
+      <h2 class="sec-title">Story lab — zoom out a thought</h2>
+      <p class="sec-lede">Objects appear to support the statement. One person → graph → themes → harnesses → team exchange. Metrics are fixtures.</p>
+    </div>
+  </div>
+  <div class="story-shell">
+    <div class="story-stage b0" id="story-stage">
+      <div class="story-chrome">
+        <span class="st" id="story-head">0 · Alex · shipping a feature</span>
+        <div style="display:flex;gap:.5rem;align-items:center">
+          <span class="dots" id="story-dots" aria-hidden="true"></span>
+          <div class="stage-controls">
+            <button type="button" id="story-prev">←</button>
+            <button type="button" id="story-next">→</button>
+          </div>
+        </div>
+      </div>
+      <div class="story-field" id="story-field">
+        <div class="story-layer L0">
+          <div class="swin" style="position:absolute;left:12%;top:18%">
+            <div class="wh">alex · cursor · feature branch</div>
+            <div class="wt">Ship auth split</div>
+            <div class="wm">Writing the module. JWT, no sessions — from last week’s thread.</div>
+          </div>
+        </div>
+        <div class="story-layer L1">
+          <div class="snode" style="left:58%;top:28%">auth → JWT decided</div>
+          <div class="snode" style="left:62%;top:48%">reason: #team + ADR</div>
+          <svg style="position:absolute;inset:0;width:100%;height:100%;pointer-events:none" aria-hidden="true">
+            <line x1="38%" y1="32%" x2="58%" y2="32%" stroke="rgba(125,249,255,.4)" stroke-width="1.2" stroke-dasharray="3 3"/>
+            <line x1="58%" y1="34%" x2="62%" y2="48%" stroke="rgba(125,249,255,.35)" stroke-width="1.2" stroke-dasharray="3 3"/>
+          </svg>
+        </div>
+        <div class="story-layer L2">
+          <div class="swin" style="position:absolute;right:10%;top:12%">
+            <div class="wh">alex · private · state</div>
+            <div class="wt">Life, not only code</div>
+            <div class="wm">Deadline stress. Same person — different retrieval state.</div>
+          </div>
+        </div>
+        <div class="story-layer L3">
+          <div class="swin" style="position:absolute;left:18%;bottom:8%">
+            <div class="wh">codex · research</div>
+            <div class="wt">Interfaces survey</div>
+            <div class="wm">How other tools surface state. Notes compound into the graph.</div>
+          </div>
+        </div>
+        <div class="story-layer L4" style="padding-top:3.5rem">
+          <span class="schip on">auth</span><span class="schip on">GTM</span><span class="schip on">interfaces</span>
+          <span class="schip">life · private</span><span class="schip on">launch posts</span><span class="schip">arch</span>
+        </div>
+        <div class="story-layer L5" style="padding-top:5.5rem">
+          <span class="schip on">Claude Code</span><span class="schip on">Codex</span>
+          <span class="schip on">Cursor</span><span class="schip on">Slack</span>
+          <span class="schip">ChatGPT</span>
+        </div>
+        <div class="story-layer L6">
+          <div class="avatar n" style="position:absolute;left:22%;top:40%">A</div>
+          <div class="avatar a" style="position:absolute;left:48%;top:28%">M</div>
+          <div class="avatar m" style="position:absolute;left:70%;top:45%">L</div>
+          <div class="avatar s" style="position:absolute;left:40%;top:58%">K</div>
+          <svg class="sexchange" viewBox="0 0 100 100" preserveAspectRatio="none">
+            <line x1="25" y1="45" x2="48" y2="35"/>
+            <line x1="52" y1="35" x2="70" y2="48"/>
+            <line x1="45" y1="55" x2="68" y2="50"/>
+            <line x1="28" y1="48" x2="42" y2="58"/>
+          </svg>
+          <div class="snode" style="left:30%;top:72%">skills ↔ workflows</div>
+          <div class="snode" style="left:55%;top:18%">practice exchange</div>
+        </div>
+      </div>
+      <div class="story-cap" id="story-cap">Alex ships a feature. One thread — context still trapped in the window.</div>
+    </div>
+    <aside class="metrics" id="metrics" aria-label="Pulse metrics fixtures">
+      <div class="m-lab"><b>[fixture]</b> pulse metrics · illustrative</div>
+      <div>
+        <div class="m-row"><span class="k">person pulse</span><span class="v" id="m-person">0.62</span></div>
+        <div class="m-bar"><i id="m-person-bar" style="width:62%"></i></div>
+      </div>
+      <div>
+        <div class="m-row"><span class="k">team pulse</span><span class="v" id="m-team">0.41</span></div>
+        <div class="m-bar"><i id="m-team-bar" style="width:41%"></i></div>
+      </div>
+      <div class="m-row"><span class="k">tokens reduced</span><span class="v" id="m-tokens">12<small>%</small></span></div>
+      <div class="m-row"><span class="k">insights compounded</span><span class="v" id="m-compound">3</span></div>
+      <div class="m-row"><span class="k">fewer iterations</span><span class="v" id="m-iter">−1<small> cycle</small></span></div>
+    </aside>
+  </div>
 </div></section>
 
 <!-- EXPLAINER -->
@@ -1836,6 +2128,319 @@
     stage.addEventListener('pointermove', onMove);
     stage.addEventListener('pointerup', onUp);
     stage.addEventListener('pointercancel', onUp);
+  })();
+
+  /* ===== v2.6: 5 new FX + GSAP 3D bg + story lab + metrics + video/canvas bg ===== */
+  function bindPointer(el, handlers){
+    if(!el) return;
+    handlers = handlers || {};
+    function coords(e){
+      var r = el.getBoundingClientRect();
+      var x = e.clientX - r.left, y = e.clientY - r.top;
+      return {x:x,y:y,nx:x/Math.max(1,r.width),ny:y/Math.max(1,r.height),w:r.width,h:r.height};
+    }
+    el.addEventListener('pointermove', function(e){ if(handlers.onMove) handlers.onMove(coords(e), e); });
+    el.addEventListener('pointerleave', function(e){ if(handlers.onLeave) handlers.onLeave(e); });
+    el.addEventListener('pointerdown', function(e){ if(handlers.onDown) handlers.onDown(coords(e), e); });
+  }
+
+  /* constellation */
+  (function(){
+    var c = document.getElementById('fx-constellation');
+    if(!c) return;
+    var ctx = c.getContext('2d');
+    var nodes = [], mx=-1, my=-1, W, H, dpr=Math.min(devicePixelRatio||1,2);
+    function resize(){
+      W=c.clientWidth; H=c.clientHeight;
+      c.width=W*dpr; c.height=H*dpr; ctx.setTransform(dpr,0,0,dpr,0,0);
+      nodes=[];
+      for(var i=0;i<36;i++) nodes.push({x:Math.random()*W,y:Math.random()*H,vx:(Math.random()-.5)*.15,vy:(Math.random()-.5)*.15});
+    }
+    function frame(){
+      ctx.fillStyle = asciiBgColor(); ctx.fillRect(0,0,W,H);
+      for(var i=0;i<nodes.length;i++){
+        var p=nodes[i];
+        if(!reduce){ p.x+=p.vx; p.y+=p.vy; if(p.x<0||p.x>W)p.vx*=-1; if(p.y<0||p.y>H)p.vy*=-1; }
+        ctx.fillStyle='rgba(125,249,255,.9)';
+        ctx.beginPath(); ctx.arc(p.x,p.y,1.6,0,Math.PI*2); ctx.fill();
+        for(var j=i+1;j<nodes.length;j++){
+          var q=nodes[j], dx=p.x-q.x, dy=p.y-q.y, d=Math.sqrt(dx*dx+dy*dy);
+          var near = (mx>=0) ? Math.hypot((p.x+q.x)/2-mx,(p.y+q.y)/2-my) : 999;
+          var thr = near < 90 ? 110 : 55;
+          if(d<thr){
+            ctx.strokeStyle='rgba(125,249,255,'+(0.22*(1-d/thr))+')';
+            ctx.beginPath(); ctx.moveTo(p.x,p.y); ctx.lineTo(q.x,q.y); ctx.stroke();
+          }
+        }
+      }
+      if(!reduce) requestAnimationFrame(frame);
+    }
+    bindPointer(c, {onMove:function(p){mx=p.x;my=p.y;}, onLeave:function(){mx=my=-1;}});
+    window.addEventListener('resize', function(){ resize(); if(reduce) frame(); });
+    resize(); frame();
+  })();
+
+  /* ASCII mask reveal */
+  (function(){
+    var c = document.getElementById('fx-mask');
+    if(!c) return;
+    var ctx = c.getContext('2d');
+    var W,H,dpr=Math.min(devicePixelRatio||1,2), mx=-999,my=-999, cell=11, t=0;
+    var CHM = ".:-=+*#%@";
+    function resize(){
+      W=c.clientWidth; H=c.clientHeight;
+      c.width=W*dpr; c.height=H*dpr; ctx.setTransform(dpr,0,0,dpr,0,0);
+      ctx.font=(cell-1)+"px 'IBM Plex Mono',monospace"; ctx.textBaseline='top';
+    }
+    function frame(){
+      ctx.fillStyle=asciiBgColor(); ctx.fillRect(0,0,W,H);
+      var cols=Math.ceil(W/cell), rows=Math.ceil(H/cell);
+      for(var y=0;y<rows;y++){
+        for(var x=0;x<cols;x++){
+          var px=x*cell+cell/2, py=y*cell+cell/2;
+          var d=Math.hypot(px-mx,py-my);
+          var reveal = d < 70 ? 1 : (d < 110 ? (110-d)/40 : 0);
+          if(reveal<=0.05) continue;
+          var n=(Math.sin(x*.3+t)*Math.cos(y*.25-t)+2)/4;
+          var ch=CHM[Math.floor(n*(CHM.length-1))];
+          ctx.fillStyle='rgba(125,249,255,'+(0.15+reveal*0.7)+')';
+          ctx.fillText(ch,x*cell,y*cell);
+        }
+      }
+      t+=0.02;
+      if(!reduce) requestAnimationFrame(frame);
+    }
+    bindPointer(c,{onMove:function(p){mx=p.x;my=p.y;if(reduce)frame();},onLeave:function(){mx=my=-999;if(reduce)frame();}});
+    window.addEventListener('resize',resize); resize(); frame();
+  })();
+
+  /* plotter */
+  (function(){
+    var svg = document.getElementById('fx-plotter');
+    if(!svg) return;
+    var NS='http://www.w3.org/2000/svg';
+    var paths=[];
+    for(var i=0;i<4;i++){
+      var p=document.createElementNS(NS,'path');
+      p.setAttribute('stroke', i%2?'#7df9ff':'#c084fc');
+      p.setAttribute('fill','none'); p.setAttribute('stroke-width','1.4');
+      svg.appendChild(p); paths.push(p);
+    }
+    function redraw(nx,ny){
+      var cx=200, cy=110, px=40+nx*320, py=30+ny*160;
+      paths[0].setAttribute('d','M40,180 Q'+px+','+py+' 360,40');
+      paths[1].setAttribute('d','M40,40 Q'+ (400-px) +','+ (220-py) +' 360,180');
+      paths[2].setAttribute('d','M40,'+ (80+ny*60) +' L'+px+','+py+' L360,'+(140-ny*40));
+      paths[3].setAttribute('d','M200,200 Q'+px+','+py+' 200,20');
+    }
+    redraw(0.5,0.5);
+    bindPointer(svg,{onMove:function(p){redraw(p.nx,p.ny);},onLeave:function(){redraw(0.5,0.5);}});
+  })();
+
+  /* perspective floor */
+  (function(){
+    var c=document.getElementById('fx-floor');
+    if(!c) return;
+    var ctx=c.getContext('2d');
+    var W,H,dpr=Math.min(devicePixelRatio||1,2), mx=0.5, my=0.5;
+    function resize(){ W=c.clientWidth;H=c.clientHeight; c.width=W*dpr;c.height=H*dpr; ctx.setTransform(dpr,0,0,dpr,0,0); draw(); }
+    function draw(){
+      ctx.fillStyle=asciiBgColor(); ctx.fillRect(0,0,W,H);
+      var horizon=H*0.35, vanishX=W*(0.35+mx*0.3), vanishY=horizon;
+      ctx.strokeStyle='rgba(125,249,255,.25)'; ctx.lineWidth=1;
+      for(var i=0;i<=12;i++){
+        var t=i/12;
+        var y=horizon + Math.pow(t,1.4)*(H-horizon)*(0.7+my*0.4);
+        ctx.beginPath(); ctx.moveTo(0,y); ctx.lineTo(W,y); ctx.stroke();
+      }
+      for(var j=-8;j<=8;j++){
+        var x0=vanishX + j*18;
+        ctx.beginPath(); ctx.moveTo(vanishX,vanishY);
+        ctx.lineTo(x0 + j*W*0.08, H); ctx.stroke();
+      }
+      ctx.fillStyle='rgba(125,249,255,.5)';
+      ctx.beginPath(); ctx.arc(vanishX,vanishY,3,0,Math.PI*2); ctx.fill();
+    }
+    bindPointer(c,{onMove:function(p){mx=p.nx;my=p.ny;draw();},onLeave:function(){mx=my=0.5;draw();}});
+    window.addEventListener('resize',resize); resize();
+  })();
+
+  /* glyph bloom */
+  (function(){
+    var c=document.getElementById('fx-bloom');
+    if(!c) return;
+    var ctx=c.getContext('2d');
+    var W,H,dpr=Math.min(devicePixelRatio||1,2), mx=-1,my=-1, pulse=0;
+    var glyphs='01αβ∇∂∫#%@*+=';
+    function resize(){ W=c.clientWidth;H=c.clientHeight; c.width=W*dpr;c.height=H*dpr; ctx.setTransform(dpr,0,0,dpr,0,0); }
+    function frame(){
+      ctx.fillStyle=asciiBgColor(); ctx.fillRect(0,0,W,H);
+      if(mx>=0){
+        var r=40+pulse*80;
+        ctx.font="12px 'IBM Plex Mono',monospace";
+        for(var a=0;a<Math.PI*2;a+=0.35){
+          var x=mx+Math.cos(a)*r, y=my+Math.sin(a)*r;
+          ctx.fillStyle='rgba(125,249,255,'+(0.35+0.4*(1-pulse))+')';
+          ctx.fillText(glyphs[Math.floor((a*3)%glyphs.length)], x, y);
+        }
+        ctx.strokeStyle='rgba(125,249,255,.3)';
+        ctx.beginPath(); ctx.arc(mx,my,r,0,Math.PI*2); ctx.stroke();
+      }
+      if(pulse>0 && !reduce) pulse=Math.max(0,pulse-0.02);
+      requestAnimationFrame(frame);
+    }
+    bindPointer(c,{
+      onMove:function(p){mx=p.x;my=p.y;},
+      onLeave:function(){mx=my=-1;},
+      onDown:function(){pulse=1;}
+    });
+    window.addEventListener('resize',resize); resize(); frame();
+  })();
+
+  /* GSAP 3D planes */
+  (function(){
+    var field=document.getElementById('g3d-field');
+    if(!field) return;
+    var planes=[];
+    for(var i=0;i<8;i++){
+      var el=document.createElement('div');
+      el.className='plane';
+      var w=80+Math.random()*140, h=50+Math.random()*90;
+      el.style.width=w+'px'; el.style.height=h+'px';
+      el.style.left=(8+Math.random()*75)+'%';
+      el.style.top=(10+Math.random()*70)+'%';
+      field.appendChild(el);
+      planes.push(el);
+      if(window.gsap && !reduce){
+        gsap.to(el,{
+          z: -80-Math.random()*200,
+          rotationY: -20+Math.random()*40,
+          rotationX: -10+Math.random()*20,
+          duration: 6+Math.random()*6,
+          yoyo:true, repeat:-1, ease:'sine.inOut',
+          y: '+='+(20+Math.random()*40)
+        });
+      }
+    }
+    var section=document.getElementById('depth-bg');
+    if(section && window.gsap){
+      section.addEventListener('pointermove', function(e){
+        var r=section.getBoundingClientRect();
+        var nx=(e.clientX-r.left)/r.width-0.5;
+        var ny=(e.clientY-r.top)/r.height-0.5;
+        gsap.to(field,{rotationY:nx*12, rotationX:-ny*8, duration:0.4, ease:'power2.out', transformPerspective:900});
+      });
+    }
+  })();
+
+  /* video or canvas stand-in backgrounds */
+  (function(){
+    function canvasLoop(canvasId, mode){
+      var c=document.getElementById(canvasId);
+      if(!c) return;
+      c.style.display='block';
+      var ctx=c.getContext('2d');
+      var t=0, dpr=Math.min(devicePixelRatio||1,2);
+      function resize(){
+        var p=c.parentElement; var W=p.clientWidth, H=p.clientHeight;
+        c.width=W*dpr; c.height=H*dpr; ctx.setTransform(dpr,0,0,dpr,0,0);
+        c._W=W; c._H=H;
+      }
+      function frame(){
+        var W=c._W||300, H=c._H||200;
+        ctx.fillStyle='#050505'; ctx.fillRect(0,0,W,H);
+        if(mode===1){
+          for(var i=0;i<40;i++){
+            var x=(i*37+t*20)% (W+40)-20;
+            ctx.strokeStyle='rgba(125,249,255,'+(0.05+ (i%5)*0.03)+')';
+            ctx.beginPath(); ctx.moveTo(x,0); ctx.lineTo(x+H*0.2,H); ctx.stroke();
+          }
+        } else {
+          ctx.save(); ctx.translate(W/2,H/2); ctx.rotate(t*0.15);
+          ctx.strokeStyle='rgba(125,249,255,.35)'; ctx.strokeRect(-60,-40,120,80);
+          ctx.strokeStyle='rgba(192,132,252,.3)'; ctx.strokeRect(-40,-60,80,120);
+          ctx.restore();
+        }
+        t+=0.02;
+        if(!reduce) requestAnimationFrame(frame);
+      }
+      window.addEventListener('resize', resize); resize(); frame();
+    }
+    function tryVideo(vidId, canvasId, src){
+      var v=document.getElementById(vidId);
+      if(!v) return canvasLoop(canvasId, vidId.indexOf('1')>=0?1:2);
+      if(!src){ canvasLoop(canvasId, vidId.indexOf('1')>=0?1:2); return; }
+      v.src=src;
+      v.play().then(function(){
+        v.style.display='block';
+        var cv=document.getElementById(canvasId); if(cv) cv.style.display='none';
+      }).catch(function(){ canvasLoop(canvasId, 1); });
+    }
+    tryVideo('bg-vid-1','bg-canvas-1', window.__BB_BG1 || 'assets/bg/lattice.mp4');
+    tryVideo('bg-vid-2','bg-canvas-2', window.__BB_BG2 || 'assets/bg/wireframe.mp4');
+  })();
+
+  /* story lab + metrics */
+  (function(){
+    var stage=document.getElementById('story-stage');
+    var cap=document.getElementById('story-cap');
+    var head=document.getElementById('story-head');
+    var dotsEl=document.getElementById('story-dots');
+    if(!stage) return;
+    var beats=[
+      {h:'0 · Alex · shipping a feature', c:'Alex ships a feature. <b>One thread — context still trapped in the window.</b>', m:{person:0.62,team:0.41,tokens:12,compound:3,iter:-1}},
+      {h:'1 · extract → graph', c:'Pulse pulls the decision into a node. <b>Meaning leaves the chat — enters the graph.</b>', m:{person:0.71,team:0.44,tokens:18,compound:5,iter:-1}},
+      {h:'2 · life / state', c:'Same person, private state. <b>Retrieval shifts with emotion — rants stay locked.</b>', m:{person:0.74,team:0.45,tokens:22,compound:6,iter:-2}},
+      {h:'3 · codex · interfaces', c:'Research on interfaces in Codex. <b>Notes compound — not a dead PDF pile.</b>', m:{person:0.78,team:0.48,tokens:28,compound:9,iter:-2}},
+      {h:'4 · many themes', c:'Auth, GTM, interfaces, launch. <b>Several of Alex’s themes, one memory layer.</b>', m:{person:0.81,team:0.52,tokens:34,compound:12,iter:-3}},
+      {h:'5 · many harnesses', c:'Claude Code, Codex, Cursor, Slack. <b>Continue the same memory in any harness.</b>', m:{person:0.84,team:0.58,tokens:41,compound:14,iter:-3}},
+      {h:'6 · team exchange', c:'Practices, skills, workflows between people. <b>Team Pulse rises — fewer iteration cycles.</b>', m:{person:0.86,team:0.72,tokens:48,compound:19,iter:-4}}
+    ];
+    var n=0, timer=null, paused=false;
+    if(dotsEl){
+      for(var i=0;i<beats.length;i++){ var d=document.createElement('i'); dotsEl.appendChild(d); }
+    }
+    function setMetrics(m){
+      function set(id, val){ var el=document.getElementById(id); if(el) el.textContent=val; }
+      set('m-person', m.person.toFixed(2));
+      set('m-team', m.team.toFixed(2));
+      set('m-tokens', String(m.tokens));
+      set('m-compound', String(m.compound));
+      set('m-iter', (m.iter>=0?'+':'')+m.iter);
+      var pb=document.getElementById('m-person-bar'), tb=document.getElementById('m-team-bar');
+      if(pb) pb.style.width=(m.person*100)+'%';
+      if(tb) tb.style.width=(m.team*100)+'%';
+    }
+    function setBeat(i){
+      n=((i%beats.length)+beats.length)%beats.length;
+      stage.className='story-stage b'+n;
+      var b=beats[n];
+      if(head) head.textContent=b.h;
+      if(cap) cap.innerHTML=b.c;
+      setMetrics(b.m);
+      if(dotsEl){
+        [].forEach.call(dotsEl.children, function(dot, idx){
+          dot.style.background = idx===n ? 'var(--cyan)' : 'var(--rule)';
+          dot.style.boxShadow = idx===n ? '0 0 8px rgba(125,249,255,.5)' : 'none';
+          dot.style.width=dot.style.height='7px';
+          dot.style.borderRadius='50%';
+          dot.style.display='inline-block';
+          dot.style.marginRight='4px';
+        });
+      }
+    }
+    function next(){ setBeat(n+1); }
+    function prev(){ setBeat(n-1); }
+    function arm(){
+      clearInterval(timer);
+      if(reduce||paused) return;
+      timer=setInterval(next, 4200);
+    }
+    document.getElementById('story-next')&&document.getElementById('story-next').addEventListener('click',function(){next();arm();});
+    document.getElementById('story-prev')&&document.getElementById('story-prev').addEventListener('click',function(){prev();arm();});
+    stage.addEventListener('mouseenter',function(){paused=true;clearInterval(timer);});
+    stage.addEventListener('mouseleave',function(){paused=false;arm();});
+    setBeat(0); arm();
   })();
 
   /* explainer */
