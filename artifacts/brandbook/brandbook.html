@@ -1,15 +1,15 @@
 <!doctype html>
-<html lang="en">
+<html lang="en" data-theme="dark">
 <head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>zbs.gg — brandbook v2.1</title>
+<title>zbs.gg — brandbook v2.5</title>
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400..800&family=Instrument+Sans:ital,wght@0,400;0,500;0,600;1,400&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet" />
 <script src="assets/gsap.min.js"></script>
 <style>
-  :root{
+  :root, [data-theme="dark"]{
     --bg:#050505;
     --plate:#0c0d10;
     --plate-2:#111216;
@@ -21,66 +21,102 @@
     --rule2:rgba(245,245,245,.07);
     --cyan:#7df9ff;
     --holo:linear-gradient(110deg,#7df9ff,#c084fc 34%,#ff9ad6 62%,#ffe27a);
+    --ascii-bg:#050505;
     --display:"Bricolage Grotesque",system-ui,sans-serif;
     --body:"Instrument Sans",system-ui,sans-serif;
     --mono:"IBM Plex Mono",ui-monospace,Menlo,monospace;
+    --nav-fg:rgba(245,245,245,.55);
+    --nav-fg-hover:#f5f5f5;
+    --wipe-fill:#f5f5f5;
+  }
+  [data-theme="light"]{
+    --bg:#f4f4f1;
+    --plate:#ffffff;
+    --plate-2:#ecece8;
+    --fg:#111114;
+    --white:#0a0a0c;
+    --dim:rgba(17,17,20,.68);
+    --faint:rgba(17,17,20,.4);
+    --rule:rgba(17,17,20,.14);
+    --rule2:rgba(17,17,20,.08);
+    --cyan:#0a8a96;
+    --holo:linear-gradient(110deg,#0a8a96,#7c3aed 34%,#db2777 62%,#ca8a04);
+    --ascii-bg:#ecece8;
+    --nav-fg:rgba(17,17,20,.5);
+    --nav-fg-hover:#111114;
+    --wipe-fill:#050505;
   }
   *{box-sizing:border-box;margin:0;padding:0}
   html{scroll-behavior:smooth}
-  body{background:var(--bg);color:var(--fg);font-family:var(--body);-webkit-font-smoothing:antialiased;line-height:1.5}
+  body{background:var(--bg);color:var(--fg);font-family:var(--body);-webkit-font-smoothing:antialiased;line-height:1.5;transition:background .25s,color .25s}
   .wrap{max-width:1140px;margin:0 auto;padding:0 1.5rem}
   a{color:inherit}
 
-  /* sticky nav — liquid glass (Leon-inspired, zbs dark + cyan) */
+  /* Bayside / home: B&W mono nav + scramble (not liquid glass) */
   .nav{
     position:sticky;top:0;z-index:40;
-    padding:.55rem 0;
-    background:transparent;
+    padding:.85rem 0 .7rem;
+    background:color-mix(in srgb, var(--bg) 88%, transparent);
+    -webkit-backdrop-filter:blur(10px);
+    backdrop-filter:blur(10px);
+    border-bottom:1px solid var(--rule2);
   }
-  .nav-shell{
-    margin:0 auto;max-width:1140px;padding:0 1.5rem;
-  }
+  .nav-shell{margin:0 auto;max-width:1140px;padding:0 1.5rem}
   .nav-inner{
-    position:relative;
-    display:flex;gap:.35rem;align-items:center;
-    padding:.45rem .55rem;
-    font-family:var(--mono);font-size:.72rem;
-    overflow-x:auto;
-    border-radius:999px;
-    background:rgba(12,13,16,.55);
-    -webkit-backdrop-filter:blur(28px) saturate(160%);
-    backdrop-filter:blur(28px) saturate(160%);
-    box-shadow:
-      0 16px 40px -16px rgba(0,0,0,.75),
-      inset 0 1px 0 rgba(255,255,255,.14),
-      inset 0 -1px 0 rgba(125,249,255,.06),
-      inset 0 0 0 1px rgba(255,255,255,.08);
+    display:flex;flex-wrap:wrap;gap:1rem 1.35rem;align-items:baseline;
+    font-family:var(--mono);font-size:.82rem;letter-spacing:.04em;
   }
-  .nav-inner::before{
-    content:"";position:absolute;left:1px;right:1px;top:1px;height:46%;
-    border-radius:999px 999px 40% 40%;
-    background:linear-gradient(180deg,rgba(255,255,255,.12),transparent);
-    pointer-events:none;z-index:1;
-  }
-  .nav-glare{
-    position:absolute;inset:0;border-radius:999px;overflow:hidden;pointer-events:none;z-index:2;
-  }
-  .nav-glare i{
-    position:absolute;inset:0;opacity:0;transition:opacity .25s;
-    background:radial-gradient(circle 80px at var(--gx,50%) var(--gy,50%), rgba(125,249,255,.18), transparent 70%);
-  }
-  .nav-inner:hover .nav-glare i{opacity:1}
   .nav .mark{
-    position:relative;z-index:3;
-    color:var(--cyan);font-weight:600;margin:0 .45rem 0 .35rem;flex:none;
+    color:var(--fg);font-weight:500;margin-right:.25rem;letter-spacing:.12em;flex:none;
   }
   .nav a{
-    position:relative;z-index:3;
-    text-decoration:none;color:rgba(245,245,245,.55);white-space:nowrap;
-    padding:.4rem .7rem;border-radius:999px;transition:color .15s, background .15s;
+    color:var(--nav-fg);text-decoration:none;white-space:nowrap;
+    position:relative;padding-bottom:2px;
   }
-  .nav a:hover{color:var(--white);background:rgba(255,255,255,.06)}
-  .nav a.is-glitching{color:var(--cyan)}
+  .nav a::before{content:"// ";color:var(--faint)}
+  .nav a:hover,.nav a:focus-visible{color:var(--nav-fg-hover)}
+  .nav .scramble-slot{
+    display:inline-block;position:relative;vertical-align:bottom;
+  }
+  .nav .scramble-slot .sr-measure{visibility:hidden}
+  .nav .scramble-slot .sr-paint{position:absolute;inset:0;white-space:nowrap}
+
+  /* scroll spine + theme wipe */
+  .scroll-spine{
+    position:fixed;left:max(.75rem, calc(50% - 580px - 1.5rem));top:20vh;bottom:18vh;
+    width:2px;z-index:30;pointer-events:none;
+  }
+  @media(max-width:1200px){.scroll-spine{left:.65rem}}
+  .scroll-spine svg{width:100%;height:100%;overflow:visible}
+  .scroll-spine .track{stroke:var(--faint);stroke-width:1.5;fill:none;opacity:.45}
+  .scroll-spine .prog{
+    stroke:url(#spineHolo);stroke-width:2;fill:none;
+    stroke-linecap:round;
+    stroke-dasharray:1;stroke-dashoffset:1;
+  }
+  .scroll-spine .tip{
+    fill:var(--faint);r:3.5;
+    transition:fill .15s;
+  }
+  .scroll-spine.hot .tip{fill:var(--cyan);filter:drop-shadow(0 0 6px rgba(125,249,255,.55))}
+  .theme-wipe{
+    position:fixed;inset:0;z-index:100;pointer-events:none;
+    background:var(--wipe-fill);
+    clip-path:circle(0px at 50% 50%);
+    will-change:clip-path;
+  }
+  .theme-gate{
+    min-height:55vh;display:flex;align-items:center;justify-content:center;
+    border-bottom:1px solid var(--rule2);
+    padding:4rem 1.5rem;text-align:center;
+  }
+  .theme-gate .tg-inner{max-width:36rem}
+  .theme-gate h2{
+    font-family:var(--display);font-weight:700;font-size:clamp(1.6rem,3.5vw,2.2rem);
+    letter-spacing:-.03em;color:var(--white);margin-bottom:.6rem;
+  }
+  .theme-gate p{color:var(--dim);font-size:1.02rem;line-height:1.5}
+  .theme-gate .tg-meta{font-family:var(--mono);font-size:.72rem;color:var(--faint);margin-top:1rem}
 
   section{padding:4.5rem 0;border-bottom:1px solid var(--rule2)}
   /* Section index = giant thin watermark BEHIND the title + air gap */
@@ -733,18 +769,36 @@
 </head>
 <body>
 
-<nav class="nav"><div class="nav-shell"><div class="nav-inner" id="nav-inner">
-  <div class="nav-glare" aria-hidden="true"><i id="nav-glare"></i></div>
+<nav class="nav" aria-label="primary"><div class="nav-shell"><div class="nav-inner" id="nav-inner">
   <span class="mark">zbs</span>
-  <a href="#lock" data-glitch>Lock</a>
-  <a href="#type" data-glitch>Type</a>
-  <a href="#plates" data-glitch>Plates</a>
-  <a href="#fx" data-glitch>Effects</a>
-  <a href="#explainer" data-glitch>Explainer</a>
-  <a href="#parts" data-glitch>Parts</a>
-  <a href="#rules" data-glitch>Rules</a>
-  <a href="type-specimen.html">Specimen →</a>
+  <a href="#lock"><span class="scramble-slot" data-scramble="lock"><span class="sr-measure">lock</span><span class="sr-paint">lock</span></span></a>
+  <a href="#type"><span class="scramble-slot" data-scramble="type"><span class="sr-measure">type</span><span class="sr-paint">type</span></span></a>
+  <a href="#plates"><span class="scramble-slot" data-scramble="plates"><span class="sr-measure">plates</span><span class="sr-paint">plates</span></span></a>
+  <a href="#fx"><span class="scramble-slot" data-scramble="effects"><span class="sr-measure">effects</span><span class="sr-paint">effects</span></span></a>
+  <a href="#explainer"><span class="scramble-slot" data-scramble="explainer"><span class="sr-measure">explainer</span><span class="sr-paint">explainer</span></span></a>
+  <a href="#parts"><span class="scramble-slot" data-scramble="parts"><span class="sr-measure">parts</span><span class="sr-paint">parts</span></span></a>
+  <a href="#theme-gate"><span class="scramble-slot" data-scramble="theme"><span class="sr-measure">theme</span><span class="sr-paint">theme</span></span></a>
+  <a href="#rules"><span class="scramble-slot" data-scramble="rules"><span class="sr-measure">rules</span><span class="sr-paint">rules</span></span></a>
+  <a href="type-specimen.html"><span class="scramble-slot" data-scramble="specimen"><span class="sr-measure">specimen</span><span class="sr-paint">specimen</span></span></a>
 </div></div></nav>
+
+<!-- scroll spine (grey → holo) -->
+<div class="scroll-spine" id="scroll-spine" aria-hidden="true">
+  <svg viewBox="0 0 8 100" preserveAspectRatio="none">
+    <defs>
+      <linearGradient id="spineHolo" x1="0" y1="0" x2="0" y2="1">
+        <stop offset="0%" stop-color="#7df9ff"/>
+        <stop offset="40%" stop-color="#c084fc"/>
+        <stop offset="70%" stop-color="#ff9ad6"/>
+        <stop offset="100%" stop-color="#ffe27a"/>
+      </linearGradient>
+    </defs>
+    <line class="track" x1="4" y1="0" x2="4" y2="100"/>
+    <line class="prog" id="spine-prog" x1="4" y1="0" x2="4" y2="100" pathLength="1"/>
+    <circle class="tip" id="spine-tip" cx="4" cy="0" r="2.2"/>
+  </svg>
+</div>
+<div class="theme-wipe" id="theme-wipe" aria-hidden="true"></div>
 
 <!-- HERO -->
 <header class="mast">
@@ -752,9 +806,9 @@
   <div class="mast-veil"></div>
   <div class="wrap mast-grid">
     <div class="plate plate-pad plate-holo-edge">
-      <div class="mast-meta"><span class="dot"></span> brandbook · v2.4</div>
+      <div class="mast-meta"><span class="dot"></span> brandbook · v2.5 · move cursor on ASCII</div>
       <h1>Memory that knows what <em>matters</em>.</h1>
-      <p class="sub">Dark plate. White type. One cyan signal. Live effects — not a token sheet.</p>
+      <p class="sub">Bayside nav. Cursor-reactive field. Scroll the spine — grey to holo — then the circle flips theme.</p>
     </div>
     <div class="stage-3d" id="stage3d">
       <div class="card-3d" id="card3d" style="--lx:32%;--ly:20%">
@@ -1196,6 +1250,15 @@
   </div>
 </div></section>
 
+<!-- THEME GATE — scroll choreography beat -->
+<section class="theme-gate" id="theme-gate">
+  <div class="tg-inner">
+    <h2>Scroll past this beat.</h2>
+    <p>The spine paints grey → holo. Then a circle grows from the tip and flips the book — dark to light, or back when you climb.</p>
+    <div class="tg-meta" id="theme-status">theme: dark · progress: 0%</div>
+  </div>
+</section>
+
 <!-- RULES -->
 <section id="rules"><div class="wrap">
   <div class="sec-head">
@@ -1209,23 +1272,23 @@
     <div class="plate col do">
       <h3>Do</h3>
       <ul>
-        <li>white (or holo) type on solid dark plates</li>
-        <li>≥4 live effect stages when teaching motion</li>
-        <li>people + context scenes for product story</li>
-        <li>icons / mood stills on every component card</li>
-        <li>cyan = signal only · holo = data edges</li>
-        <li>GSAP / canvas / SVG — authored motion with light + thickness</li>
-        <li>section indices as thin outline watermarks, not rainbow digits</li>
+        <li>Bayside B&amp;W mono nav · scramble on hover (landing lock)</li>
+        <li>ASCII field reacts to cursor — glyphs change in radius</li>
+        <li>scroll spine grey → holo · circle wipe for theme flip</li>
+        <li>dual theme first-class (not invert-only)</li>
+        <li>solid plates · cyan = signal · holo = data edges</li>
+        <li>bento: title + nested proof demo</li>
+        <li>section indices as thin outline watermarks behind title</li>
       </ul>
     </div>
     <div class="plate col dont">
       <h3>Don't</h3>
       <ul>
-        <li>5% frosted glass that disappears on black</li>
-        <li>particle networks / matrix rain / blockchain 2015</li>
-        <li>flat “3D” that only bends with no edge or light</li>
-        <li>holo rainbow section numbers as decoration</li>
+        <li>liquid glass pill as primary chrome</li>
+        <li>particle networks / matrix rain / mono marquee</li>
+        <li>5% frosted air on near-black</li>
         <li>tiny uppercase eyebrows · ALL CAPS micro titles</li>
+        <li>single dark-only brandbook when light is required</li>
         <li>slop copy: “seamlessly”, “elevate”, “unlock”</li>
       </ul>
     </div>
@@ -1238,33 +1301,46 @@
     <div class="sec-num" aria-hidden="true">08</div>
     <div class="sec-copy">
       <h2 class="sec-title">Ledger</h2>
-      <p class="sec-lede">Choices with sources. v2.2: thick card, no particles, thin section indices.</p>
+      <p class="sec-lede">v2.5: Bayside nav, cursor ASCII, scroll theme wipe.</p>
     </div>
   </div>
   <table class="ledger plate" style="overflow:hidden">
     <thead><tr><th>decision</th><th>source</th><th>why</th></tr></thead>
     <tbody>
-      <tr><td><b>White / holo on dark plates</b></td><td>Nik eye-pass v2.0</td><td>ghost glass was unreadable</td></tr>
-      <tr><td><b>GSAP 3D card</b></td><td>Nik: “ещё эффектов”</td><td>product object, not flat teaser</td></tr>
-      <tr><td><b>No particles / matrix</b></td><td>Nik eye-pass</td><td>reads as 2015 crypto UI</td></tr>
-      <tr><td><b>3D card: thickness + specular + holo rim</b></td><td>Nik eye-pass</td><td>material object, not flat tilt</td></tr>
-      <tr><td><b>Thin outline section indices</b></td><td>Nik eye-pass</td><td>holo digits felt like AI chrome</td></tr>
-      <tr><td><b>Higgsfield mood stills</b></td><td>Nik: use MCP</td><td>real imagery under icons</td></tr>
-      <tr><td><b>Kill page slop copy</b></td><td>Nik + anti-AI notes</td><td>short, concrete, no AI brochure</td></tr>
+      <tr><td><b>B&amp;W scramble nav</b></td><td><code>app/page.tsx</code> + <code>scramble-text.tsx</code></td><td>Bayside/home face Nik loves</td></tr>
+      <tr><td><b>Cursor glyph thrash on ASCII</b></td><td><code>ascii-bg.tsx</code> + Nik request</td><td>symbols change, not only glow</td></tr>
+      <tr><td><b>Scroll spine + circle wipe theme</b></td><td>Nik choreography</td><td>dark + light as designed moment</td></tr>
+      <tr><td><b>data-theme dual tokens</b></td><td>plan U1</td><td>light is not CSS invert</td></tr>
+      <tr><td><b>Liquid/glitch demoted</b></td><td>Nik eye-pass</td><td>material demos ≠ primary chrome</td></tr>
       <tr><td><b>Type trio B</b></td><td>v1 direction lock</td><td>Bricolage / Instrument / Plex</td></tr>
     </tbody>
   </table>
 </div></section>
 
 <footer><div class="wrap">
-  zbs.gg brandbook v2.1 · <code style="color:var(--cyan)">artifacts/brandbook/</code> · open via file:// ·
-  GSAP 3.12 (cdn) · fonts Google · mood: assets/mood/ · freeze: brandbook.v1-freeze.html
+  zbs.gg brandbook v2.5 · <code style="color:var(--cyan)">artifacts/brandbook/</code> · file:// ·
+  Bayside nav · cursor ASCII · scroll theme · mood: assets/mood/ · ?theme=light|dark
 </div></footer>
 
 <script>
 (function(){
   var reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   var CH = " .:-=+*#%@";
+  var CH_DENSE = "#%@▓▒░*+=-:. ";
+
+  /* theme init from query / session */
+  (function(){
+    var html = document.documentElement;
+    var q = new URLSearchParams(location.search).get('theme');
+    var stored = null;
+    try{ stored = sessionStorage.getItem('bb-theme'); }catch(_){}
+    var theme = (q === 'light' || q === 'dark') ? q : (stored === 'light' || stored === 'dark' ? stored : 'dark');
+    html.setAttribute('data-theme', theme);
+  })();
+
+  function asciiBgColor(){
+    return getComputedStyle(document.documentElement).getPropertyValue('--ascii-bg').trim() || '#050505';
+  }
 
   function makeField(canvas, opts){
     opts = opts || {};
@@ -1272,6 +1348,10 @@
     if(!ctx) return;
     var cell = opts.cell || 12, t = 0, dpr = Math.min(window.devicePixelRatio||1, 2);
     var cols=0, rows=0, W=0, H=0;
+    var mouse = {x:-9999, y:-9999, active:false};
+    var radius = opts.cursorRadius || 120;
+    var interactive = !!opts.cursorGlyphs;
+
     function resize(){
       W = canvas.clientWidth; H = canvas.clientHeight;
       if(!W||!H) return;
@@ -1282,30 +1362,65 @@
       ctx.textBaseline = "top";
     }
     function frame(){
-      ctx.fillStyle = "#050505"; ctx.fillRect(0,0,W,H);
+      ctx.fillStyle = asciiBgColor(); ctx.fillRect(0,0,W,H);
+      var r2 = radius * radius;
       for(var y=0;y<rows;y++){
         for(var x=0;x<cols;x++){
+          var px = x*cell + cell*0.5, py = y*cell + cell*0.5;
           var v = Math.sin(x*0.28+t)*Math.cos(y*0.32-t*0.7)+Math.sin((x+y)*0.16+t*1.3);
           var n = (v+2)/4;
-          var idx = Math.max(0,Math.min(CH.length-1,Math.floor(n*(CH.length-1))));
-          var ch = CH[idx];
+          var thrash = 0;
+          if(interactive && mouse.active && !reduce){
+            var dx = px - mouse.x, dy = py - mouse.y;
+            var d2 = dx*dx + dy*dy;
+            if(d2 < r2){
+              thrash = 1 - d2/r2;
+              n = Math.min(1, n + thrash * 0.85);
+            }
+          }
+          var ramp = thrash > 0.15 ? CH_DENSE : CH;
+          var idx = Math.max(0,Math.min(ramp.length-1, Math.floor(n*(ramp.length-1))));
+          if(thrash > 0.35 && Math.random() < thrash * 0.55){
+            idx = Math.min(ramp.length-1, idx + 1 + Math.floor(Math.random()*3));
+          }
+          var ch = ramp[idx];
           if(ch===' ') continue;
-          var a = 0.08 + n*(opts.maxA||0.32);
-          ctx.fillStyle = "hsla("+(170+Math.sin(t+x*0.1)*40)+",90%,72%,"+a+")";
+          var a = 0.08 + n*(opts.maxA||0.32) + thrash*0.35;
+          if(thrash > 0.2){
+            ctx.fillStyle = "hsla("+(175+thrash*40)+",95%,78%,"+Math.min(0.95,a)+")";
+          } else {
+            ctx.fillStyle = "hsla("+(170+Math.sin(t+x*0.1)*40)+",90%,72%,"+a+")";
+          }
           ctx.fillText(ch, x*cell, y*cell);
         }
       }
       t += (opts.speed||0.02);
       if(!reduce) requestAnimationFrame(frame);
+      else { /* paint once */ }
     }
-    function start(){ resize(); frame(); }
+    function onMove(e){
+      var r = canvas.getBoundingClientRect();
+      mouse.x = e.clientX - r.left;
+      mouse.y = e.clientY - r.top;
+      mouse.active = true;
+      if(reduce) frame();
+    }
+    function onLeave(){ mouse.active = false; if(reduce) frame(); }
+    function start(){
+      resize(); frame();
+      if(interactive){
+        canvas.addEventListener('pointermove', onMove);
+        canvas.addEventListener('pointerleave', onLeave);
+        canvas.style.cursor = 'crosshair';
+      }
+    }
     window.addEventListener('resize', resize);
     start();
   }
   var big = document.getElementById('ascii');
-  if(big) makeField(big, {cell:14, speed:0.018, maxA:0.36});
+  if(big) makeField(big, {cell:14, speed:0.018, maxA:0.36, cursorGlyphs:true, cursorRadius:140});
   var small = document.getElementById('fx-ascii');
-  if(small) makeField(small, {cell:10, speed:0.03, maxA:0.52});
+  if(small) makeField(small, {cell:10, speed:0.03, maxA:0.52, cursorGlyphs:true, cursorRadius:90});
 
   /* line draw loop */
   (function(){
@@ -1428,7 +1543,7 @@
     });
   })();
 
-  /* liquid glass glare + pill tabs */
+  /* liquid glass glare + pill tabs (effects lab only) */
   (function(){
     var pill = document.getElementById('liquid-pill');
     var glare = document.getElementById('lp-glare');
@@ -1445,15 +1560,177 @@
         });
       });
     }
-    var nav = document.getElementById('nav-inner');
-    var ng = document.getElementById('nav-glare');
-    if(nav && ng){
-      nav.addEventListener('pointermove', function(e){
-        var r = nav.getBoundingClientRect();
-        ng.style.setProperty('--gx', ((e.clientX-r.left)/r.width*100)+'%');
-        ng.style.setProperty('--gy', ((e.clientY-r.top)/r.height*100)+'%');
-      });
+  })();
+
+  /* Bayside scramble nav — port of scramble-text.tsx */
+  (function(){
+    var CHARS = "!<>-_\\/[]{}=+*^?#$%&@▓▒░·∙•";
+    var slots = document.querySelectorAll('[data-scramble]');
+    if(!slots.length) return;
+
+    function scrambleSlot(slot){
+      var target = slot.getAttribute('data-scramble') || '';
+      var paint = slot.querySelector('.sr-paint');
+      if(!paint) return;
+      if(reduce){ paint.textContent = target; return; }
+      var speed = 22;
+      var queue = [];
+      var old = paint.textContent || target;
+      var len = Math.max(old.length, target.length);
+      for(var i=0;i<len;i++){
+        queue.push({
+          from: old[i] || ' ',
+          to: target[i] || '',
+          start: Math.floor(Math.random()*speed),
+          end: Math.floor(Math.random()*speed) + speed + Math.floor(Math.random()*speed),
+          char: null
+        });
+      }
+      var frame = 0;
+      function tick(){
+        var out = '', complete = 0;
+        for(var i=0;i<queue.length;i++){
+          var item = queue[i];
+          if(frame >= item.end){ complete++; out += item.to; }
+          else if(frame >= item.start){
+            if(!item.char || Math.random() < 0.28){
+              item.char = CHARS[Math.floor(Math.random()*CHARS.length)];
+            }
+            out += item.char;
+          } else out += item.from;
+        }
+        paint.textContent = out;
+        if(complete < queue.length){ frame++; requestAnimationFrame(tick); }
+        else paint.textContent = target;
+      }
+      requestAnimationFrame(tick);
     }
+
+    slots.forEach(function(slot){
+      var a = slot.closest('a') || slot;
+      a.addEventListener('pointerenter', function(){ scrambleSlot(slot); });
+      a.addEventListener('focus', function(){ scrambleSlot(slot); });
+    });
+  })();
+
+  /* scroll spine + circle theme wipe */
+  (function(){
+    var prog = document.getElementById('spine-prog');
+    var tip = document.getElementById('spine-tip');
+    var spine = document.getElementById('scroll-spine');
+    var wipe = document.getElementById('theme-wipe');
+    var status = document.getElementById('theme-status');
+    var html = document.documentElement;
+    if(!prog || !wipe) return;
+
+    var gate = document.getElementById('theme-gate');
+    var wiping = false;
+    var lastTheme = html.getAttribute('data-theme') || 'dark';
+    var crossed = lastTheme === 'light'; // if already light, treat as past gate
+
+    function setTheme(theme){
+      if(theme !== 'light' && theme !== 'dark') return;
+      html.setAttribute('data-theme', theme);
+      lastTheme = theme;
+      try{ sessionStorage.setItem('bb-theme', theme); }catch(_){}
+      if(status) status.textContent = 'theme: ' + theme + ' · scroll spine active';
+    }
+
+    function scrollProgress(){
+      var max = Math.max(1, document.documentElement.scrollHeight - window.innerHeight);
+      return Math.min(1, Math.max(0, window.scrollY / max));
+    }
+
+    function gateProgress(){
+      if(!gate) return scrollProgress();
+      var r = gate.getBoundingClientRect();
+      var mid = r.top + r.height * 0.35;
+      // 0 when gate below fold, 1 when gate mid has passed top third
+      var p = 1 - (mid / window.innerHeight);
+      return Math.min(1, Math.max(0, p));
+    }
+
+    function updateSpine(){
+      var p = scrollProgress();
+      prog.style.strokeDashoffset = String(1 - p);
+      if(tip){
+        tip.setAttribute('cy', String(p * 100));
+      }
+      if(spine){
+        if(p > 0.08) spine.classList.add('hot');
+        else spine.classList.remove('hot');
+      }
+      if(status && !wiping){
+        status.textContent = 'theme: ' + lastTheme + ' · progress: ' + Math.round(p*100) + '%';
+      }
+    }
+
+    function runWipe(toTheme, originX, originY){
+      if(wiping) return;
+      wiping = true;
+      var maxR = Math.ceil(Math.hypot(
+        Math.max(originX, window.innerWidth - originX),
+        Math.max(originY, window.innerHeight - originY)
+      )) + 40;
+
+      // wipe fill is the destination theme's canvas (var updates after setTheme)
+      // use pre-set wipe color for expanding disc
+      if(toTheme === 'light') wipe.style.background = '#f4f4f1';
+      else wipe.style.background = '#050505';
+
+      function applyClip(r){
+        wipe.style.clipPath = 'circle('+r+'px at '+originX+'px '+originY+'px)';
+      }
+
+      if(reduce){
+        applyClip(maxR);
+        setTheme(toTheme);
+        applyClip(0);
+        wiping = false;
+        return;
+      }
+
+      applyClip(0);
+      var start = performance.now();
+      var dur = 780;
+      function frame(now){
+        var t = Math.min(1, (now - start) / dur);
+        // ease out cubic
+        var e = 1 - Math.pow(1 - t, 3);
+        applyClip(e * maxR);
+        if(t < 1) requestAnimationFrame(frame);
+        else {
+          setTheme(toTheme);
+          // collapse instantly under new theme
+          applyClip(0);
+          wiping = false;
+        }
+      }
+      requestAnimationFrame(frame);
+    }
+
+    function onScroll(){
+      updateSpine();
+      var gp = gateProgress();
+      var spineRect = spine ? spine.getBoundingClientRect() : null;
+      var ox = spineRect ? spineRect.left + spineRect.width/2 : window.innerWidth * 0.5;
+      var oy = spineRect ? spineRect.top + (scrollProgress() * spineRect.height) : window.innerHeight * 0.5;
+
+      // enter light when gate largely in view / past
+      if(gp > 0.55 && lastTheme === 'dark' && !wiping){
+        crossed = true;
+        runWipe('light', ox, oy);
+      }
+      // return dark when scrolling back up past gate
+      if(gp < 0.2 && lastTheme === 'light' && !wiping){
+        crossed = false;
+        runWipe('dark', ox, oy);
+      }
+    }
+
+    window.addEventListener('scroll', onScroll, {passive:true});
+    window.addEventListener('resize', updateSpine);
+    updateSpine();
   })();
 
   /* cursor spotlight */
