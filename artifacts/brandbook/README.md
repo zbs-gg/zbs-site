@@ -14,17 +14,16 @@ open artifacts/brandbook/brandbook.html
 
 | Brandbook | Source on site |
 |-----------|----------------|
-| B&W scramble nav | `app/page.tsx` + `components/scramble-text.tsx` + `.ascii-nav` |
-| Memory timeline (line + segments) | `components/memory-timeline.tsx` + `.mt-*` in `globals.css` |
-| Hero ASCII thrash | `components/ascii-bg.tsx` mouse glow grammar |
-| Lab product story | `public/lab.html` — open that file; do not re-sketch in brandbook |
+| B&W scramble nav | `app/page.tsx` + `scramble-text.tsx` + `.ascii-nav` |
+| **Graph · salience** | `memory-timeline.tsx` — **chart only**, not the product story |
+| **Context stage** | **`public/lab.html` multi-scene stage** (1 person → team → pulse → loop) |
+| Hero ASCII thrash | `ascii-bg.tsx` |
 
 ## Removed on purpose
 
-- Story lab (Alex zoom absolute cards) — wrong grammar  
-- Brandbook “context explainer” — poor lab clone  
-- Constellation / plotter / floor / bloom / glitch-nav  
-- Depth video showcase / hypercube  
+- Invented Alex story lab  
+- Invented brandbook context explainer  
+- Blockchain FX toys / video hypercube showcase  
 
 ## Effects lab (kept)
 

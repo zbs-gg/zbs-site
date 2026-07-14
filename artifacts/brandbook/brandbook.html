@@ -861,6 +861,170 @@
     #line-draw path{stroke-dashoffset:0}
     .card-3d{transform:none !important}
   }
+
+  /* === LAB STAGE PORT from public/lab.html (scoped) === */
+
+  #lab-port{
+    --fg:#f5f5f5;--dim:rgba(245,245,245,.6);--faint:rgba(245,245,245,.34);
+    --auth:#7df9ff;--gtm:#c084fc;--posts:#ff9ad6;--arch:#ffe27a;--priv:#8a8f98;
+    --frus:#ff7a7a;--stress:#ffb24d;--focus:#7df9ff;--ship:#6fe3a5;
+    --holo:linear-gradient(110deg,#7df9ff,#c084fc 32%,#ff9ad6 58%,#ffe27a 82%);
+    --rule:rgba(245,245,245,.12);--rule2:rgba(245,245,245,.06);
+    color:#f5f5f5;
+  }
+  /* lab stage stays dark product demo even when brandbook is light */
+  #lab-port .stage{color:#f5f5f5}
+
+  #lab-port .holo{background:var(--holo);-webkit-background-clip:text;background-clip:text;color:transparent}
+
+/* stage */
+#lab-port .stage{margin-top:1.8rem;border:1px solid var(--rule);border-radius:10px;background:linear-gradient(180deg,#0a0b0d,#070708);padding:clamp(1rem,2.2vw,1.4rem);position:relative;overflow:hidden}
+#lab-port .stage-head{display:flex;justify-content:space-between;align-items:center;font-family:var(--mono);font-size:.64rem;letter-spacing:.07em;text-transform:uppercase;color:var(--faint);margin-bottom:.9rem;gap:1rem}
+#lab-port .stage-head .dots{display:flex;gap:.35rem}
+#lab-port .stage-head .dots i{width:6px;height:6px;border-radius:50%;background:var(--rule);transition:background .3s}
+#lab-port .stage.s1 .dots i:nth-child(1), #lab-port .stage.s2 .dots i:nth-child(2), #lab-port .stage.s3 .dots i:nth-child(3), #lab-port .stage.s4 .dots i:nth-child(4){background:var(--gtm)}
+#lab-port .field{position:relative;height:430px}
+@media(max-width:760px){#lab-port .field{height:auto;min-height:430px}}
+
+#lab-port .scene{position:absolute;inset:0;opacity:0;pointer-events:none;transform:scale(.965);filter:blur(8px);transition:opacity .8s ease,transform .9s cubic-bezier(.22,.61,.36,1),filter .8s ease}
+#lab-port .stage.s1 .scene1, #lab-port .stage.s2 .scene2, #lab-port .stage.s3 .scene3, #lab-port .stage.s4 .scene4{opacity:1;pointer-events:auto;transform:none;filter:none}
+#lab-port .stage.s2 .scene1{transform:scale(.32) translate(-46%,-52%);transform-origin:top left;opacity:0;filter:blur(3px)}
+
+/* ---------- SCENE 1 — one person, 3 sources ---------- */
+#lab-port .scene1{display:grid;grid-template-columns:1.15fr 1fr 1fr;gap:.8rem}
+@media(max-width:760px){#lab-port .scene1{grid-template-columns:1fr}}
+#lab-port .win{border:1px solid var(--rule);border-radius:8px;background:#0b0c0e;display:flex;flex-direction:column;overflow:hidden}
+#lab-port .win .wt{font-family:var(--mono);font-size:.6rem;letter-spacing:.05em;text-transform:uppercase;color:var(--faint);padding:.5rem .6rem;border-bottom:1px solid var(--rule2);display:flex;align-items:center;gap:.4rem}
+#lab-port .win .wt .ic{width:14px;height:14px;border-radius:3px;display:inline-flex;align-items:center;justify-content:center;font-size:.58rem;color:#0a0b0d;font-weight:700}
+#lab-port .ic.slack{background:#ff9ad6}#lab-port .ic.gpt{background:#6fe3a5}#lab-port .ic.code{background:#ffe27a}
+#lab-port .win .wb{padding:.55rem .6rem;display:flex;flex-direction:column;gap:.42rem;flex:1}
+#lab-port .m{display:flex;gap:.45rem;align-items:flex-start;opacity:0;transform:translateY(6px);animation:rise .4s forwards}
+@keyframes rise{to{opacity:1;transform:none}}
+#lab-port .av{width:17px;height:17px;border-radius:50%;flex:none;font-family:var(--mono);font-size:.54rem;display:flex;align-items:center;justify-content:center;color:#0a0b0d;font-weight:700}
+#lab-port .av.you{background:#e8e8e8}.av.lena{background:#7df9ff}.av.max{background:#ff9ad6}.av.ai{background:var(--posts)}
+#lab-port .mb{min-width:0}.mb .nm{font-family:var(--mono);font-size:.56rem;color:var(--faint);margin-bottom:.05rem}
+#lab-port .tx{font-size:.76rem;line-height:1.3}
+#lab-port .tag{position:relative;border-radius:4px;padding:.02rem .2rem;margin:-.02rem -.2rem}
+#lab-port .tag.auth{background:rgba(125,249,255,.09)}.tag.gtm{background:rgba(192,132,252,.1)}.tag.posts{background:rgba(255,154,214,.1)}.tag.arch{background:rgba(255,226,122,.1)}.tag.priv{background:rgba(138,143,152,.14)}
+#lab-port .meme{border:1px dashed var(--rule);border-radius:6px;padding:.4rem .5rem;font-size:.72rem;color:var(--dim);display:flex;gap:.4rem;align-items:center;background:#0d0e10}
+#lab-port .meme .em{font-size:1rem}
+#lab-port .code{font-family:var(--mono);font-size:.66rem;line-height:1.5;color:var(--dim);white-space:nowrap;overflow:hidden}
+#lab-port .code .cm{color:var(--arch)}.code .kw{color:var(--auth)}
+
+/* ---------- SCENE 2 — team grid ---------- */
+#lab-port .scene2{display:flex;flex-direction:column}
+#lab-port .s2head{display:flex;align-items:baseline;gap:.8rem;margin-bottom:.7rem;font-family:var(--mono)}
+#lab-port .s2head .cnt{font-size:1.8rem;font-weight:600;color:var(--fg);min-width:2.4ch}
+#lab-port .s2head .cl{font-size:.74rem;color:var(--dim)}
+#lab-port .grid{display:grid;grid-template-columns:repeat(8,1fr);gap:.45rem;flex:1}
+@media(max-width:760px){#lab-port .grid{grid-template-columns:repeat(5,1fr)}}
+#lab-port .ptile{border:1px solid var(--rule2);border-radius:6px;background:#0a0b0d;padding:.4rem;display:flex;flex-direction:column;gap:.3rem;opacity:0;transform:scale(.6);transition:opacity .35s,transform .35s,border-color .35s}
+#lab-port .ptile.on{opacity:1;transform:none}
+#lab-port .ptile.you{border-color:rgba(125,249,255,.5)}
+#lab-port .ptile .ph{display:flex;align-items:center;gap:.3rem}
+#lab-port .ptile .pa{width:16px;height:16px;border-radius:50%;background:#23262b;font-family:var(--mono);font-size:.5rem;display:flex;align-items:center;justify-content:center;color:var(--dim)}
+#lab-port .ptile.you .pa{background:#e8e8e8;color:#0a0b0d}
+#lab-port .ptile .pl{font-family:var(--mono);font-size:.5rem;color:var(--faint)}
+#lab-port .ptile .srcdots{display:flex;gap:.18rem}
+#lab-port .ptile .srcdots i{width:5px;height:5px;border-radius:1px;background:var(--rule)}
+#lab-port .ptile .srcdots i.a{background:#ff9ad6}.ptile .srcdots i.b{background:#6fe3a5}.ptile .srcdots i.c{background:#ffe27a}
+#lab-port .ptile .mood{height:3px;border-radius:2px;background:var(--rule);width:100%}
+#lab-port .stage.s3 .ptile .mood, #lab-port .stage.s4 .ptile .mood{transition:background .5s}
+
+/* ---------- SCENE 3 — pulse colors topics + emotion ---------- */
+#lab-port .scene3{display:grid;grid-template-columns:1fr 300px;gap:1rem}
+@media(max-width:760px){#lab-port .scene3{grid-template-columns:1fr}}
+#lab-port .s3grid{display:grid;grid-template-columns:repeat(8,1fr);gap:.45rem;align-content:start}
+@media(max-width:760px){#lab-port .s3grid{grid-template-columns:repeat(5,1fr)}}
+#lab-port .pcell{aspect-ratio:1.3;border-radius:5px;background:#0a0b0d;border:1px solid var(--rule2);position:relative;overflow:hidden}
+#lab-port .pcell .top{position:absolute;inset:0;opacity:.85;background:transparent;transition:background .5s ease}
+#lab-port .pcell .moodbar{position:absolute;left:0;right:0;bottom:0;height:4px;background:transparent;transition:background .5s ease}
+#lab-port .panel{border:1px solid rgba(192,132,252,.4);border-radius:8px;background:#0a0b0d;padding:.85rem;display:flex;flex-direction:column;gap:.5rem;box-shadow:0 0 30px rgba(192,132,252,.12)}
+#lab-port .panel .pt{font-family:var(--mono);font-size:.62rem;letter-spacing:.1em;text-transform:uppercase}
+#lab-port .panel .sect{font-family:var(--mono);font-size:.56rem;letter-spacing:.06em;text-transform:uppercase;color:var(--faint);margin-top:.3rem}
+#lab-port .row2{display:flex;align-items:center;gap:.5rem;font-size:.76rem}
+#lab-port .row2 .sw{width:9px;height:9px;border-radius:50%;flex:none}
+#lab-port .sw.auth{background:var(--auth)}.sw.gtm{background:var(--gtm)}.sw.posts{background:var(--posts)}.sw.arch{background:var(--arch)}
+#lab-port .row2 .c{margin-left:auto;font-family:var(--mono);font-size:.66rem;color:var(--dim)}
+#lab-port .emo{display:flex;flex-wrap:wrap;gap:.35rem}
+#lab-port .emochip{font-family:var(--mono);font-size:.64rem;border-radius:999px;padding:.18rem .5rem;border:1px solid var(--rule)}
+#lab-port .emochip.frus{color:var(--frus);border-color:rgba(255,122,122,.4)}
+#lab-port .emochip.stress{color:var(--stress);border-color:rgba(255,178,77,.4)}
+#lab-port .emochip.ship{color:var(--ship);border-color:rgba(111,227,165,.4)}
+#lab-port .privrow{display:flex;align-items:center;gap:.5rem;font-size:.72rem;color:var(--priv);border-top:1px solid var(--rule2);padding-top:.5rem;margin-top:.2rem}
+
+/* ---------- SCENE 4 — any harness + the loop ---------- */
+#lab-port .scene4{display:flex;align-items:center;justify-content:center}
+#lab-port .loopwrap{position:relative;width:430px;height:380px;max-width:100%}
+#lab-port .loopwrap svg{position:absolute;inset:0;width:100%;height:100%}
+#lab-port .lnode{position:absolute;font-family:var(--mono);font-size:.66rem;background:#0c0d0f;border:1px solid var(--rule);border-radius:6px;padding:.45rem .7rem;transform:translate(-50%,-50%);white-space:nowrap}
+#lab-port .lnode .lk{font-size:.54rem;color:var(--faint);text-transform:uppercase;letter-spacing:.06em}
+#lab-port .lnode b{color:var(--fg);font-weight:500}
+#lab-port .lcore{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);text-align:center;border:1px solid rgba(192,132,252,.5);border-radius:10px;background:#0a0b0d;padding:.8rem 1rem;box-shadow:0 0 40px rgba(192,132,252,.18)}
+#lab-port .lcore .lt{font-family:var(--mono);font-size:.64rem;letter-spacing:.1em;text-transform:uppercase}
+#lab-port .lcore .ls{font-size:.7rem;color:var(--dim);margin-top:.25rem}
+#lab-port .harness{display:flex;gap:.35rem;justify-content:center;margin-top:.45rem;flex-wrap:wrap}
+#lab-port .hc{font-family:var(--mono);font-size:.56rem;color:var(--dim);border:1px solid var(--rule);border-radius:999px;padding:.12rem .45rem}
+
+/* continuous motion + staggered reveals */
+#lab-port .ring{transform-box:fill-box;transform-origin:center;animation:spin 26s linear infinite}
+@keyframes spin{to{transform:rotate(360deg)}}
+#lab-port .stage.s4 .lnode, #lab-port .stage.s4 .lcore{animation:popin .6s both}
+#lab-port .stage.s4 .lcore{animation-delay:.05s}
+#lab-port .stage.s4 .lnode:nth-child(2){animation-delay:.32s}
+#lab-port .stage.s4 .lnode:nth-child(3){animation-delay:.52s}
+#lab-port .stage.s4 .lnode:nth-child(4){animation-delay:.72s}
+@keyframes popin{from{opacity:0;transform:translate(-50%,-50%) scale(.88)}to{opacity:1;transform:translate(-50%,-50%) scale(1)}}
+#lab-port .needsvg{position:absolute;inset:0;width:100%;height:100%;pointer-events:none;z-index:5}
+#lab-port .needline{fill:none;stroke:url(#holoN);stroke-width:1.8;filter:drop-shadow(0 0 5px rgba(192,132,252,.7));transition:stroke-dashoffset .9s cubic-bezier(.3,.7,.3,1)}
+#lab-port .ptile.need{border-color:rgba(192,132,252,.6);box-shadow:0 0 14px rgba(192,132,252,.22)}
+@media(prefers-reduced-motion:reduce){#lab-port .ring{animation:none}#lab-port .scene{transition:opacity .35s}}
+
+#lab-port .cap{font-family:var(--mono);font-size:.82rem;color:var(--dim);margin-top:1rem;min-height:1.3em;line-height:1.4}
+#lab-port .cap b{color:var(--fg);font-weight:500}
+
+/* ---------- MOBILE ---------- */
+@media(max-width:760px){
+#lab-port .hero h1{font-size:clamp(1.55rem,6vw,2.2rem)}
+#lab-port .stage{padding:.9rem}
+#lab-port .field{height:600px}
+  /* scene 1 — stack the 3 sources */
+#lab-port .scene1{grid-template-columns:1fr;gap:.5rem}
+#lab-port .stage.s2 .scene1{transform:scale(.9)}
+#lab-port .win .wt{padding:.42rem .55rem}
+#lab-port .win .wb{gap:.3rem;padding:.45rem .55rem}
+#lab-port .tx{font-size:.74rem}.meme{font-size:.7rem;padding:.35rem .45rem}.code{font-size:.62rem}
+  /* scene 2 — team grid */
+#lab-port .grid{grid-template-columns:repeat(6,1fr);gap:.4rem}
+#lab-port .s2head .cnt{font-size:1.5rem}
+  /* scene 3 — stack cells over panel; cells stay compact heatmap */
+#lab-port .scene3{grid-template-columns:1fr;gap:.55rem;align-content:start}
+#lab-port .s3grid{grid-template-columns:repeat(8,1fr);gap:.3rem}
+#lab-port .pcell{aspect-ratio:1.5}
+#lab-port .panel{padding:.75rem;gap:.42rem}
+#lab-port .panel .row2{font-size:.74rem}.panel .pt{font-size:.6rem}.emochip{font-size:.6rem}
+  /* scene 4 — fit the loop to width; pull side nodes in, allow wrap */
+#lab-port .loopwrap{width:min(400px,88vw);height:auto;aspect-ratio:430/380}
+#lab-port .lnode{white-space:normal;max-width:108px;text-align:center;line-height:1.25;font-size:.6rem}
+#lab-port .scene4 .lnode:nth-child(3){left:82%}
+#lab-port .scene4 .lnode:nth-child(4){left:18%}
+}
+@media(max-width:430px){
+#lab-port .field{height:632px}
+  /* trim a couple of messages so 3 windows fit one screen */
+#lab-port .scene1 .win:nth-child(1) .m:nth-child(n+5){display:none}
+#lab-port .scene1 .win:nth-child(2) .m:nth-child(n+3){display:none}
+#lab-port .scene1 .win:nth-child(3) .m:nth-child(n+4){display:none}
+#lab-port .grid{grid-template-columns:repeat(5,1fr);gap:.36rem}
+#lab-port .s3grid{grid-template-columns:repeat(6,1fr)}
+#lab-port .loopwrap{width:min(330px,86vw)}
+#lab-port .lnode{font-size:.54rem;padding:.28rem .4rem;max-width:96px}
+#lab-port .lcore{padding:.55rem .7rem}
+#lab-port .lcore .ls{font-size:.64rem}.hc{font-size:.5rem;padding:.1rem .38rem}
+#lab-port .cap{font-size:.74rem}
+}
+
+/* ===================== PAGE SECTIONS ===================== */
 </style>
 </head>
 <body>
@@ -872,6 +1036,8 @@
   <a href="#type"><span class="scramble-slot" data-scramble="type"><span class="sr-measure">type</span><span class="sr-paint">type</span></span></a>
   <a href="#plates"><span class="scramble-slot" data-scramble="plates"><span class="sr-measure">plates</span><span class="sr-paint">plates</span></span></a>
   <a href="#fx"><span class="scramble-slot" data-scramble="effects"><span class="sr-measure">effects</span><span class="sr-paint">effects</span></span></a>
+  <a href="#lab-port"><span class="scramble-slot" data-scramble="lab"><span class="sr-measure">lab</span><span class="sr-paint">lab</span></span></a>
+  <a href="#timeline"><span class="scramble-slot" data-scramble="graph"><span class="sr-measure">graph</span><span class="sr-paint">graph</span></span></a>
   <a href="#parts"><span class="scramble-slot" data-scramble="parts"><span class="sr-measure">parts</span><span class="sr-paint">parts</span></span></a>
   <a href="#theme-gate"><span class="scramble-slot" data-scramble="theme"><span class="sr-measure">theme</span><span class="sr-paint">theme</span></span></a>
   <a href="#rules"><span class="scramble-slot" data-scramble="rules"><span class="sr-measure">rules</span><span class="sr-paint">rules</span></span></a>
@@ -1145,8 +1311,8 @@
   <div class="sec-head">
     <div class="sec-num" aria-hidden="true">05</div>
     <div class="sec-copy">
-      <h2 class="sec-title">Memory timeline</h2>
-      <p class="sec-lede">Same interactive explainer as the homepage — not a re-invention. Context as a line: events over 365 days, anchors vs regular decay.</p>
+      <h2 class="sec-title">Graph · salience</h2>
+      <p class="sec-lede">Chart specimen only — homepage MemoryTimeline. Not the product context story.</p>
     </div>
   </div>
   <div class="mt-wrap" id="mt-wrap">
@@ -1166,6 +1332,89 @@
   </div>
   <p class="mono-note" style="margin-top:1rem">Port of <code>components/memory-timeline.tsx</code> · fixture corpus · same math as site.</p>
 </div></section>
+
+<!-- SITE CANON: multi-scene stage from public/lab.html -->
+<section id="lab-port"><div class="wrap">
+  <div class="sec-head">
+    <div class="sec-num" aria-hidden="true">06</div>
+    <div class="sec-copy">
+      <h2 class="sec-title">Context stage</h2>
+      <p class="sec-lede">Port of <code>public/lab.html</code> hero stage — zoom-out scenes, not a rewrite.</p>
+    </div>
+  </div>
+  <div class="stage s1" id="lab-stage">
+    <div class="stage-head"><span id="lab-phk">one person · scattered context</span><span class="dots"><i></i><i></i><i></i><i></i></span></div>
+    <div class="field">
+
+      <!-- SCENE 1 -->
+      <div class="scene scene1" id="lab-scene1">
+        <div class="win"><div class="wt"><span class="ic slack">#</span> slack · #team</div><div class="wb">
+          <div class="meme" style="animation-delay:.1s"><span class="em">🙄</span> meme: boss says "quick sync" — 2h later</div>
+          <div class="m" style="animation-delay:.5s"><span class="av you">Y</span><div class="mb"><div class="nm">you</div><div class="tx"><span class="tag priv">honestly these deadlines are killing me 💀</span></div></div></div>
+          <div class="m" style="animation-delay:.9s"><span class="av lena">L</span><div class="mb"><div class="nm">lena · eng</div><div class="tx"><span class="tag arch">arch: split auth into its own module?</span></div></div></div>
+          <div class="m" style="animation-delay:1.3s"><span class="av max">M</span><div class="mb"><div class="nm">max · pm</div><div class="tx"><span class="tag gtm">GTM: lead with the team angle, not solo</span></div></div></div>
+          <div class="m" style="animation-delay:1.7s"><span class="av you">Y</span><div class="mb"><div class="nm">you</div><div class="tx"><span class="tag posts">launch post draft by Fri 🙏</span></div></div></div>
+        </div></div>
+        <div class="win"><div class="wt"><span class="ic gpt">✦</span> chatgpt</div><div class="wb">
+          <div class="m" style="animation-delay:.7s"><span class="av you">Y</span><div class="mb"><div class="nm">you → gpt</div><div class="tx"><span class="tag auth">rewrite the auth ADR, cleaner</span></div></div></div>
+          <div class="m" style="animation-delay:1.2s"><span class="av you">Y</span><div class="mb"><div class="nm">you → gpt</div><div class="tx"><span class="tag gtm">tighten this GTM paragraph</span></div></div></div>
+          <div class="m" style="animation-delay:1.7s"><span class="av you">Y</span><div class="mb"><div class="nm">you → gpt</div><div class="tx"><span class="tag posts">10 hooks for the launch post</span></div></div></div>
+        </div></div>
+        <div class="win"><div class="wt"><span class="ic code">&lt;&gt;</span> vibecoding · auth.ts</div><div class="wb">
+          <div class="m" style="animation-delay:1s"><div class="code" style="width:100%"><span class="kw">export function</span> auth() {</div></div>
+          <div class="m" style="animation-delay:1.4s"><div class="code"><span class="cm tag auth">// JWT, no sessions — per #team</span></div></div>
+          <div class="m" style="animation-delay:1.8s"><div class="code"><span class="cm">// TODO: do not repeat migration</span></div></div>
+          <div class="m" style="animation-delay:2.1s"><div class="code">}</div></div>
+        </div></div>
+      </div>
+
+      <!-- SCENE 2 — team grid -->
+      <div class="scene scene2" id="lab-scene2">
+        <div class="s2head"><span class="cnt" id="lab-cnt">1</span><span class="cl">people — each with their own scattered context</span></div>
+        <div class="grid" id="lab-grid"></div>
+        <svg class="needsvg" id="lab-needsvg"><defs><linearGradient id="holoN" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#7df9ff"/><stop offset=".5" stop-color="#c084fc"/><stop offset="1" stop-color="#ffe27a"/></linearGradient><marker id="nah" markerWidth="8" markerHeight="8" refX="6" refY="4" orient="auto"><path d="M1,1 L6,4 L1,7" fill="none" stroke="#c084fc" stroke-width="1.4"/></marker></defs></svg>
+      </div>
+
+      <!-- SCENE 3 — pulse colors + emotion -->
+      <div class="scene scene3" id="lab-scene3">
+        <div class="s3grid" id="lab-s3grid"></div>
+        <div class="panel">
+          <div class="pt holo">PULSE · one memory</div>
+          <div class="sect">topics, colored across the team</div>
+          <div class="row2"><span class="sw auth"></span> auth → JWT, decided <span class="c">9</span></div>
+          <div class="row2"><span class="sw gtm"></span> GTM → team angle <span class="c">7</span></div>
+          <div class="row2"><span class="sw posts"></span> launch posts <span class="c">5</span></div>
+          <div class="row2"><span class="sw arch"></span> architecture <span class="c">6</span></div>
+          <div class="sect">emotion, measured</div>
+          <div class="emo"><span class="emochip frus">😤 frustrated · boss</span><span class="emochip stress">🔥 deadline stress</span><span class="emochip ship">✨ shipping energy</span></div>
+          <div class="privrow">🔒 personal — memes &amp; rants stay private, never shared</div>
+        </div>
+      </div>
+
+      <!-- SCENE 4 — any harness + loop -->
+      <div class="scene scene4" id="lab-scene4">
+        <div class="loopwrap">
+          <svg viewBox="0 0 430 380"><circle class="ring" cx="215" cy="190" r="150" fill="none" stroke="url(#g4)" stroke-width="1.4" stroke-dasharray="4 5" opacity=".55"/>
+            <defs><linearGradient id="g4" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#7df9ff"/><stop offset=".5" stop-color="#c084fc"/><stop offset="1" stop-color="#ffe27a"/></linearGradient>
+            <marker id="a4" markerWidth="8" markerHeight="8" refX="6" refY="4" orient="auto"><path d="M1,1 L6,4 L1,7" fill="none" stroke="#c084fc" stroke-width="1.3"/></marker></defs>
+            <path d="M300,75 A150,150 0 0,1 320,255" fill="none" stroke="#c084fc" stroke-width="1.3" opacity=".5" marker-end="url(#a4)"/>
+            <path d="M300,305 A150,150 0 0,1 110,305" fill="none" stroke="#c084fc" stroke-width="1.3" opacity=".5" marker-end="url(#a4)"/>
+            <path d="M110,75 A150,150 0 0,0 95,250" fill="none" stroke="#c084fc" stroke-width="1.3" opacity=".5" marker-end="url(#a4)"/>
+          </svg>
+          <div class="lnode" style="left:50%;top:10%"><span class="lk">collect</span><br><b>every source</b></div>
+          <div class="lnode" style="left:90%;top:72%"><span class="lk">ingest · process</span><br><b>topic + emotion</b></div>
+          <div class="lnode" style="left:10%;top:72%"><span class="lk">retrieval</span><br><b>right context, in state</b></div>
+          <div class="lcore"><div class="lt holo">PULSE memory</div><div class="ls">continue in any harness</div><div class="harness"><span class="hc">Claude Code</span><span class="hc">ChatGPT</span><span class="hc">Cursor</span><span class="hc">Slack</span></div></div>
+        </div>
+      </div>
+
+    </div>
+    <div class="cap" id="lab-cap">one person — Slack memes &amp; rants, AI chats, vibecoding. Context everywhere.</div>
+  </div>
+  <p class="mono-note" style="margin-top:1rem">Source: <code>public/lab.html</code> · same sequence · brand tokens via lab color vars</p>
+</div></section>
+
+
 
 <!-- PARTS — bento -->
 <section id="parts"><div class="wrap">
@@ -2218,6 +2467,93 @@
     });
   })();
 
+
+  /* LAB STAGE PORT — public/lab.html */
+(function(){
+  var stage=document.getElementById('lab-stage'),cap=document.getElementById('lab-cap'),phk=document.getElementById('lab-phk');
+  var grid=document.getElementById('lab-grid'),s3grid=document.getElementById('lab-s3grid'),cnt=document.getElementById('lab-cnt');
+  var N=31;
+  var topics=['a','b','c','arch'];
+  var topicColor={auth:'rgba(125,249,255,.16)',gtm:'rgba(192,132,252,.18)',posts:'rgba(255,154,214,.18)',arch:'rgba(255,226,122,.16)'};
+  var moodColor=['var(--frus)','var(--stress)','var(--focus)','var(--ship)'];
+  // build team grid tiles
+  var tiles=[];
+  for(var i=0;i<N;i++){
+    var t=document.createElement('div');t.className='ptile'+(i===0?' you':'');
+    var label=i===0?'you':('p'+(i+1));
+    t.innerHTML='<div class="ph"><span class="pa">'+(i===0?'Y':String.fromCharCode(65+(i%26)))+'</span><span class="pl">'+label+'</span></div>'+
+      '<div class="srcdots"><i class="a"></i><i class="b"></i><i class="c"></i></div><div class="mood"></div>';
+    grid.appendChild(t);tiles.push(t);
+  }
+  // build scene3 colored cells
+  var cells=[];
+  for(var j=0;j<N;j++){
+    var c=document.createElement('div');c.className='pcell';
+    c.innerHTML='<div class="top"></div><div class="moodbar"></div>';
+    s3grid.appendChild(c);cells.push(c);
+  }
+  function paintPulse(){
+    var tk=['auth','gtm','posts','arch'];
+    cells.forEach(function(c,k){
+      var top=c.querySelector('.top'),mb=c.querySelector('.moodbar');
+      top.style.transitionDelay=(k*16)+'ms';mb.style.transitionDelay=(k*16)+'ms';
+      top.style.background=topicColor[tk[k%4]];
+      mb.style.background=moodColor[(k*3)%4];
+    });
+  }
+  function clearPulse(){cells.forEach(function(c){c.querySelector('.top').style.background='transparent';c.querySelector('.moodbar').style.background='transparent';});}
+  var svgns='http://www.w3.org/2000/svg';
+  function clearNeed(){var svg=document.getElementById('lab-needsvg');[].slice.call(svg.querySelectorAll('path')).forEach(function(p){p.remove();});tiles.forEach(function(t){t.classList.remove('need');});}
+  function needWeave(){
+    var svg=document.getElementById('lab-needsvg');clearNeed();
+    var fr=svg.getBoundingClientRect();svg.setAttribute('viewBox','0 0 '+fr.width+' '+fr.height);
+    function ctr(i){var r=tiles[i].getBoundingClientRect();return {x:r.left-fr.left+r.width/2,y:r.top-fr.top+r.height/2};}
+    var pairs=[[8,0],[0,15],[23,4]];
+    pairs.forEach(function(pr,k){
+      tiles[pr[0]].classList.add('need');tiles[pr[1]].classList.add('need');
+      var a=ctr(pr[0]),b=ctr(pr[1]);var mx=(a.x+b.x)/2,my=Math.min(a.y,b.y)-22;
+      var d='M'+a.x.toFixed(0)+','+a.y.toFixed(0)+' Q'+mx.toFixed(0)+','+my.toFixed(0)+' '+b.x.toFixed(0)+','+b.y.toFixed(0);
+      var p=document.createElementNS(svgns,'path');p.setAttribute('class','needline');p.setAttribute('d',d);p.setAttribute('marker-end','url(#nah)');
+      var len=Math.hypot(b.x-a.x,b.y-a.y)*1.7;p.style.strokeDasharray=len;p.style.strokeDashoffset=len;
+      svg.appendChild(p);setTimeout(function(){p.style.strokeDashoffset=0;},120+k*200);
+    });
+  }
+  function setScene(n){
+    clearNeed();stage.className='stage s'+n;
+    if(n===1){tiles.forEach(function(t){t.classList.remove('on');});cnt.textContent='1';clearPulse();}
+    if(n===2){var on=0;var iv=setInterval(function(){
+      if(on<N){tiles[on].classList.add('on');on++;cnt.textContent=on;}
+      else clearInterval(iv);
+    },62);}
+    if(n===3){tiles.forEach(function(t){t.classList.add('on');});paintPulse();}
+  }
+  var caps={
+    1:'one person — Slack memes &amp; rants, AI chats, vibecoding. <b>context everywhere.</b>',
+    2:'now zoom out. you’re <b>1 of 31</b> — each with their own scattered context, none of it shared.',
+    need:'and everyone <b>needs someone else’s context</b> — the auth call, the GTM thread — locked in another person’s chat.',
+    3:'Pulse colors every topic, <b>reads the emotion</b>, remembers it — work is shared, <b>the boss memes stay private.</b>',
+    4:'now it’s a loop: <b>collect → ingest → retrieve.</b> Continue the work in <span class="holo">any harness, any time.</span>'
+  };
+  // freeze for capture: ?scene=N (add &need for the need-beat overlay)
+  var m=location.search.match(/scene=(\d)/);
+  if(m){var n=+m[1];setScene(n);
+    if(n===2){tiles.forEach(function(t){t.classList.add('on');});cnt.textContent=N;
+      if(location.search.indexOf('need')>=0){setTimeout(function(){needWeave();},80);cap.innerHTML=caps.need;phk.textContent='2 · who needs what';return;}}
+    if(n===3){tiles.forEach(function(t){t.classList.add('on');});paintPulse();}
+    cap.innerHTML=caps[n];phk.textContent='scene '+n+' / 4';return;}
+  function run(){
+    var seq=[
+      [0,    function(){setScene(1);cap.innerHTML=caps[1];phk.textContent='1 · one person';}],
+      [3800, function(){setScene(2);cap.innerHTML=caps[2];phk.textContent='2 · the team';}],
+      [7000, function(){needWeave();cap.innerHTML=caps.need;phk.textContent='2 · who needs what';}],
+      [9800, function(){setScene(3);cap.innerHTML=caps[3];phk.textContent='3 · pulse remembers';}],
+      [13100,function(){setScene(4);cap.innerHTML=caps[4];phk.textContent='4 · the loop';}],
+      [18200,function(){run();}]
+    ];
+    seq.forEach(function(s){setTimeout(s[1],s[0]);});
+  }
+  run();
+})();
 })();
 </script>
 </body>
