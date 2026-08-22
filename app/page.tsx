@@ -55,6 +55,9 @@ export default function Page() {
             <a href="/bench">
               <ScrambleText text="bench" />
             </a>
+            <a href="https://index.zbs.gg/en/" target="_blank" rel="noopener">
+              <ScrambleText text="index" />
+            </a>
             <a href="https://nik.care" target="_blank" rel="noopener">
               <ScrambleText text="writing" />
             </a>
@@ -235,6 +238,18 @@ export default function Page() {
                   reproducible empathic-memory benchmark — corpus, queries,
                   judge prompts, agreement analysis, raw per-judge JSON.
                   leaderboard live; source at <em>zbs-gg/emo-bench</em>.
+                </span>
+              </a>
+            </li>
+            <li>
+              <a href="https://index.zbs.gg/en/" target="_blank" rel="noopener">
+                <span className="proj-name"><ScrambleText text="ZBS Index" /></span>
+                <span className="proj-desc">
+                  catalog of applied AI where every field names its source, its
+                  observation date and what it measures — MCP servers, skills,
+                  harnesses and reviewed starting stacks. of the registry
+                  entries checked so far, about a quarter point at a repository
+                  that has been deleted or archived.
                 </span>
               </a>
             </li>
