@@ -1,0 +1,160 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>zbs.gg — type specimen (3 anti-slop directions)</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=IBM+Plex+Mono:wght@400;500;600&family=Bricolage+Grotesque:opsz,wght@12..96,400..800&family=Instrument+Sans:wght@400;500;600&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet" />
+<style>
+  :root{
+    --bg:#050505; --fg:#f5f5f5;
+    --dim:rgba(245,245,245,.6); --faint:rgba(245,245,245,.32);
+    --rule:rgba(245,245,245,.12); --rule2:rgba(245,245,245,.06);
+    --accent:#7df9ff;              /* single solid accent, NOT a text gradient */
+    --mono:"IBM Plex Mono",ui-monospace,"SF Mono",Menlo,monospace;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{scroll-behavior:smooth}
+  body{background:var(--bg);color:var(--fg);-webkit-font-smoothing:antialiased;font-family:var(--mono)}
+  .wrap{max-width:1100px;margin:0 auto;padding:0 2rem}
+
+  /* specimen chrome */
+  .spec-label{
+    position:sticky;top:0;z-index:5;
+    background:linear-gradient(#050505,#050505f0);
+    border-bottom:1px solid var(--rule);
+    font-family:var(--mono);font-size:.72rem;letter-spacing:.08em;text-transform:uppercase;color:var(--faint);
+    padding:.7rem 2rem;display:flex;gap:1rem;align-items:baseline;flex-wrap:wrap
+  }
+  .spec-label b{color:var(--accent);font-weight:600}
+  .spec-label .fonts{color:var(--dim);text-transform:none;letter-spacing:0}
+
+  section.hero{min-height:88vh;display:flex;align-items:center;border-bottom:1px solid var(--rule);padding:4rem 0}
+  .grid{display:grid;grid-template-columns:1.15fr .85fr;gap:3rem;align-items:center;width:100%}
+  @media(max-width:900px){.grid{grid-template-columns:1fr;gap:2rem}}
+
+  .eyebrow{font-family:var(--mono);font-size:.74rem;letter-spacing:.1em;text-transform:uppercase;color:var(--faint);margin-bottom:1.3rem;display:flex;gap:.6rem;align-items:center;flex-wrap:wrap}
+  .eyebrow .tick{width:6px;height:6px;background:var(--accent);border-radius:1px;flex:none}
+
+  .lede{font-family:var(--mono);font-size:.94rem;line-height:1.65;color:var(--dim);max-width:46ch;margin-top:1.5rem}
+  .cta{display:flex;gap:.8rem;margin-top:2rem;flex-wrap:wrap}
+  .btn{font-family:var(--mono);font-size:.82rem;letter-spacing:.02em;color:var(--fg);text-decoration:none;padding:.7rem 1.2rem;border:1px solid var(--accent);border-radius:3px;transition:background .15s}
+  .btn:hover{background:rgba(125,249,255,.12)}
+  .btn.ghost{border-color:var(--rule);color:var(--dim)}
+  .meta{font-family:var(--mono);font-size:.72rem;color:var(--faint);margin-top:1.6rem;letter-spacing:.02em}
+
+  /* Elle video placeholder — the real ASCII shader stays; this is a stand-in */
+  .elle{position:relative;aspect-ratio:4/5;border:1px solid var(--rule);border-radius:4px;background:radial-gradient(120% 90% at 50% 20%, rgba(125,249,255,.06), transparent 60%), #070708;overflow:hidden;display:flex;align-items:center;justify-content:center}
+  .elle pre{font-family:var(--mono);font-size:9px;line-height:1.05;color:rgba(125,249,255,.22);white-space:pre;margin:0;user-select:none}
+  .elle .tag{position:absolute;left:.7rem;bottom:.7rem;font-family:var(--mono);font-size:.62rem;letter-spacing:.06em;text-transform:uppercase;color:var(--dim);border:1px solid var(--rule);border-radius:2px;padding:.28rem .5rem;background:rgba(0,0,0,.5)}
+  .elle .tag b{color:var(--accent);font-weight:600}
+  .elle .play{position:absolute;top:.7rem;right:.8rem;font-family:var(--mono);font-size:.62rem;color:var(--faint)}
+
+  /* explainer strip hint */
+  .strip{border-top:1px dashed var(--rule);padding:1.1rem 0;font-family:var(--mono);font-size:.74rem;color:var(--faint);display:flex;gap:.6rem;align-items:center}
+  .strip b{color:var(--dim);font-weight:500}
+
+  /* ---- Direction A: Code Brutalism (Space Mono display) ---- */
+  #A h1{font-family:"Space Mono",var(--mono);font-weight:700;font-size:clamp(2rem,5vw,3.4rem);line-height:1.08;letter-spacing:-.01em;max-width:16ch}
+  #A h1 .hi{color:var(--accent)}
+  #A .eyebrow::before{content:"$ ";color:var(--accent)}
+
+  /* ---- Direction B: Editorial grotesk (Bricolage Grotesque) ---- */
+  #B h1{font-family:"Bricolage Grotesque",sans-serif;font-weight:700;font-size:clamp(2.4rem,6vw,4.4rem);line-height:1.02;letter-spacing:-.025em;max-width:14ch}
+  #B h1 .hi{color:var(--accent)}
+  #B .lede,#B .btn:not(.mono){font-family:"Instrument Sans",sans-serif}
+  #B .lede{font-size:1.05rem;line-height:1.6}
+
+  /* ---- Direction C: Editorial serif (Instrument Serif) ---- */
+  #C h1{font-family:"Instrument Serif",serif;font-weight:400;font-size:clamp(2.8rem,7vw,5.2rem);line-height:1.0;letter-spacing:0;max-width:15ch}
+  #C h1 .hi{font-style:italic;color:var(--accent)}
+  #C .lede{font-family:"Instrument Sans",sans-serif;font-size:1.05rem;line-height:1.6}
+</style>
+</head>
+<body>
+
+<!-- ============ A ============ -->
+<div class="spec-label" id="labelA"><b>Direction A · Code Brutalism</b><span class="fonts">headline: Space Mono · body/labels: IBM Plex Mono · terminal framing, one solid accent</span></div>
+<section class="hero" id="A"><div class="wrap"><div class="grid">
+  <div>
+    <div class="eyebrow"><span>independent research lab · pulse engine · phuket</span></div>
+    <h1>Memory that knows what <span class="hi">matters</span>.</h1>
+    <p class="lede">Empathic memory for AI companions — retrieval that reads state and emotion, not just text. Pulse engine, Heart chat, a public benchmark.</p>
+    <div class="cta"><a class="btn" href="#">run the local demo →</a><a class="btn ghost" href="#">read the paper</a></div>
+    <div class="meta">MIT · one person · self-funded</div>
+  </div>
+  <div class="elle">
+    <pre>  .:-=+*#%@@@%#*+=-:.
+ :=*#%@@@@@@@@@@@%#*=:
+=#%@@@@@@@@@@@@@@@@@%#=
+%@@@@@@@@@@@@@@@@@@@@@@%
+@@@@@@@@@@@@@@@@@@@@@@@@
+%@@@@@@@@@@@@@@@@@@@@@@%
+=#%@@@@@@@@@@@@@@@@@%#=
+ :=*#%@@@@@@@@@@@%#*=:
+  .:-=+*#%%%%#*+=-:.</pre>
+    <span class="play">▶ live</span>
+    <span class="tag"><b>Elle</b> — ASCII shader video · stays</span>
+  </div>
+</div>
+<div class="strip"><span>↓ below the fold:</span><b>interactive explainer — anchor-aware decay (drag / toggle), same graphic that lives in the lab</b></div>
+</div></section>
+
+<!-- ============ B ============ -->
+<div class="spec-label" id="labelB"><b>Direction B · Editorial grotesk</b><span class="fonts">headline: Bricolage Grotesque · body: Instrument Sans · mono only on labels · editorial whitespace</span></div>
+<section class="hero" id="B"><div class="wrap"><div class="grid">
+  <div>
+    <div class="eyebrow"><span class="tick"></span><span>independent research lab · pulse engine · phuket</span></div>
+    <h1>Memory that knows what <span class="hi">matters</span>.</h1>
+    <p class="lede">Empathic memory for AI companions — retrieval that reads state and emotion, not just text. Pulse engine, Heart chat, a public benchmark.</p>
+    <div class="cta"><a class="btn" href="#">run the local demo →</a><a class="btn ghost" href="#">read the paper</a></div>
+    <div class="meta">MIT · one person · self-funded</div>
+  </div>
+  <div class="elle">
+    <pre>  .:-=+*#%@@@%#*+=-:.
+ :=*#%@@@@@@@@@@@%#*=:
+=#%@@@@@@@@@@@@@@@@@%#=
+%@@@@@@@@@@@@@@@@@@@@@@%
+@@@@@@@@@@@@@@@@@@@@@@@@
+%@@@@@@@@@@@@@@@@@@@@@@%
+=#%@@@@@@@@@@@@@@@@@%#=
+ :=*#%@@@@@@@@@@@%#*=:
+  .:-=+*#%%%%#*+=-:.</pre>
+    <span class="play">▶ live</span>
+    <span class="tag"><b>Elle</b> — ASCII shader video · stays</span>
+  </div>
+</div>
+<div class="strip"><span>↓ below the fold:</span><b>interactive explainer — anchor-aware decay (drag / toggle), same graphic that lives in the lab</b></div>
+</div></section>
+
+<!-- ============ C ============ -->
+<div class="spec-label" id="labelC"><b>Direction C · Editorial serif</b><span class="fonts">headline: Instrument Serif (italic accent) · body: Instrument Sans · mono labels · lab authority</span></div>
+<section class="hero" id="C"><div class="wrap"><div class="grid">
+  <div>
+    <div class="eyebrow"><span class="tick"></span><span>independent research lab · pulse engine · phuket</span></div>
+    <h1>Memory that knows what <span class="hi">matters</span>.</h1>
+    <p class="lede">Empathic memory for AI companions — retrieval that reads state and emotion, not just text. Pulse engine, Heart chat, a public benchmark.</p>
+    <div class="cta"><a class="btn" href="#">run the local demo →</a><a class="btn ghost" href="#">read the paper</a></div>
+    <div class="meta">MIT · one person · self-funded</div>
+  </div>
+  <div class="elle">
+    <pre>  .:-=+*#%@@@%#*+=-:.
+ :=*#%@@@@@@@@@@@%#*=:
+=#%@@@@@@@@@@@@@@@@@%#=
+%@@@@@@@@@@@@@@@@@@@@@@%
+@@@@@@@@@@@@@@@@@@@@@@@@
+%@@@@@@@@@@@@@@@@@@@@@@%
+=#%@@@@@@@@@@@@@@@@@%#=
+ :=*#%@@@@@@@@@@@%#*=:
+  .:-=+*#%%%%#*+=-:.</pre>
+    <span class="play">▶ live</span>
+    <span class="tag"><b>Elle</b> — ASCII shader video · stays</span>
+  </div>
+</div>
+<div class="strip"><span>↓ below the fold:</span><b>interactive explainer — anchor-aware decay (drag / toggle), same graphic that lives in the lab</b></div>
+</div></section>
+
+</body>
+</html>
